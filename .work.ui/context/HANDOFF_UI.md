@@ -27,7 +27,7 @@
 
 **Post-release audit (2026-05-29):**
 - **Verifiers now live:** `readiness-verify` validates the seeded `PROBE_LEDGER.md` (honest, 83%); `traceability-verify` validates the seeded screen-map (2/2 scheduled). No longer no-op.
-- **Lean:** 119 tracked files / 524K, 0 tracked images — example PNGs, `tmp/`, `credentials/token` are gitignored & untracked; root `context|decisions|design-system|screens|plans` are tiny pointer stubs (intentional).
+- **Lean:** 125 tracked files / 552K, 0 tracked images — example PNGs, `tmp/`, `credentials/token` are gitignored & untracked; root `context|decisions|design-system|screens|plans` are tiny pointer stubs (intentional). `framework-verify.sh` now **enforces** the 0-tracked-images invariant and self-reports the count, so the figure can't silently rot.
 - **Usable:** adopter install simulated from a clean `git archive` — `bootstrap.sh` creates `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`; Intake queue propagates. README 60-second-start commands all map to real skill modes.
 
 **Recommended pick-up:** `.work.ui/plans/NEXT_UI.md`

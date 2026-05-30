@@ -10,10 +10,11 @@
 ### Changed
 
 - **`@ui-plan-verify`** documents the adopter-repo path (`.ai.ui/scripts/…`) for the verifier commands.
+- **`scripts/framework-verify.sh`** now **enforces the lean invariant** — fails on any tracked binary image (example PNGs must stay gitignored; manifests are the source of truth) and self-reports the tracked-file count. Runs only when `.ai.ui/` is the git top-level, so it is a no-op when nested in an adopter repo. This converted a manually-asserted "0 tracked images / N files" claim (which had drifted 119→125) into a checked figure.
 
 ### Verified
 
-- **Lean:** 119 tracked files / 524K, 0 tracked images (example PNGs, `tmp/`, `credentials/` are gitignored).
+- **Lean:** 125 tracked files / 552K, 0 tracked images (example PNGs, `tmp/`, `credentials/` are gitignored). The 0-tracked-images invariant is now **enforced** by `framework-verify.sh`, which also self-reports the tracked-file count so this figure can no longer silently drift.
 - **Usability:** adopter install simulated from a clean `git archive` — `bootstrap.sh` resolves the parent repo, creates `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`, and the seeded `## Intake queue` propagates.
 
 ## [0.5.0] - 2026-05-29

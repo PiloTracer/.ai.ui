@@ -175,6 +175,24 @@ while IFS= read -r md; do
 done < <(find "${ROOT}" -name '*.md' -not -path '*/.git/*' | sort)
 [[ "${link_breaks}" -eq 0 ]] && echo "ok: markdown local-link scan (no broken relative links)"
 
+# Lean invariant + count self-report. Example PNGs are gitignored (manifests are
+# the agent source of truth), so this repo must track 0 binary images; an
+# accidental commit is caught here instead of silently bloating the tree. The
+# tracked-file count is printed so the "lean" claim in CHANGELOG/HANDOFF stays
+# honest. No-op unless ROOT is the git top-level (skips when .ai.ui/ is nested
+# inside an adopter repo, where image tracking is the app's concern).
+if git -C "${ROOT}" rev-parse --show-toplevel >/dev/null 2>&1 \
+   && [[ "$(git -C "${ROOT}" rev-parse --show-toplevel)" == "${ROOT}" ]]; then
+  tracked_total="$(git -C "${ROOT}" ls-files | wc -l | tr -d ' ')"
+  tracked_imgs="$(git -C "${ROOT}" ls-files | grep -ciE '\.(png|jpe?g|gif|webp|svg)$' || true)"
+  if [[ "${tracked_imgs}" -ne 0 ]]; then
+    echo "LEAN: ${tracked_imgs} tracked image(s) — example PNGs must stay gitignored (manifests are source of truth)"
+    FAIL=1
+  else
+    echo "ok: lean (${tracked_total} tracked files, 0 tracked images)"
+  fi
+fi
+
 echo ""
 if [[ $FAIL -eq 0 ]]; then
   echo "framework-verify: PASS"
