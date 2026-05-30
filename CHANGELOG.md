@@ -4,7 +4,8 @@
 
 ### Added
 
-- **Demo worked examples** — `.work.ui/plans/foundation/20260529-04-screen-map.md` (2 screens, all scheduled) and `.work.ui/plans/foundation/PROBE_LEDGER.md` (honest mid-probe, 83%) so `readiness-verify` + `traceability-verify` now run on **real in-repo data** (previously exercised only `/tmp` self-test fixtures), and so a new user sees a filled screen map + ledger.
+- **Demo worked examples** — `.work.ui/plans/foundation/20260529-04-screen-map.md` (2 screens, all scheduled) and `.work.ui/plans/foundation/PROBE_LEDGER.md` so `readiness-verify` + `traceability-verify` now run on **real in-repo data** (previously exercised only `/tmp` self-test fixtures), and so a new user sees a filled screen map + ledger.
+- **Complete demo foundation** — `.work.ui/` now ships foundation docs 01 (vision), 02 (tokens), 03 (pattern inventory) and `design-system/tokens.css` (light+dark, surface/inset/elevated) for a *Demo SaaS dashboard*, so the demo satisfies the `screen-spec-ready` certify gate end-to-end. Probe ledger advanced to 100% (D4 tokens confirmed); HANDOFF readiness flips `ui-foundation-complete` + `screen-spec-ready` to yes (demo).
 
 ### Changed
 

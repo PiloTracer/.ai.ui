@@ -10,7 +10,7 @@
 
 **Closed:** 2026-05-29 (framework-development session)
 
-**UI layer state:** **Framework development.** This `.work.ui/` is the demo/dogfood skeleton; it now ships two **worked foundation examples** (`plans/foundation/20260529-04-screen-map.md`, `plans/foundation/PROBE_LEDGER.md`) so the verifiers run on real data — docs 01–03 remain skeleton (not a certified foundation). This session changed the **`.ai.ui` framework itself**, not a product UI.
+**UI layer state:** **Framework development.** This `.work.ui/` now ships a **complete worked foundation** (docs 01–04 + `design-system/tokens.css` + `PROBE_LEDGER.md`) for a demo *Demo SaaS dashboard* — so the verifiers run on real data **and** the demo satisfies the `screen-spec-ready` certify gate end-to-end. This is a dogfood example; the work this session changed the **`.ai.ui` framework itself**, not a product UI.
 
 **This session ported the `.ai` improvements into `.ai.ui` (domain-adapted, lean house style):**
 
@@ -40,9 +40,11 @@
 
 | State | Value | Date |
 |-------|-------|------|
-| ui-foundation-complete | no | |
-| screen-spec-ready | no | |
+| ui-foundation-complete | yes (demo) | 2026-05-29 |
+| screen-spec-ready | yes (demo) | 2026-05-29 |
 | ui-implementation-ready | no | |
+
+> Demo certification: foundation docs 01–04 present, token file `design-system/tokens.css` linked below. `ui-implementation-ready` stays **no** (requires a built milestone + visual/a11y verify).
 
 ## Active UI milestone
 
@@ -109,7 +111,7 @@ Backlog 1 + 3–10 cleared in the follow-up session; only the commit (#2) remain
 
 ## Repository UI state
 
-- **Token file:** (set after foundation — `REPLACE:UI_TOKENS_FILE`)
+- **Token file:** `.work.ui/design-system/tokens.css` (demo; adopters use the app source path `REPLACE:UI_TOKENS_FILE`)
 - **Design system catalog:** `.work.ui/design-system/CATALOG.md`
 - **ADR location:** `.work.ui/decisions/` (default) — or `.work/decisions/` per team choice
 
