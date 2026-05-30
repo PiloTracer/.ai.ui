@@ -41,6 +41,8 @@ Follow [`examples/INDEX.md`](examples/INDEX.md) playbook. **S0 primitives before
        │
        ├── "Spec a screen or flow"                 ──► §4
        │
+       ├── "I have a UI idea (free text)"          ──► @ui-screen-spec intake - <sentence>
+       │
        ├── "Build / polish UI components"         ──► §5
        │
        ├── "Check visuals / a11y before ship"     ──► §6
@@ -76,6 +78,7 @@ Follow [`examples/INDEX.md`](examples/INDEX.md) playbook. **S0 primitives before
 | You need… | Run |
 |-----------|-----|
 | Brand-new UI layer | `@ui-design-foundation greenfield` |
+| Agent should ask until it understands the UI (vague brand/users/scope) | `@ui-design-foundation probe` (adaptive loop; fills gaps) |
 | Check progress | `@ui-design-foundation status` |
 | Ready to author screen SPECs | `@ui-design-foundation certify screen-spec-ready` |
 | Design system primitives doc | `@ui-design-system init` (after tokens exist) |
@@ -93,6 +96,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 
 | You need… | Run |
 |-----------|-----|
+| Free-text UI idea (don't know where it goes) | `@ui-screen-spec intake - <free sentence>` (classifies + routes) |
 | New screen / flow SPEC | `@ui-screen-spec create - <slug>` |
 | Review before build | `@ui-screen-spec review - <path>` |
 | UIS prompts in SPEC | List UIS-01…07 in SPEC §12 Concept registry |
@@ -150,6 +154,7 @@ Full-stack tasks: also follow `@code-implementation` for non-UI files ([`COHABIT
 | Accessibility | `@ui-accessibility-audit milestone` |
 | Dirty UI tree | `@ui-visual-verify uncommitted` |
 | Applicable UIS rows pending | `@ui-concept-run status` |
+| Plan/roadmap readiness (verifiers + probe coverage + orphan screens) | `@ui-plan-verify audit` |
 
 ---
 

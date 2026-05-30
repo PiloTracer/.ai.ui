@@ -48,14 +48,18 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 |--------------|------------|------|
 | **ui-bootstrap** `init` | `.ai.ui/` present; must not overwrite `.work/` or base `.cursorrules` | - |
 | **ui-design-foundation** `greenfield` | `{HANDOFF_UI}`; UI standards paths in `.cursorrules` snippet | Recommended: `@ui-bootstrap init` |
+| **ui-design-foundation** `probe` | None; interrogates + fills foundation gaps. Engine: [`probe-protocol.md`](probe-protocol.md). Ledger `{UI_PLANS_ROOT}/foundation/PROBE_LEDGER.md` | Recommended before `certify` when understanding is thin |
 | **ui-design-foundation** `certify screen-spec-ready` | **ui-foundation-complete: yes** | **Required** |
+| **ui-component-build** `probe` | None; interactive roadmap-completeness check before `ui-implementation-ready`. Ledger `{UI_PLANS_ROOT}/full/PROBE_LEDGER.md` | Recommended before broad iteration |
+| **ui-screen-spec** `intake` | None (free-text front door); classifies + routes, only writes a SPEC when class=`local` | - (records to `NEXT_UI` § Intake queue) |
 | **ui-screen-spec** `create` | SCREEN_SPEC_STANDARD; **screen-spec-ready** | **Required** (warn if no) |
 | **ui-component-build** `plan` | Approved screen SPEC(s) for milestone | **Required** |
 | **ui-component-build** `start` / `continue` | Valid `NEXT_UI.md` UI iteration; screen-spec-ready or waiver in HANDOFF_UI | **Required** |
-| **ui-component-build** `complete` | `@ui-visual-verify milestone` + `@ui-accessibility-audit milestone` pass | **Required** |
+| **ui-component-build** `complete` | `@ui-visual-verify milestone` + `@ui-accessibility-audit milestone` + `@ui-plan-verify audit` pass | **Required** |
 | **ui-component-build** `complete` (craft tier ≥ refined) | `@ui-concept-run - UIS-07` on milestone diff | **Required** |
 | **ui-visual-verify** / **ui-accessibility-audit** | Active UI milestone in NEXT_UI | Per skill |
 | **ui-concept-run** `run` | UIS trigger table | Per `.ai.ui/concepts/README.md` |
+| **ui-plan-verify** | - | Read-only (runs verifiers; reports + routes, never fixes) |
 | **ui-process-router** | - | Read-only |
 | **ui-project-approach** | - | Read-only (optional write to HANDOFF_UI on user request) |
 | **ui-style-stack** `set` | Recommended: before `ui-design-foundation greenfield` | Warn if missing |
@@ -69,8 +73,37 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 |------------|----------|
 | `@ui-screen-spec create` | `@ui-design-foundation certify screen-spec-ready` |
 | `@ui-component-build start` | `@ui-component-build plan - S{N}` |
+| Free-text UI request, unsure where it goes | `@ui-screen-spec intake - <sentence>` |
+| Brand/users/scope vague; "do you understand the UI?" | `@ui-design-foundation probe` (then `certify`) |
+| Roadmap completeness unclear before broad build | `@ui-component-build probe` |
+| Audit readiness (verifiers + coverage + orphans) | `@ui-plan-verify audit` |
 | UI session close / commit | `@session-control close` (Agent OS) |
 | Backend migration | `@db-migration` (Agent OS) — not a ui-* skill |
+
+---
+
+## Command vocabulary (canonical verbs)
+
+One verb set across `ui-*` skills. New verbs go here first, then into the matrix.
+
+| Verb | Skills | Writes? | Meaning |
+|------|--------|---------|---------|
+| `init` | ui-bootstrap | yes | Scaffold `.work.ui/` + cursorrules |
+| `set` | ui-style-stack | yes (HANDOFF_UI) | Record active style stack |
+| `greenfield` | ui-design-foundation | yes | Create foundation docs 01–04 |
+| `probe` | ui-design-foundation, ui-component-build | yes (docs + ledger) | Interrogate until coverage target; sub-modes `- status`, `- until ready` |
+| `intake` | ui-screen-spec | records only | Classify + route a free-text request |
+| `create` | ui-screen-spec | yes (SPEC) | New screen SPEC (slug or derived) |
+| `review` / `amend` | ui-screen-spec | yes | Check / amend a SPEC |
+| `plan` | ui-component-build | yes (NEXT_UI) | Write a milestone iteration |
+| `start` / `continue` | ui-component-build | yes (code) | Execute iteration tasks |
+| `complete` | ui-component-build | yes | Close milestone after verify gates |
+| `init` | ui-design-system | yes (CATALOG) | Primitives catalog from doc 03 |
+| `run` | ui-concept-run | varies | Run a UIS prompt |
+| `milestone` / `uncommitted` | ui-visual-verify, ui-accessibility-audit | read | Verify before ship |
+| `audit` / `probe-coverage` / `traceability` | ui-plan-verify | read | Report + route readiness gaps |
+| `status` | most skills | read | Read-only state |
+| *(question)* | ui-process-router, ui-project-approach | read | Classify / orient |
 
 ---
 

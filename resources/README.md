@@ -4,7 +4,7 @@
 
 ## Web / responsive
 
-From [`webdesign/concept.design.txt`](webdesign/concept.design.txt):
+Curated (provenance: `webdesign/concept.design.txt`):
 
 - https://dribbble.com/tags/website-concept-design
 - https://uihut.com/
@@ -14,7 +14,7 @@ From [`webdesign/concept.design.txt`](webdesign/concept.design.txt):
 
 ## Mobile
 
-From [`appdesign/concept.mobiledesign.txt`](appdesign/concept.mobiledesign.txt):
+Curated (provenance: `appdesign/concept.mobiledesign.txt`):
 
 - https://dribbble.com/tags/mobile-app-design
 - https://icons8.com/blog/articles/ui-inspiration-mobile-design-concepts/

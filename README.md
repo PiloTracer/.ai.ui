@@ -51,11 +51,11 @@ Full playbook: [`examples/INDEX.md`](examples/INDEX.md)
 | [`examples/INDEX.md`](examples/INDEX.md) | Annotated screenshots + value matrix |
 | [`resources/control-platforms.md`](resources/control-platforms.md) | OSS behavior platforms (MIT/Apache) |
 | [`resources/README.md`](resources/README.md) | External gallery URLs |
-| **11 `ui-*` skills** | Bootstrap → foundation → spec → build → verify |
+| **12 `ui-*` skills** | Bootstrap → foundation → spec → build → verify (+ plan audit) |
 
 See [`APPROACH.md` §6](APPROACH.md#6-skills-we-explicitly-did-not-add) for skills we did not add (coverage via UI-PATTERNS).
 
-**Skills (11):** [`skills/README.md`](skills/README.md) · **Operator:** [`START_HERE.md`](START_HERE.md) · **Playbook:** [`examples/INDEX.md`](examples/INDEX.md)
+**Skills (12):** [`skills/README.md`](skills/README.md) · **Operator:** [`START_HERE.md`](START_HERE.md) · **Playbook:** [`examples/INDEX.md`](examples/INDEX.md)
 
 ---
 

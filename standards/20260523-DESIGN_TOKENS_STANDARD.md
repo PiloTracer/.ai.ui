@@ -22,6 +22,20 @@ Document one canonical format for the repo:
 - or TypeScript `theme` object consumed by `REPLACE:UI_STYLE_SYSTEM`
 - or Style Dictionary export — path documented in HANDOFF_UI
 
+### Theme variant completeness (required when dark or scoped themes exist)
+
+Every semantic token that components consume in the default theme **must** be overridden in each alternate theme block — not only canvas, surface, and `--color-text-primary`.
+
+Minimum surface/text pairs to audit (see SURFACE-AND-CONTROL-CRAFT):
+
+| Pair | Typical failure |
+|------|-----------------|
+| `--color-bg-inset` / `--surface-inset` + `--color-text-primary` | Light inset bg with light text in dark mode |
+| `--color-bg-elevated` + `--color-text-secondary` | Muted labels on wrong elevation |
+| Inset elevation (`--elevation-inset`) | Flat or light-scheme shadow on dark wells |
+
+Foundation doc 02 must list **light and dark values** for every inset/elevated token used by inputs, previews, and segmented controls. Run UIS-04 contrast checks on inset pairs in **each** theme before ship.
+
 ## 3. Change process
 
 1. Update token source

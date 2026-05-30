@@ -2,7 +2,7 @@
 name: ui-design-foundation
 description: >-
   Establish UI foundation: design tokens doc, pattern inventory, screen map,
-  a11y baseline. Certifies screen-spec-ready. Use greenfield, status, certify.
+  a11y baseline. Certifies screen-spec-ready. Use greenfield, probe, status, certify.
 ---
 
 # ui-design-foundation
@@ -35,8 +35,36 @@ Set **craft tier** in doc 01; `--surface-*` in doc 02 when tier ≥ refined; doc
 | Mode | Action |
 |------|--------|
 | `greenfield` | Create docs 01–04 (see greenfield protocol above) |
+| `probe` | Interrogate until UI foundation is understood (see Probe protocol) |
+| `probe - status` | Read the ledger read-only; ask nothing |
+| `probe - until ready` | Loop passes without re-confirming between them |
 | `status` | Read-only readiness |
 | `certify screen-spec-ready` | Gate: all foundation docs present + token file exists |
+
+## Probe protocol
+
+Adaptive, gap-driven interrogation that **guarantees foundation understanding** before certification. Engine: [`probe-protocol.md`](../probe-protocol.md) (loop, scoring, ledger — not restated here). This section supplies the foundation **coverage profile**.
+
+| Parameter | Value |
+|-----------|-------|
+| Exit gate | [certify gate](#certify-gate) (screen-spec-ready) |
+| Ledger | `{UI_PLANS_ROOT}/foundation/PROBE_LEDGER.md` |
+| Target | Coverage ≥ 85%; no ★ dimension below `partial` |
+
+**Coverage map** (★ = gate-blocking, weight 2):
+
+| Dim | Topic | What good looks like | Records into |
+|-----|-------|----------------------|--------------|
+| D1 ★ | Product UI intent & users | Who/what/primary jobs + archetype named | doc 01 |
+| D2 ★ | Success / craft tier | Measurable craft bar + tier (basic/standard/refined) | doc 01 |
+| D3 | Brand & visual language | Voice, references, do/don't | doc 01 |
+| D4 ★ | Design tokens | Color/type/space/surface tokens mapped to `REPLACE:UI_TOKENS_FILE` | doc 02 |
+| D5 | Pattern inventory | Existing vs needed components + example ids | doc 03 |
+| D6 ★ | Screen map & IA | Slugs, routes, priority, dependencies | doc 04 |
+| D7 | Accessibility targets | WCAG level + key constraints | doc 01 / ASSUMPTIONS |
+| D8 | Platform / responsive | Breakpoints, devices, performance budget | doc 01 |
+
+`probe` records answers into the docs above + `HANDOFF_UI`; owner-blocked items → `UNKNOWNS.md`.
 
 ## certify gate
 

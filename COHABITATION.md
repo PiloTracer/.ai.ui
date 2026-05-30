@@ -29,6 +29,8 @@
 | UI-specific status snapshot | `@ui-process-router` or read `.work.ui/context/HANDOFF_UI.md` |
 | UI iteration progress | `@ui-component-build status` + `NEXT_UI.md` |
 
+UI verification runs at the **UI milestone boundary**, not at session close: `@ui-component-build complete` runs `@ui-plan-verify audit` (`readiness-verify` + `traceability-verify`) before updating carriers, so drift is caught at the UI boundary rather than late at `@session-control close`. CI re-runs the same scripts on push/PR (`.github/workflows/framework-verify.yml`).
+
 On `@session-control close`, UI skills should have already updated `HANDOFF_UI.md`. Optionally append one line to `.work/context/HANDOFF.md`:
 
 ```markdown

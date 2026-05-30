@@ -1,5 +1,32 @@
 # Changelog
 
+## [Unreleased]
+
+## [0.5.0] - 2026-05-29
+
+### Added
+
+- **`probe` mode** for `@ui-design-foundation` (foundation understanding → `screen-spec-ready`) and `@ui-component-build` (roadmap completeness → `ui-implementation-ready`) — adaptive, gap-driven interrogation that scores coverage across fixed dimensions, asks ≤5 targeted questions per pass, records answers into foundation docs / screen map / registries, and loops to a confidence target (85%).
+- **`skills/probe-protocol.md`** — shared engine (loop, Coverage Score, ledger, ease-of-use rules) referenced by both probe modes; skills supply only a coverage profile. Not a skill folder.
+- **`@ui-plan-verify`** — read-only UI plan audit skill (`audit` / `probe-coverage` / `traceability`): runs the verifiers, reports probe coverage + orphan screens, and routes each gap to a command (skill-level analogue of `plan-verify`). Brings the registry to **12 skills**.
+- **`.github/workflows/framework-verify.yml`** — CI runs `framework-verify` + `readiness-verify` + `traceability-verify` on push, PR, and tag (was manual-only).
+- **`docs/guides/probe-and-intake.md`** — operator guide for the probe loop and the free-text intake front door.
+- **`skills/ui-screen-spec/reference.md`** — intake/create invocation examples (good vs wrong prompts, slug derivation).
+- **`## Intake queue`** section seeded in the NEXT_UI template + demo so the free-text front door is discoverable before first use.
+- **Command-vocabulary table** in `skills/SKILL_DEPENDENCIES.md` (canonical verb list); `probe - status` / `probe - until ready` sub-modes added to the foundation + build Modes tables.
+- **`templates/work.ui/plans/foundation/PROBE_LEDGER.md.template`** — resumable, auditable probe state.
+- **`@ui-screen-spec intake - <free sentence>`** — free-text front door: classifies a UI request (`local` / `cross-cutting` / `brownfield` / `underspecified`), routes to the right executor, and records it to `NEXT_UI § Intake queue`. `; force=<class>` overrides. Also: free-text `create` now derives a slug from a sentence.
+- **`scripts/readiness-verify.sh`** — machine-checkable honesty linter for probe ledgers (evidence backing claims, coverage math, gate-blocking unknowns). Exits 0 when no ledger.
+- **`scripts/traceability-verify.sh`** — checks every screen in the screen map is scheduled into a milestone (UI analogue of FR→task). Exits 0 when no screen map.
+- **`scripts/release.sh <version>`** — release preflight; tag cannot ship while verification is red or CHANGELOG/ tree are not ready.
+
+### Changed
+
+- **`scripts/framework-verify.sh`** — now **derives** the skill count (no hardcoded list), cross-checks each skill is registered in `skills/README.md`, guards skill-count prose drift in landing docs, asserts the `ui-screen-spec` intake contract, **self-tests** `readiness-verify` + `traceability-verify`, and **scans markdown for broken relative links** (skips external / placeholder / cross-framework refs).
+- **`@ui-component-build complete`** now runs `@ui-plan-verify audit` (readiness + traceability) at the UI milestone boundary, so an orphan screen or dishonest ledger blocks close rather than surfacing late at `@session-control close`. Documented in `COHABITATION.md`.
+- **`ui-process-router`** — fixed bucket drift: `skill.md` no longer keeps a stale inline bucket list (was 10, missing the 16 in `reference.md`); it now points to `reference.md` as the single source and adds a no-match fallback to `START_HERE` §1. Added `probe`, `screen-request`, and `plan-verify` buckets.
+- **`START_HERE.md`** surfaces `probe`, `intake`, and `@ui-plan-verify`; **`SKILL_DEPENDENCIES.md`** adds probe/intake/plan-verify matrix + redirect rows; **`CONTRIBUTING.md`** documents `release.sh`; **`DESIGN_TOKENS_STANDARD`** adds dark/scoped theme token-completeness requirements.
+
 ## [0.4.3] - 2026-05-23
 
 ### Changed (audit / lean)

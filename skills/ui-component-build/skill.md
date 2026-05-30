@@ -21,10 +21,33 @@ Mirror of Agent OS `code-implementation` **for UI scope only**.
 | Mode | Action |
 |------|--------|
 | `status` | Read-only task matrix |
+| `probe` | Interrogate the roadmap for completeness before `ui-implementation-ready` (see Probe protocol) |
+| `probe - status` | Read the ledger read-only; ask nothing |
+| `probe - until ready` | Loop passes without re-confirming between them |
 | `plan - S{N}` | Write `## Current UI iteration` from screen map / approved SPECs |
 | `start` | Mandatory reads: screen SPEC, UI_CONVENTIONS, COMPONENT_STANDARD, HANDOFF_UI, SURFACE-AND-CONTROL-CRAFT |
 | `continue` | Next task(s); UI task gate each |
 | `complete` | After `@ui-visual-verify milestone` + `@ui-accessibility-audit milestone` |
+
+## Probe protocol
+
+Interactive completeness check on the UI roadmap before broad iteration. Asks the owner to resolve gaps an automated sweep can flag but not answer (unscheduled screens, vague craft targets, ownerless risks). Engine: [`probe-protocol.md`](../probe-protocol.md). Supplies the roadmap **coverage profile**.
+
+| Parameter | Value |
+|-----------|-------|
+| Exit gate | `ui-implementation-ready` (via `status`) |
+| Ledger | `{UI_PLANS_ROOT}/full/PROBE_LEDGER.md` |
+| Target | Coverage ≥ 85%; no ★ dimension below `partial` |
+
+**Coverage map** (★ = gate-blocking, weight 2):
+
+| Dim | Topic | What good looks like | Records into |
+|-----|-------|----------------------|--------------|
+| B1 ★ | Screen → milestone coverage | Every screen-map slug maps to ≥1 milestone `S{N}` | screen map § Milestones + `NEXT_UI` |
+| B2 ★ | Primitive coverage | P0 primitives (doc 03) scheduled before screens (S0/S1-a) | `NEXT_UI` tasks |
+| B3 | Craft tier targets | Per-milestone craft acceptance (UIS-07 when ≥ refined) | `NEXT_UI` acceptance |
+| B4 | Accessibility targets | A11y acceptance per milestone | `NEXT_UI` acceptance |
+| B5 | Risks / owners | Ownerless UI risks resolved or deferred | `RISK_REGISTRY` / `UNKNOWNS` |
 
 ## Milestone ordering (primitive-first)
 
@@ -66,6 +89,7 @@ If task lists backend files → user runs `@code-implementation` for those files
 
 1. `@ui-visual-verify milestone` (includes craft checklist)
 2. `@ui-accessibility-audit milestone`
-3. Update HANDOFF_UI + NEXT_UI; cross-link `.work/context/HANDOFF.md` § UI layer
+3. `@ui-plan-verify audit` — runs `readiness-verify` + `traceability-verify`; an orphan screen or dishonest probe ledger blocks `complete` (a milestone must not close while the roadmap it drew from is inconsistent).
+4. Update HANDOFF_UI + NEXT_UI; cross-link `.work/context/HANDOFF.md` § UI layer
 
 See `reference.md` for NEXT_UI template (optional).
