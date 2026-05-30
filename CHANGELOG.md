@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+### Added
+
+- **Demo worked examples** — `.work.ui/plans/foundation/20260529-04-screen-map.md` (2 screens, all scheduled) and `.work.ui/plans/foundation/PROBE_LEDGER.md` (honest mid-probe, 83%) so `readiness-verify` + `traceability-verify` now run on **real in-repo data** (previously exercised only `/tmp` self-test fixtures), and so a new user sees a filled screen map + ledger.
+
+### Changed
+
+- **`@ui-plan-verify`** documents the adopter-repo path (`.ai.ui/scripts/…`) for the verifier commands.
+
+### Verified
+
+- **Lean:** 119 tracked files / 524K, 0 tracked images (example PNGs, `tmp/`, `credentials/` are gitignored).
+- **Usability:** adopter install simulated from a clean `git archive` — `bootstrap.sh` resolves the parent repo, creates `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`, and the seeded `## Intake queue` propagates.
+
 ## [0.5.0] - 2026-05-29
 
 ### Added

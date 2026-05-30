@@ -22,10 +22,10 @@ Read-only audit that **surfaces** UI readiness gaps and routes them — the skil
 
 ## audit protocol
 
-1. Run, capturing real exit codes (never claim PASS on failure):
+1. Run, capturing real exit codes (never claim PASS on failure). Paths are framework-root-relative; in an adopter repo prefix with `.ai.ui/`:
 
 ```bash
-bash scripts/framework-verify.sh
+bash scripts/framework-verify.sh      # adopter: bash .ai.ui/scripts/framework-verify.sh
 bash scripts/readiness-verify.sh
 bash scripts/traceability-verify.sh
 ```

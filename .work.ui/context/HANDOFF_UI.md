@@ -10,7 +10,7 @@
 
 **Closed:** 2026-05-29 (framework-development session)
 
-**UI layer state:** **Framework development** (this `.work.ui/` is the demo/dogfood skeleton, still unbootstrapped — no live foundation/specs). This session changed the **`.ai.ui` framework itself**, not a product UI.
+**UI layer state:** **Framework development.** This `.work.ui/` is the demo/dogfood skeleton; it now ships two **worked foundation examples** (`plans/foundation/20260529-04-screen-map.md`, `plans/foundation/PROBE_LEDGER.md`) so the verifiers run on real data — docs 01–03 remain skeleton (not a certified foundation). This session changed the **`.ai.ui` framework itself**, not a product UI.
 
 **This session ported the `.ai` improvements into `.ai.ui` (domain-adapted, lean house style):**
 
@@ -23,7 +23,12 @@
 
 **Follow-up session (2026-05-29, continued) — owner-action backlog cleared:** added `@ui-plan-verify` (read-only audit, registry now 12); CI workflow; wired `ui-component-build complete` → `@ui-plan-verify audit`; probe `- status` / `- until ready` sub-modes in Modes tables; command-vocabulary table; `ui-screen-spec/reference.md`; seeded `## Intake queue` in NEXT_UI (template + demo); markdown link-scan in `framework-verify` (fixed 2 pre-existing broken links in `resources/README.md`); `docs/guides/probe-and-intake.md`. Decision #1 resolved: **keep** `ui-component-build probe`.
 
-**State of tree:** changes are **uncommitted**. CHANGELOG additions sit under **`[Unreleased]`** (not yet versioned).
+**State of tree:** **`v0.5.0` released** (commit `22ad2ed`, tagged, pushed 2026-05-29). Post-release follow-up (demo worked examples + lean/usability audit) sits under CHANGELOG `[Unreleased]`.
+
+**Post-release audit (2026-05-29):**
+- **Verifiers now live:** `readiness-verify` validates the seeded `PROBE_LEDGER.md` (honest, 83%); `traceability-verify` validates the seeded screen-map (2/2 scheduled). No longer no-op.
+- **Lean:** 119 tracked files / 524K, 0 tracked images — example PNGs, `tmp/`, `credentials/token` are gitignored & untracked; root `context|decisions|design-system|screens|plans` are tiny pointer stubs (intentional).
+- **Usable:** adopter install simulated from a clean `git archive` — `bootstrap.sh` creates `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`; Intake queue propagates. README 60-second-start commands all map to real skill modes.
 
 **Recommended pick-up:** `.work.ui/plans/NEXT_UI.md`
 
