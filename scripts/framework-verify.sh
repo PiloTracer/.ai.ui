@@ -25,6 +25,7 @@ for p in \
   concepts/README.md \
   templates/bootstrap.sh templates/cursorrules.ui.template templates/cursorrules.ui.snippet.template \
   templates/DOCS_UI_STACK.md.template scripts/cursorrules-ui.sh \
+  scripts/token-lint.sh scripts/bootstrap-test.sh \
   docs/adoption/FROM_AGENT_OS.md \
   style-stacks/README.md examples/INDEX.md resources/control-platforms.md \
   standards/20260523-SURFACE-AND-CONTROL-CRAFT.md \
@@ -150,6 +151,45 @@ selftest "readiness-verify accepts honest"   0 "${ROOT}/scripts/readiness-verify
 selftest "readiness-verify rejects uncited"  1 "${ROOT}/scripts/readiness-verify.sh"   "${tmpd}/uncited.md"
 selftest "traceability-verify accepts scheduled" 0 "${ROOT}/scripts/traceability-verify.sh" "${tmpd}/sm-ok.md"
 selftest "traceability-verify rejects orphan"    1 "${ROOT}/scripts/traceability-verify.sh" "${tmpd}/sm-orphan.md"
+
+# token-lint self-tests: the design-token gate must reject raw hex in component
+# source and accept token usage (cf. DESIGN_TOKENS_STANDARD - no magic hex).
+printf 'const c = "var(--color-accent)";\n' > "${tmpd}/tl-clean.tsx"
+printf 'const c = "#2f6df6";\n' > "${tmpd}/tl-dirty.tsx"
+selftest "token-lint accepts token usage" 0 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-clean.tsx"
+selftest "token-lint rejects raw hex"     1 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-dirty.tsx"
+
+# traceability SPEC-backing + rogue-SPEC self-tests (need a .work.ui/plans + screens
+# layout so the screens dir is derivable from the map path).
+mkdir -p "${tmpd}/.work.ui/plans/foundation" "${tmpd}/.work.ui/screens/home"
+cat > "${tmpd}/.work.ui/plans/foundation/sm-approved.md" <<'EOF'
+## Screens
+| Slug | Route | Priority | Domain SPEC link | SPEC status |
+|------|-------|----------|------------------|-------------|
+| home | `/` | P0 | - | Approved |
+## Milestones (UI)
+| Milestone | Screens | Notes |
+|-----------|---------|-------|
+| S1 | home | shell |
+EOF
+SM_APPROVED="${tmpd}/.work.ui/plans/foundation/sm-approved.md"
+selftest "traceability rejects approved-without-SPEC" 1 "${ROOT}/scripts/traceability-verify.sh" "${SM_APPROVED}"
+echo "# spec" > "${tmpd}/.work.ui/screens/home/20260530-SCREEN-SPEC.md"
+selftest "traceability accepts approved-with-SPEC"    0 "${ROOT}/scripts/traceability-verify.sh" "${SM_APPROVED}"
+mkdir -p "${tmpd}/.work.ui/screens/rogue"; echo "# x" > "${tmpd}/.work.ui/screens/rogue/20260530-SCREEN-SPEC.md"
+selftest "traceability rejects rogue SPEC dir"        1 "${ROOT}/scripts/traceability-verify.sh" "${SM_APPROVED}"
+
+# Adopter first-run integration: bootstrap.sh must produce a usable .work.ui/.
+# Only when ROOT is the git top-level (the test exports tracked files); skipped
+# when .ai.ui/ is nested in an adopter repo.
+if git -C "${ROOT}" rev-parse --show-toplevel >/dev/null 2>&1 \
+   && [[ "$(git -C "${ROOT}" rev-parse --show-toplevel)" == "${ROOT}" ]]; then
+  if bash "${ROOT}/scripts/bootstrap-test.sh" >/dev/null 2>&1; then
+    echo "ok: bootstrap-test (adopter first-run produces usable .work.ui/)"
+  else
+    echo "BOOTSTRAP: scripts/bootstrap-test.sh failed - adopter first-run is broken"; FAIL=1
+  fi
+fi
 
 # Markdown local-link scan: relative links in .md files must resolve. Skips
 # external (http/mailto), anchors (#...), placeholders ({ < REPLACE:), and Agent

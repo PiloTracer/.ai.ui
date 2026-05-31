@@ -27,8 +27,14 @@
 
 **Post-release audit (2026-05-29):**
 - **Verifiers now live:** `readiness-verify` validates the seeded `PROBE_LEDGER.md` (honest, 83%); `traceability-verify` validates the seeded screen-map (2/2 scheduled). No longer no-op.
-- **Lean:** 125 tracked files / 552K, 0 tracked images — example PNGs, `tmp/`, `credentials/token` are gitignored & untracked; root `context|decisions|design-system|screens|plans` are tiny pointer stubs (intentional). `framework-verify.sh` now **enforces** the 0-tracked-images invariant and self-reports the count, so the figure can't silently rot.
+- **Lean:** 127 tracked files, 0 tracked images — example PNGs, `tmp/`, `credentials/token` are gitignored & untracked; root `context|decisions|design-system|screens|plans` are tiny pointer stubs (intentional). `framework-verify.sh` now **enforces** the 0-tracked-images invariant and self-reports the live count, so the figure is checked rather than hand-maintained.
 - **Usable:** adopter install simulated from a clean `git archive` — `bootstrap.sh` creates `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`; Intake queue propagates. README 60-second-start commands all map to real skill modes.
+
+**Reliability hardening (2026-05-30) — turn asserted guarantees into checked ones:**
+1. **`scripts/token-lint.sh`** — machine gate: no raw hex/color in component source (the deterministic backstop behind `DESIGN_TOKENS_STANDARD` / "no generic AI chrome"). Wired into `@ui-visual-verify` checks; self-tested in `framework-verify`.
+2. **`scripts/traceability-verify.sh`** — extended to the full **screen↔SPEC↔milestone** chain (Approved-without-SPEC and rogue-SPEC-dir now fail, not just unscheduled screens).
+3. **`scripts/bootstrap-test.sh`** — automated adopter first-run test (exports tree → runs `bootstrap.sh` → asserts `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`); runs in `framework-verify` + its own CI step.
+- Plus the lean gate (0 tracked images + count self-report) added earlier this session. **`framework-verify` PASS** with 5 new self-tests + embedded bootstrap-test.
 
 **Recommended pick-up:** `.work.ui/plans/NEXT_UI.md`
 

@@ -18,7 +18,7 @@ Read-only audit that **surfaces** UI readiness gaps and routes them — the skil
 |------|--------|
 | `audit` | Run all three verifiers + summarize readiness; route each gap to a command |
 | `probe-coverage` | Report per-dimension coverage from each `PROBE_LEDGER.md` (honesty-checked) |
-| `traceability` | Report unscheduled (orphan) screens from the screen map |
+| `traceability` | Report chain breaks: unscheduled (orphan) screens, Approved screens with no SPEC file, rogue SPEC dirs absent from the map |
 
 ## audit protocol
 
@@ -26,8 +26,11 @@ Read-only audit that **surfaces** UI readiness gaps and routes them — the skil
 
 ```bash
 bash scripts/framework-verify.sh      # adopter: bash .ai.ui/scripts/framework-verify.sh
+                                      # (also self-tests token-lint + runs bootstrap-test)
 bash scripts/readiness-verify.sh
-bash scripts/traceability-verify.sh
+bash scripts/traceability-verify.sh   # screen↔SPEC↔milestone chain
+# component token contract (adopter source; needs paths):
+bash scripts/token-lint.sh --tokens REPLACE:UI_TOKENS_FILE REPLACE:UI_APP_ROOT
 ```
 
 2. Read each `PROBE_LEDGER.md`: report Coverage %, any ★ dimension below `partial`, and open probes. Engine + honesty rules: [`probe-protocol.md`](../probe-protocol.md).

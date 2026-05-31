@@ -20,10 +20,11 @@ description: >-
 ## Checks (milestone)
 
 1. `REPLACE:UI_VISUAL_TEST` exit 0 (or documented baseline update with owner approval)
-2. Token file unchanged without accompanying visual diff review
-3. Storybook/build for UI package passes
-4. UIS registry: no `Applies=yes` + `pending`
-5. **Craft / §13 compliance** (per active screen SPECs in milestone):
+2. **Token contract (machine):** `bash .ai.ui/scripts/token-lint.sh --tokens REPLACE:UI_TOKENS_FILE REPLACE:UI_APP_ROOT` exits 0 — no raw hex/color literals in component source (DESIGN_TOKENS_STANDARD). This is the deterministic backstop: an agent that hardcoded a color fails here, not in a prose grade. One-off exceptions need a trailing `token-lint-ignore` with a reason.
+3. Token file unchanged without accompanying visual diff review
+4. Storybook/build for UI package passes
+5. UIS registry: no `Applies=yes` + `pending`
+6. **Craft / §13 compliance** (per active screen SPECs in milestone):
 
 | Check | Fail when |
 |-------|-----------|
@@ -33,7 +34,7 @@ description: >-
 | Surfaces | Flat-only page when tier ≥ refined and SPEC requires `--surface-elevated` cards |
 | BEFORE compare | `beforeScreenshot` in §13 but no visible improvement on cited rules (manual/vision) |
 
-6. **UIS-07** run when craft tier ≥ refined (`@ui-concept-run - UIS-07`)
+7. **UIS-07** run when craft tier ≥ refined (`@ui-concept-run - UIS-07`)
 
 ## Output
 

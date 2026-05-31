@@ -4,17 +4,20 @@
 
 ### Added
 
+- **`scripts/token-lint.sh` — machine-enforced design-token contract.** Fails when component source contains raw hex/color literals instead of semantic tokens (`var(--…)`), the deterministic backstop behind `DESIGN_TOKENS_STANDARD` and the "no generic AI chrome" promise: an agent that hardcodes `#3b82f6` is caught here, not graded "looks good" by the same agent in a prose audit. Token files are exempt (`--tokens`); single lines opt out with a `token-lint-ignore` comment. No-op without paths (`$UI_LINT_PATHS` / args). Wired into `@ui-visual-verify` milestone checks; self-tested in `framework-verify`.
+- **`scripts/bootstrap-test.sh` — adopter first-run integration test.** Exports the working tree into a throwaway sibling repo, runs `bootstrap.sh create-cursorrules`, and asserts `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md` exist and the Intake queue / UI rules propagated. Converts the previously *manual* adopter-install spot-check into an automated gate (run by `framework-verify` and as its own CI step), so a refactor can't silently break the one action every new user performs first.
 - **Demo worked examples** — `.work.ui/plans/foundation/20260529-04-screen-map.md` (2 screens, all scheduled) and `.work.ui/plans/foundation/PROBE_LEDGER.md` so `readiness-verify` + `traceability-verify` now run on **real in-repo data** (previously exercised only `/tmp` self-test fixtures), and so a new user sees a filled screen map + ledger.
 - **Complete demo foundation** — `.work.ui/` now ships foundation docs 01 (vision), 02 (tokens), 03 (pattern inventory) and `design-system/tokens.css` (light+dark, surface/inset/elevated) for a *Demo SaaS dashboard*, so the demo satisfies the `screen-spec-ready` certify gate end-to-end. Probe ledger advanced to 100% (D4 tokens confirmed); HANDOFF readiness flips `ui-foundation-complete` + `screen-spec-ready` to yes (demo).
 
 ### Changed
 
 - **`@ui-plan-verify`** documents the adopter-repo path (`.ai.ui/scripts/…`) for the verifier commands.
-- **`scripts/framework-verify.sh`** now **enforces the lean invariant** — fails on any tracked binary image (example PNGs must stay gitignored; manifests are the source of truth) and self-reports the tracked-file count. Runs only when `.ai.ui/` is the git top-level, so it is a no-op when nested in an adopter repo. This converted a manually-asserted "0 tracked images / N files" claim (which had drifted 119→125) into a checked figure.
+- **`scripts/framework-verify.sh`** now **enforces the lean invariant** — fails on any tracked binary image (example PNGs must stay gitignored; manifests are the source of truth) and self-reports the tracked-file count. Runs only when `.ai.ui/` is the git top-level, so it is a no-op when nested in an adopter repo. This converted a manually-asserted "0 tracked images / N files" claim (which had drifted 119→125) into a checked figure. Also gained 5 new self-tests (token-lint accept/reject; traceability accepts approved-with-SPEC, rejects approved-without-SPEC and rogue SPEC dirs) and now runs `bootstrap-test`.
+- **`scripts/traceability-verify.sh`** extended from screen→milestone scheduling into the full **screen↔SPEC↔milestone chain**: an Approved screen with no SPEC file under `screens/<slug>/` fails (claimed-Approved without an artifact is dishonest, like an uncited probe dimension), and a `screens/<slug>/` directory with no row in the screen map fails (ungoverned UI). SPEC-backing/rogue checks run only when the screens dir exists; scheduling still always runs.
 
 ### Verified
 
-- **Lean:** 125 tracked files / 552K, 0 tracked images (example PNGs, `tmp/`, `credentials/` are gitignored). The 0-tracked-images invariant is now **enforced** by `framework-verify.sh`, which also self-reports the tracked-file count so this figure can no longer silently drift.
+- **Lean:** 127 tracked files, 0 tracked images (example PNGs, `tmp/`, `credentials/` are gitignored). The 0-tracked-images invariant is now **enforced** by `framework-verify.sh`, which also self-reports the live tracked-file count — so this figure is checked at every run rather than hand-maintained.
 - **Usability:** adopter install simulated from a clean `git archive` — `bootstrap.sh` resolves the parent repo, creates `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`, and the seeded `## Intake queue` propagates.
 
 ## [0.5.0] - 2026-05-29
