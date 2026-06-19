@@ -47,6 +47,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | Skill / mode | Depends on | Gate |
 |--------------|------------|------|
 | **ui-bootstrap** `init` | `.ai.ui/` present; must not overwrite `.work/` or base `.cursorrules` | - |
+| **ui-install** `copy` / `submodule` | Source `.ai.ui/` directory; target parent directory must exist | - |
 | **ui-design-foundation** `greenfield` | `{HANDOFF_UI}`; UI standards paths in `.cursorrules` snippet | Recommended: `@ui-bootstrap init` |
 | **ui-design-foundation** `probe` | None; interrogates + fills foundation gaps. Engine: [`probe-protocol.md`](probe-protocol.md). Ledger `{UI_PLANS_ROOT}/foundation/PROBE_LEDGER.md` | Recommended before `certify` when understanding is thin |
 | **ui-design-foundation** `certify screen-spec-ready` | **ui-foundation-complete: yes** | **Required** |
@@ -73,6 +74,8 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 
 | User tried | Run next |
 |------------|----------|
+| `@ui-install copy - /path` | `bash scripts/install-target.sh copy /path` |
+| `@ui-install submodule - /path` | `bash scripts/install-target.sh submodule /path` |
 | `@ui-screen-spec create` | `@ui-design-foundation certify screen-spec-ready` |
 | `@ui-component-build start` | `@ui-component-build plan - S{N}` |
 | Free-text UI request, unsure where it goes | `@ui-screen-spec intake - <sentence>` |
@@ -91,6 +94,7 @@ One verb set across `ui-*` skills. New verbs go here first, then into the matrix
 | Verb | Skills | Writes? | Meaning |
 |------|--------|---------|---------|
 | `init` | ui-bootstrap | yes | Scaffold `.work.ui/` + cursorrules |
+| `copy` / `submodule` | ui-install | yes | Install `.ai.ui` into target project |
 | `set` | ui-style-stack | yes (HANDOFF_UI) | Record active style stack |
 | `greenfield` | ui-design-foundation | yes | Create foundation docs 01–04 |
 | `probe` | ui-design-foundation, ui-component-build | yes (docs + ledger) | Interrogate until coverage target; sub-modes `- status`, `- until ready` |

@@ -14,5 +14,6 @@ Each file is a focused, one-page reference for a specific workflow pattern:
 | [`ui-iteration-build.md`](ui-iteration-build.md) | Plan → start → continue → complete a UI build milestone (including chart components) |
 | [`pre-ship-verify.md`](pre-ship-verify.md) | All verification gates before shipping: visual, a11y, plan audit, concept checks |
 | [`concept-checks.md`](concept-checks.md) | Running UIS-01 through UIS-09 concept prompts on UI work |
+| [`install-to-target.md`](install-to-target.md) | Install .ai.ui into a target project (copy or git submodule) |
 
 **Not a replacement for skill docs.** For full protocols, gates, and edge cases, open `skills/<id>/skill.md`.

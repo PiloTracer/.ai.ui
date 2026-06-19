@@ -28,3 +28,7 @@ build/
 **/credential/**/*
 **/credenciales/**/*
 **/credencial/**/*
+credentials/
+credential/
+credenciales/
+credencial/

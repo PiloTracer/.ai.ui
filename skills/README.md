@@ -27,6 +27,7 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | Skill id | Folder | Role |
 |----------|--------|------|
 | ui-bootstrap | `ui-bootstrap/` | Scaffold `.work.ui/`; create/merge `.cursorrules`; `DOCS_UI_STACK.md` |
+| ui-install | `ui-install/` | Install `.ai.ui` into target project (copy or git submodule) |
 | ui-design-foundation | `ui-design-foundation/` | Tokens, patterns, screen map; certifies **screen-spec-ready** |
 | ui-screen-spec | `ui-screen-spec/` | Author/review screen SPECs |
 | ui-component-build | `ui-component-build/` | UI iteration from `NEXT_UI.md` |
