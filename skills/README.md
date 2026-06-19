@@ -33,7 +33,7 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | ui-visual-verify | `ui-visual-verify/` | Visual/token regression audits |
 | ui-accessibility-audit | `ui-accessibility-audit/` | WCAG-oriented checks |
 | ui-design-system | `ui-design-system/` | Primitives catalog and Storybook discipline |
-| ui-concept-run | `ui-concept-run/` | Run UIS-01…07 prompts |
+| ui-concept-run | `ui-concept-run/` | Run UIS-01…09 prompts |
 | ui-plan-verify | `ui-plan-verify/` | Read-only audit: verifiers, probe coverage, screen→milestone traceability |
 | ui-process-router | `ui-process-router/` | Read-only UI process Q&A |
 | ui-project-approach | `ui-project-approach/` | Archetype + skill chain + pattern pointers (read [`APPROACH.md`](../APPROACH.md)) |

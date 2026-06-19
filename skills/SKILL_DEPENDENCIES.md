@@ -57,6 +57,8 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | **ui-component-build** `start` / `continue` | Valid `NEXT_UI.md` UI iteration; screen-spec-ready or waiver in HANDOFF_UI | **Required** |
 | **ui-component-build** `complete` | `@ui-visual-verify milestone` + `@ui-accessibility-audit milestone` + `@ui-plan-verify audit` pass | **Required** |
 | **ui-component-build** `complete` (craft tier ≥ refined) | `@ui-concept-run - UIS-07` on milestone diff | **Required** |
+| **ui-component-build** `complete` (any screen) | `@ui-concept-run - UIS-08` on milestone diff | **Required** |
+| **ui-component-build** `complete` (analytical dashboard) | `@ui-concept-run - UIS-09` on milestone diff | **Required** |
 | **ui-visual-verify** / **ui-accessibility-audit** | Active UI milestone in NEXT_UI | Per skill |
 | **ui-concept-run** `run` | UIS trigger table | Per `.ai.ui/concepts/README.md` |
 | **ui-plan-verify** | - | Read-only (runs verifiers; reports + routes, never fixes) |
