@@ -16,17 +16,19 @@
 - **Expanded dashboard patterns** in `UI-PATTERNS.md` — operational dashboards (auto-refresh, activity feed, alert highlighting), analytical (date range in URL, cross-filter, drill-down, chart+data table pair), reporting & export (report builder, saved reports, CSV/PDF/PNG export).
 - **4 new dashboard examples** D9–D12 in `examples/dashboards/manifest.md` — analytical dashboard, bento chart grid, report builder, KPI wall (text-only, no PNGs; full row schema with extractedRules and primitives).
 - **Chart & data-viz library resources** in `resources/control-platforms.md` — Recharts, Nivo, Vega-Lite, Chart.js, Tremor, MUI X Charts with selection rules and shadcn/charts accelerator.
-- **`.quick/` quick-reference cheat sheets** — 8 one-page copy-paste workflow references (greenfield start, analytical dashboard, bootstrap existing, install to target, screen spec workflow, UI iteration build, pre-ship verify, concept checks) linked from `START_HERE.md` FAQ.
+- **`.quick/` quick-reference cheat sheets** — 8 one-page copy-paste workflow references (greenfield start, analytical dashboard, bootstrap existing, deploy to project, screen spec workflow, UI iteration build, pre-ship verify, concept checks) linked from `START_HERE.md` FAQ.
+- **`@deploy-files` skill** (`skills/deploy-files/`) — deploy `.ai.ui/` into a target project via clean file copy: enumerates files through `git ls-files --cached --others --exclude-standard` so **anything `.gitignore` excludes is never copied** (enforced by construction); strips `.github/`, `.gitignore`, `.gitattributes`, `.cursorrules`, and deploy scripts. Idempotent, no `--delete`.
+- **`@deploy-repo` skill** (`skills/deploy-repo/`) — full git-based deploy of `.ai.ui/` via `clone` (git clone from origin remote with full history) or `archive` (git archive, includes `.github/`/`.cursorrules`, no `.git/`).
+- **`scripts/deploy-files.sh`** — shell backend for `@deploy-files`; `git ls-files --cached --others --exclude-standard` file enumeration, `rsync -a --files-from` without `--delete`.
+- **`scripts/deploy-repo.sh`** — shell backend for `@deploy-repo`; `git clone` and `git archive` modes.
 - **`scripts/setup-target.sh`** — alternative bootstrap script for target projects with profile support (`ecards`, `dashboard`); copies `.ai.ui/` + scaffolds `.work.ui/` + backs up existing `.cursorrules`.
-- **`@ui-install` skill** (`skills/ui-install/`) — install `.ai.ui/` into a target project via copy (clean rsync excluding `.git`/`.github`/`.gitignore`/`.cursorrules`) or git submodule; backed by `scripts/install-target.sh`.
-- **`scripts/install-target.sh`** — shell backend for `@ui-install`; two modes: `copy` (rsync clean copy) and `submodule` (git submodule add from origin remote).
 
 ### Changed
 
 - **`concepts/README.md`** — UIS-01…07 → UIS-01…09 in index and trigger table; adds UIS-08 (all screens) and UIS-09 (analytical dashboards) trigger rows.
 - **`skills/ui-concept-run/skill.md`** — UIS-01…07 → UIS-01…09; hard rules add UIS-08 (all screens before complete) and UIS-09 (analytical dashboards).
-- **`skills/README.md`** — registers `ui-install` (13th skill); ui-concept-run description updated to UIS-01…09.
-- **`skills/SKILL_DEPENDENCIES.md`** — adds `ui-install` to dependency matrix, redirect cheat sheet, and command vocabulary; adds UIS-08 and UIS-09 gates on `@ui-component-build complete`.
+- **`skills/README.md`** — registers `deploy-files` and `deploy-repo` (14 skills); ui-concept-run description updated to UIS-01…09.
+- **`skills/SKILL_DEPENDENCIES.md`** — adds `deploy-files`/`deploy-repo` to dependency matrix, redirect cheat sheet, and command vocabulary; adds UIS-08 and UIS-09 gates on `@ui-component-build complete`.
 - **`START_HERE.md`** — verify section, per-task obligations, forgetfulness checklist, and FAQ updated for UIS-08/09, analytical dashboard path, and `.quick/` reference.
 - **`examples/INDEX.md`** — dashboard count 9→13; playbook references UIS-09.
 - **`templates/work.ui/screens/example-slug/YYYYMMDD-SCREEN-SPEC.md.template`** — §12 includes UIS-08/09 rows; new §14 Data visualization section with chart types, responsive, tokens, states, and accessibility tables.
