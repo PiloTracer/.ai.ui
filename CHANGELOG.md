@@ -28,6 +28,7 @@
 - **`concepts/README.md`** — UIS-01…07 → UIS-01…09 in index and trigger table; adds UIS-08 (all screens) and UIS-09 (analytical dashboards) trigger rows.
 - **`skills/ui-concept-run/skill.md`** — UIS-01…07 → UIS-01…09; hard rules add UIS-08 (all screens before complete) and UIS-09 (analytical dashboards).
 - **`skills/README.md`** — registers `deploy-files` and `deploy-repo` (14 skills); ui-concept-run description updated to UIS-01…09.
+- **`skills/ui-director/`** — new orchestration skill (15 skills total); free-text front door for all UI work.
 - **`skills/SKILL_DEPENDENCIES.md`** — adds `deploy-files`/`deploy-repo` to dependency matrix, redirect cheat sheet, and command vocabulary; adds UIS-08 and UIS-09 gates on `@ui-component-build complete`.
 - **`START_HERE.md`** — verify section, per-task obligations, forgetfulness checklist, and FAQ updated for UIS-08/09, analytical dashboard path, and `.quick/` reference.
 - **`examples/INDEX.md`** — dashboard count 9→13; playbook references UIS-09.

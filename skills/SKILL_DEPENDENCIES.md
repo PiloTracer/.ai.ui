@@ -68,6 +68,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | **ui-project-approach** | - | Read-only (optional write to HANDOFF_UI on user request) |
 | **ui-style-stack** `set` | Recommended: before `ui-design-foundation greenfield` | Warn if missing |
 | **ui-component-build** `start` | Active style stack in HANDOFF_UI or user-named in message | Recommended |
+| **ui-director** `- <request>` | Reads `{HANDOFF_UI}` + `{UI_ITERATION_CARRIER}` for context | Recommends: execute prerequisite first |
 
 ---
 
@@ -75,6 +76,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 
 | User tried | Run next |
 |------------|----------|
+| `@ui-director - <request>` | Orchestrates across all skills (route by [`ui-director/reference.md`](ui-director/reference.md)) |
 | `@deploy-files copy - /path` | `bash scripts/deploy-files.sh /path` |
 | `@deploy-repo clone - /path` | `bash scripts/deploy-repo.sh clone /path` |
 | `@deploy-repo archive - /path` | `bash scripts/deploy-repo.sh archive /path` |
