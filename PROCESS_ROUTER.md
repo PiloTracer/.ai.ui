@@ -12,6 +12,8 @@ Read-only signpost for **UI Design OS** questions. Routes to `ui-*` skills, UI s
 
 It does **not** replace `@process-router` (Agent OS). For backend, DB, master plans, or `@session-control`, use `.ai/PROCESS_ROUTER.md`.
 
+> **Don't know which UI skill to run?** Use `@ui-director - <describe what you want>` and let it route for you. If the work spans `.ai` + `.ai.ui` + `.ai.biz`, use `@x-director - <describe what you want>`.
+
 ```text
 UI question → @ui-process-router - <question> → "Run @ui-screen-spec create - …"
 ```
@@ -34,6 +36,7 @@ UI question → @ui-process-router - <question> → "Run @ui-screen-spec create 
 | Situation | Router |
 |-----------|--------|
 | Tokens, screens, Storybook, a11y, design foundation | `@ui-process-router` |
+| Free-text UI request / don't know the skill | `@ui-director - <describe what you want>` · `@x-director - <describe what you want>` (cross-framework) |
 | Migrations, master plan, MOD concepts, session close | `@process-router` (`.ai/`) |
 | "Where am I?" full repo | `@session-control status` + both HANDOFF files |
 

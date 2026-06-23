@@ -8,9 +8,9 @@
 
 **Updated:** 2026-05-29
 
-**Closed:** 2026-05-29 (framework-development session)
+**Closed:** 2026-06-23 (director-strengthening session)
 
-**UI layer state:** **Framework development.** This `.work.ui/` now ships a **complete worked foundation** (docs 01–04 + `design-system/tokens.css` + `PROBE_LEDGER.md`) for a demo *Demo SaaS dashboard* — so the verifiers run on real data **and** the demo satisfies the `screen-spec-ready` certify gate end-to-end. This is a dogfood example; the work this session changed the **`.ai.ui` framework itself**, not a product UI.
+**UI layer state:** **Framework development.** `@ui-director` now has an explicit free-text intake contract and is wired into `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, and `context/README.md` as the default free-text entry point. Cross-framework requests route through `@x-director`. Existing demo foundation (docs 01–04 + `design-system/tokens.css` + `PROBE_LEDGER.md`) remains in place.
 
 **This session ported the `.ai` improvements into `.ai.ui` (domain-adapted, lean house style):**
 
@@ -109,6 +109,7 @@ Backlog 1 + 3–10 cleared in the follow-up session; only the commit (#2) remain
 
 | Date | Session | Artifacts |
 |------|---------|-----------|
+| 2026-06-23 | director free-text intake | `skills/ui-director/skill.md` gained explicit Free-text intake contract (capture → load → classify → channel → record); `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, `context/README.md` now route free-text requests to `@ui-director` / `@x-director` |
 | 2026-05-23 | bootstrap | `.work.ui/` skeleton |
 | 2026-05-29 | framework: probe + intake + verifiers | `skills/probe-protocol.md`, `templates/work.ui/plans/foundation/PROBE_LEDGER.md.template`, `scripts/{readiness-verify,traceability-verify,release}.sh`; edited `framework-verify.sh`, `ui-design-foundation`, `ui-component-build`, `ui-screen-spec`, `ui-process-router` (+reference), `SKILL_DEPENDENCIES.md`, `START_HERE.md`, `README` count prose, `CONTRIBUTING.md`, `CHANGELOG.md` |
 | 2026-05-29 | framework: backlog clear (plan-verify, CI, link-scan) | `skills/ui-plan-verify/skill.md`, `.github/workflows/framework-verify.yml`, `skills/ui-screen-spec/reference.md`, `docs/guides/probe-and-intake.md`; edited `framework-verify.sh` (link-scan), `ui-component-build` (complete→audit), `COHABITATION.md`, `SKILL_DEPENDENCIES.md` (vocab + plan-verify), `ui-design-foundation`/`ui-component-build` (probe sub-modes), `ui-process-router/reference.md`, `START_HERE.md`, `README` (12), `skills/README.md`, NEXT_UI template+demo (Intake queue), `resources/README.md` (link fix), `CHANGELOG.md` |

@@ -58,6 +58,7 @@ Follow [`examples/INDEX.md`](examples/INDEX.md) playbook. **S0 primitives before
 |------|----------------|
 | UI process question | `@ui-process-router - <question>` |
 | Where is UI work? | `.work.ui/context/HANDOFF_UI.md` + `.work.ui/plans/NEXT_UI.md` |
+| Free-text UI request / don't know skill | `@ui-director - <describe what you want>` · `@x-director - <describe what you want>` (cross-framework) |
 | Full repo session (Agent OS) | `@session-control status` + `.work/context/HANDOFF.md` |
 | UI iteration snapshot | `@ui-component-build status` |
 | Design foundation done? | `@ui-design-foundation status` |
@@ -196,6 +197,7 @@ Full-stack tasks: also follow `@code-implementation` for non-UI files ([`COHABIT
 | vs `@feature-spec`? | Domain SPEC in `.work/features/`; screen SPEC in `.work.ui/screens/` |
 | vs `@code-implementation`? | Backend + full-stack iteration in `.work/`; UI iteration in `.work.ui/` |
 | Which router? | UI how-to → `@ui-process-router`; general → `@process-router` |
+| Free-text UI request? | `@ui-director - <describe what you want>` · `@x-director - <describe what you want>` (cross-framework) |
 | MOD-06 vs UIS-06? | Both when diff spans API + UI; see [`COHABITATION.md`](COHABITATION.md) |
 | Quick-reference cheat sheets? | See [`.quick/`](.quick/README.md) — copy-paste snippets for common workflows |
 | Analytical dashboard workflow? | See [`.quick/analytical-dashboard.md`](.quick/analytical-dashboard.md) — chart-aware bootstrap → verify |

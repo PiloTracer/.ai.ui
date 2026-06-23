@@ -23,7 +23,7 @@ bash .ai.ui/templates/bootstrap.sh create-cursorrules   # .work.ui/ + .cursorrul
 
 Full playbook: [`examples/INDEX.md`](examples/INDEX.md)
 
-**Lost?** → [`START_HERE.md`](START_HERE.md)
+**Lost?** → [`START_HERE.md`](START_HERE.md) · **Don't know which UI skill to run?** → `@ui-director - <describe what you want>` · `@x-director - <describe what you want>` (cross-framework)
 
 ---
 

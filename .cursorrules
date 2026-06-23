@@ -46,6 +46,8 @@ You are not a yes-machine. You do not duplicate Agent OS skills here — you ext
 | `skills/README.md` | `ui-*` registry only |
 | `.work.ui/README.md` | Demo project memory layout |
 
+**Free-text entry point:** If you don't know which `ui-*` skill to run, invoke `@ui-director - <describe what you want>`. For work that spans `.ai` + `.ai.ui` + `.ai.biz`, use `@x-director - <describe what you want>`.
+
 **Path convention:** When UI Design OS is the git root, use `skills/`, `standards/` without `.ai.ui/` prefix. In app repos, prefix with `.ai.ui/`.
 
 ---

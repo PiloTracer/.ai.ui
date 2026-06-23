@@ -27,6 +27,46 @@ description: >-
 | `status` | Report current UI state: bootstrap, foundation, screen map, active iteration, pending verifications |
 | `help` | Display this skill's purpose, available skills summary, and invocation examples |
 
+## Free-text intake contract
+
+When the user invokes `@ui-director` with natural language, follow this write/structure/format/channel discipline so the request becomes the correct `ui-*` skill invocation and is recorded in `.work.ui/` memory.
+
+### 1. Capture
+- Preserve the user's exact wording (quote it in `{HANDOFF_UI}`).
+- Do not silently rewrite a UI request into backend work.
+
+### 2. Load context
+- Read `{HANDOFF_UI}` and `{UI_ITERATION_CARRIER}` before classifying.
+- If either file is missing, treat as bootstrap state and note it.
+
+### 3. Classify (intent → bucket)
+- Match by intent, not keyword. Use the bucket table in § Orchestration protocol.
+- If the intent is engineering/backend/DB/API, redirect to `@ai-director` or `@x-director`.
+- If the intent spans UI + engineering, route to `@x-director`.
+- If unclear, run a short probe (max 3 questions) or route to `@ui-process-router` / `@ui-design-foundation probe`.
+
+### 4. Channel (bucket → skill chain)
+- Map the bucket to the exact skill chain from § Route / Shortcut chains.
+- Check `SKILL_DEPENDENCIES.md` gates before invoking each skill.
+- Use canonical invocation syntax: `@<skill-id> <mode> - <argument>` with ASCII hyphen `-`.
+
+### 5. Structure/format the record
+After the workflow completes or changes state, append to `{HANDOFF_UI}` using this exact shape:
+
+```markdown
+## Latest action (@ui-director)
+**Date:** YYYY-MM-DD
+**Request:** "<user's original request>"
+**Classified bucket:** <bucket-name>
+**Executed:**
+1. @ui-<skill> <mode> - <arg> → <result>
+2. ...
+**Blockers:** <any unresolved items | none>
+**Next recommended:** @ui-<skill> <mode> - <arg>
+```
+
+Also update `{UI_ITERATION_CARRIER}` § **Recommended next** when the UI build cycle advances.
+
 ## Orchestration protocol
 
 When user says `@ui-director - <anything>`:

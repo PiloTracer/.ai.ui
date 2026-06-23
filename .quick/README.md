@@ -7,6 +7,7 @@ Each file is a focused, one-page reference for a specific workflow pattern:
 
 | File | When to open |
 |------|--------------|
+| [`directors.md`](directors.md) | Free-text entry points — let `@ui-director` or `@x-director` route your request |
 | [`greenfield-start.md`](greenfield-start.md) | Starting a new UI project from scratch — bootstrap → foundation → specs → build |
 | [`analytical-dashboard.md`](analytical-dashboard.md) | Building a dashboard page with charts, stats, graphs, and reporting |
 | [`bootstrap-existing.md`](bootstrap-existing.md) | Adding UI Design OS to an existing project with a codebase already in place |

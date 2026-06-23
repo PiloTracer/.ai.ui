@@ -10,3 +10,5 @@
 Updated by **`ui-*` skills**. Session bookends: **`@session-control`** (Agent OS) — see [`COHABITATION.md`](../COHABITATION.md).
 
 Placeholder: `{HANDOFF_UI}` → `.work.ui/context/HANDOFF_UI.md`
+
+**Free-text entry point:** If you don't know which `ui-*` skill to invoke, start with `@ui-director - <describe what you want>` or `@x-director - <describe what you want>` when the work spans `.ai` / `.ai.biz`.
