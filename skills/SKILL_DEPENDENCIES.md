@@ -66,6 +66,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | **ui-plan-verify** | - | Read-only (runs verifiers; reports + routes, never fixes) |
 | **ui-process-router** | - | Read-only |
 | **ui-project-approach** | - | Read-only (optional write to HANDOFF_UI on user request) |
+| **ui-copy** `write` / `plan` / `review` / `audit` / `tone` | None — can run at any stage | — |
 | **ui-style-stack** `set` | Recommended: before `ui-design-foundation greenfield` | Warn if missing |
 | **ui-component-build** `start` | Active style stack in HANDOFF_UI or user-named in message | Recommended |
 | **ui-director** `- <request>` | Reads `{HANDOFF_UI}` + `{UI_ITERATION_CARRIER}` for context | Recommends: execute prerequisite first |
@@ -83,6 +84,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | `@ui-screen-spec create` | `@ui-design-foundation certify screen-spec-ready` |
 | `@ui-component-build start` | `@ui-component-build plan - S{N}` |
 | Free-text UI request, unsure where it goes | `@ui-screen-spec intake - <sentence>` |
+| UI copy / microcopy request | `@ui-copy write - <description>` or `@ui-director - <request>` |
 | Brand/users/scope vague; "do you understand the UI?" | `@ui-design-foundation probe` (then `certify`) |
 | Roadmap completeness unclear before broad build | `@ui-component-build probe` |
 | Audit readiness (verifiers + coverage + orphans) | `@ui-plan-verify audit` |
@@ -111,8 +113,11 @@ One verb set across `ui-*` skills. New verbs go here first, then into the matrix
 | `complete` | ui-component-build | yes | Close milestone after verify gates |
 | `init` | ui-design-system | yes (CATALOG) | Primitives catalog from doc 03 |
 | `run` | ui-concept-run | varies | Run a UIS prompt |
+| `write` | ui-copy | yes | Author copy for a UI element or screen |
+| `review` | ui-screen-spec, ui-copy | yes | Check / amend a SPEC; evaluate screen copy |
+| `audit` / `probe-coverage` / `traceability` | ui-plan-verify, ui-copy | read | Report + route readiness gaps; audit UI copy quality |
+| `tone` | ui-copy | yes | Define or reload brand voice for UI copy |
 | `milestone` / `uncommitted` | ui-visual-verify, ui-accessibility-audit | read | Verify before ship |
-| `audit` / `probe-coverage` / `traceability` | ui-plan-verify | read | Report + route readiness gaps |
 | `status` | most skills | read | Read-only state |
 | *(question)* | ui-process-router, ui-project-approach | read | Classify / orient |
 

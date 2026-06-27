@@ -40,9 +40,10 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | ui-process-router | `ui-process-router/` | Read-only UI process Q&A |
 | ui-project-approach | `ui-project-approach/` | Archetype + skill chain + pattern pointers (read [`APPROACH.md`](../APPROACH.md)) |
 | ui-style-stack | `ui-style-stack/` | Active stack: tailwind / css-modules / vanilla-css / styled-components |
+| ui-copy | `ui-copy/` | Plan, write, review, or audit UI copy — microcopy, labels, errors, empty states, confirmations, tooltips, onboarding |
 | ui-director | `ui-director/` | Top-level orchestration: free-text request → skill chain; new skill gap detection |
 
-**Typical flow:** `@ui-bootstrap init` → `@ui-project-approach - <what you're building>` → `@ui-style-stack set - <stack>` → `ui-design-foundation greenfield` → … → verify.
+**Typical flow:** `@ui-bootstrap init` → `@ui-project-approach - <what you're building>` → `@ui-style-stack set - <stack>` → `ui-design-foundation greenfield` → `@ui-copy write - <screen>` → … → verify.
 
 **Patterns (not skills):** [`standards/20260523-UI-PATTERNS.md`](../standards/20260523-UI-PATTERNS.md) · **Approach:** [`APPROACH.md`](../APPROACH.md)
 

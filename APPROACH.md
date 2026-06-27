@@ -37,6 +37,8 @@ If hybrid → document **marketing** vs **app** shells separately in screen map 
 | design-system | foundation → `ui-design-system init` → primitives before screens |
 | hybrid | foundation once → separate SPEC groups per shell |
 
+**Copy craft:** Add `@ui-copy write` per screen (after SPEC, before build) for dedicated microcopy work — or rely on `@ui-component-build` to handle copy inline.
+
 **Always:** `@session-control` (Agent OS) for session bookends when `.ai/` present.
 
 **Never duplicate:** `plan-master`, `code-implementation`, `feature-spec` — link domain SPECs from screen SPECs.
@@ -94,6 +96,8 @@ Feedback proposed 12 niche skills (`ui-landing-page`, `ui-data-display`, …). *
 | Responsive QA | UIS-02 + `@ui-visual-verify` |
 | Token codegen | foundation doc 02 + `@ui-style-stack` |
 | i18n / RTL | UI-CONVENTIONS § i18n (defer dedicated skill) |
+
+**Added exception:** `ui-copy` (UI microcopy craft) — the rejected list above covers *content structure* patterns (landing, tables, forms, mobile) but not the *craft of writing UI text*. Microcopy quality (errors, empty states, confirmations, alt text) needs standards, an audit protocol, and a tone definition workflow that patterns alone cannot enforce.
 
 **Add a new skill only when** a workflow needs gates, file writes, and a protocol that UI-PATTERNS + existing skills cannot cover. Register in `skills/README.md` + one row in §2 above.
 

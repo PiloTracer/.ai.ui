@@ -89,6 +89,7 @@ Read `{HANDOFF_UI}` and `{UI_ITERATION_CARRIER}` for context. Classify the reque
 | `build-probe` | "is the roadmap ready?", "check build readiness", "can we start building?" | `ui-component-build probe` |
 | `verify-visual` | "check visuals", "visual regression", "token audit", "craft compliance" | `ui-visual-verify` |
 | `verify-a11y` | "accessibility check", "WCAG audit", "a11y" | `ui-accessibility-audit` |
+| `copy` | "write UI copy", "microcopy", "button labels", "error messages", "empty states", "copy review", "copy audit", "set UI voice" | `ui-copy` |
 | `concept` | "run UIS prompt", "check visual hierarchy", "motion design", "intuitive UX", "data viz quality", "surface craft" | `ui-concept-run` |
 | `audit` | "audit everything", "run verifiers", "check readiness", "traceability" | `ui-plan-verify` |
 | `deploy` | "deploy framework to another project", "copy to repo", "clone to path" | `deploy-files` / `deploy-repo` |
@@ -130,6 +131,10 @@ Map the classified bucket to the correct skill chain. Respect the dependency gra
 | "Build out the dashboard UI" | `@ui-component-build status` → if no active iteration → `@ui-component-build plan - S1` → `start` → `continue` |
 | "Is the UI ready to ship?" | `@ui-plan-verify audit` → check results → if gaps, route to fix → if pass, report ready |
 | "Check the visuals before we commit" | `@ui-visual-verify uncommitted` → `@ui-accessibility-audit milestone` → `@ui-concept-run - UIS-06` (if agent-assisted) |
+| "Write the error message for the login form" | `@ui-copy write - error for login` |
+| "Review the copy on the settings screen" | `@ui-copy review - .work.ui/screens/settings/...` |
+| "Check all the UI text is consistent" | `@ui-copy audit - .work.ui/screens/` |
+| "Set the voice for our UI copy" | `@ui-copy tone - <description>` |
 | "How do I add a new screen?" | `@ui-process-router - how do I add a new screen?` |
 | "Deploy UI Design OS to my other project" | `@deploy-files copy - <path>` or `@deploy-repo clone - <path>` |
 

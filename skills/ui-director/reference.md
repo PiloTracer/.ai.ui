@@ -6,7 +6,7 @@ Full skill registry, dependency map, and routing tables for the `@ui-director` o
 
 ## 1. Complete skill registry (all `ui-*` skills)
 
-All 12 other registered ui-* skills + 2 deploy utilities (the 13th ui-* skill is `ui-director` itself, not listed here). Source of truth: `skills/README.md` (15 total).
+All 13 other registered ui-* skills + 2 deploy utilities (the 14th ui-* skill is `ui-director` itself, not listed here). Source of truth: `skills/README.md` (16 total).
 
 | `@` handle | Folder | Role | Modes | Writes? | Depends on |
 |------------|--------|------|-------|---------|------------|
@@ -16,6 +16,7 @@ All 12 other registered ui-* skills + 2 deploy utilities (the 13th ui-* skill is
 | `ui-design-foundation` | `ui-design-foundation/` | Establish tokens, patterns, screen map, a11y baseline; certifies screen-spec-ready | `greenfield`, `probe`, `probe - status`, `probe - until ready`, `status`, `certify screen-spec-ready` | Yes (foundation docs 01–04, PROBE_LEDGER) | Recommended: `@ui-bootstrap init`, `@ui-project-approach`, `@ui-style-stack set` |
 | `ui-screen-spec` | `ui-screen-spec/` | Author/review screen SPECs | `intake - <sentence>`, `create - <slug>`, `review - <path>`, `amend - <slug>`, `status` | Yes (SPECs) | `screen-spec-ready` certified |
 | `ui-component-build` | `ui-component-build/` | Execute UI iteration from NEXT_UI.md | `status`, `probe`, `probe - status`, `probe - until ready`, `plan - S{N}`, `start`, `continue`, `complete` | Yes (code, NEXT_UI, HANDOFF) | Approved SPECs, valid iteration block, style stack |
+| `ui-copy` | `ui-copy/` | Plan, write, review, or audit UI copy | `write - <element>`, `plan - <screen>`, `review - <path>`, `audit - <path>`, `tone - <description>`, `status` | Yes (copy deliverables) | — (gate-independent) |
 | `ui-design-system` | `ui-design-system/` | Primitives catalog and Storybook discipline | `init`, `add - <component>`, `status` | Yes (`CATALOG.md`, files) | Tokens doc (foundation doc 02) |
 | `ui-visual-verify` | `ui-visual-verify/` | Visual/token regression audits | `milestone`, `uncommitted`, `status` | Read-only (report) | Active UI milestone |
 | `ui-accessibility-audit` | `ui-accessibility-audit/` | WCAG-oriented checks | `screen - <slug>`, `milestone`, `status` | Read-only (report) | Active UI milestone |
@@ -58,8 +59,8 @@ From `APPROACH.md` §2. Use these when the user describes a project:
 
 | Archetype | Chain (after `@ui-bootstrap init`) |
 |-----------|----------------------------------|
-| **marketing-site** | `@ui-style-stack set` → `@ui-design-foundation greenfield` → `@ui-screen-spec create` per route → `@ui-component-build` → verify |
-| **saas-product** | `@ui-style-stack set` → `@ui-design-foundation` → `@ui-screen-spec` (shell + key flows) → `@ui-design-system init` → `@ui-component-build` → verify + a11y |
+| **marketing-site** | `@ui-style-stack set` → `@ui-design-foundation greenfield` → `@ui-screen-spec create` per route → `@ui-copy write` per screen → `@ui-component-build` → verify |
+| **saas-product** | `@ui-style-stack set` → `@ui-design-foundation` → `@ui-screen-spec` (shell + key flows) → `@ui-copy write` per screen → `@ui-design-system init` → `@ui-component-build` → verify + a11y |
 | **admin-dashboard (operational)** | Same as saas; **require** UIS-01 + UI-PATTERNS § data-density in SPECs |
 | **admin-dashboard (analytical)** | Same as saas; **require** chart library in doc 03, UIS-09 at milestone verify, chart tokens in foundation 02 |
 | **mobile-app** | `@ui-style-stack set` → foundation → specs per screen → build; **UIS-02 required** every screen |
@@ -123,6 +124,11 @@ Before `@ui-component-build complete`, ensure these all pass:
 | "Continue building" | `build` | `@ui-component-build continue` |
 | "Run the visual checks" | `verify-visual` | `@ui-visual-verify milestone` |
 | "Check accessibility" | `verify-a11y` | `@ui-accessibility-audit milestone` |
+| "Write copy for the login form" | `copy` | `@ui-copy write - login form` |
+| "Review the copy on settings" | `copy` | `@ui-copy review - .work.ui/screens/settings/...` |
+| "Audit all UI text" | `copy` | `@ui-copy audit - .work.ui/screens/` |
+| "Set the UI voice" | `copy` | `@ui-copy tone - <description>` |
+| "Plan copy needs for the dashboard" | `copy` | `@ui-copy plan - dashboard` |
 | "Run UIS-06" | `concept` | `@ui-concept-run - UIS-06` |
 | "Check if we're ready to close the milestone" | `audit` | `@ui-plan-verify audit` |
 | "How do I create a screen spec?" | `router` | `@ui-process-router - how do I create a screen spec?` |
