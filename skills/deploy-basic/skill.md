@@ -68,7 +68,7 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 
 ## I1 — Bootstrap protocol
 
-1. Resolve source `AI_UI_ROOT` (explicit `AI_UI_SOURCE` env, else script's parent). Validate `templates/cursorrules.ui.template` exists.
+1. Resolve source `AI_UI_ROOT` (explicit `AI_UI_ROOT` env, else script's parent). Validate `templates/cursorrules.ui.template` exists.
 2. Resolve target = `REPO_ROOT` of the consumer (cwd for in-place, or the named path for outbound).
 3. Write `.cursorrules` into the target from the template, substituting `AI_UI_SOURCE=REPLACE_BASICUI_SOURCE` → `AI_UI_SOURCE=<absolute AI_UI_ROOT>`. **No-overwrite** if `.cursorrules` exists; `--force` overwrites. If the template lacks a source-resolution section, append it.
 4. Run the `.work.ui/` + `DOCS_UI_STACK.md` scaffold via `REPO_ROOT=<target> AI_UI_ROOT=<source> bash <source>/templates/bootstrap.sh` (bootstrap's `copy_if_missing` enforces no-overwrite).

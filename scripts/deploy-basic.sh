@@ -20,13 +20,13 @@
 # Source resolution: AI_UI_ROOT is derived from this script's location, so the
 # script can be invoked from a TARGET using an external source .ai.ui:
 #   bash /mnt/work/Projects/.ai.ui/scripts/deploy-basic.sh /mnt/work/Projects/tools-project
-# Override the source with AI_UI_SOURCE=/abs/path/.ai.ui if needed.
+# Override the source with AI_UI_ROOT=/abs/path/.ai.ui if needed.
 #
 # Usage:
 #   bash scripts/deploy-basic.sh <target-path>              # no-overwrite (skip existing)
 #   bash scripts/deploy-basic.sh <target-path> --update    # no-overwrite + merge candidate list
 #   bash scripts/deploy-basic.sh <target-path> --force     # overwrite local scaffold (legacy)
-#   AI_UI_SOURCE=/path/.ai.ui bash scripts/deploy-basic.sh <target-path>
+#   AI_UI_ROOT=/path/.ai.ui bash scripts/deploy-basic.sh <target-path>
 #
 set -euo pipefail
 
@@ -43,8 +43,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Source .ai.ui root: explicit override wins, else derive from script location.
-if [[ -n "${AI_UI_SOURCE:-}" ]]; then
-  AI_UI_ROOT="$(cd "$AI_UI_SOURCE" && pwd)"
+if [[ -n "${AI_UI_ROOT:-}" ]]; then
+  AI_UI_ROOT="$(cd "$AI_UI_ROOT" && pwd)"
 else
   AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
@@ -76,9 +76,7 @@ WORK_UI_FILES=(
   "plans/RISK_REGISTRY.md" "plans/UNKNOWNS.md" "screens/README.md"
   "decisions/README.md" "prompts/README.md" "design-system/CATALOG.md"
 )
-WORK_UI_DIRS=(
-  "plans/foundation" "plans/full"
-)
+
 
 echo "=== deploy-basic (UI Design OS) → $DEST_ROOT (thin-client bootstrap) ==="
 echo "  source: $AI_UI_ROOT"
@@ -137,10 +135,8 @@ write_cursorules() {
 
 # Pre-scan: detect whether target already has a thin-client pointer set.
 existing_source=""
-existing_source_raw=""
 if [[ -f "$CURS_DEST" ]]; then
   existing_source="$(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" | head -1 | cut -d= -f2- || true)"
-  existing_source_raw=$(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" | head -1 || true)
 fi
 
 # Step 1: .cursorrules (no-overwrite by default; --force overwrites).
@@ -159,7 +155,6 @@ fi
 if [[ "$MODE" == "update" ]] && [[ "$existing_source" != "$AI_UI_ROOT" ]]; then
   if [[ -f "$CURS_DEST" ]] && grep -q 'AI_UI_SOURCE=' "$CURS_DEST"; then
     AI_UI_ROOT_ESC="${AI_UI_ROOT//\//\\/}"
-    OLD_ESC="${existing_source//\//\\/}"
     if [[ -n "$existing_source" ]]; then
       perl -i -pe "s{AI_UI_SOURCE=\Q${existing_source}\E}{AI_UI_SOURCE=${AI_UI_ROOT_ESC}}" "$CURS_DEST" 2>/dev/null || \
         perl -i -pe "s/AI_UI_SOURCE=[^\n]*/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/" "$CURS_DEST"
@@ -180,7 +175,7 @@ fi
 
 # Step 2: .work.ui/ skeleton + DOCS_UI_STACK.md via bootstrap.sh (no-overwrite),
 # pointing at the source .ai.ui templates.
-REPO_ROOT="$DEST_ROOT" AI_UI_ROOT="$AI_UI_ROOT" bash "$AI_UI_ROOT/templates/bootstrap.sh" \
+BOOTSTRAP_SKIP_CURSERRULES=1 REPO_ROOT="$DEST_ROOT" AI_UI_ROOT="$AI_UI_ROOT" bash "$AI_UI_ROOT/templates/bootstrap.sh" \
   > /tmp/deploy-basic-ui-bootstrap.$$.log 2>&1 || { cat /tmp/deploy-basic-ui-bootstrap.$$.log; rm -f /tmp/deploy-basic-ui-bootstrap.$$.log; exit 1; }
 grep -E '^(created:|skip )' /tmp/deploy-basic-ui-bootstrap.$$.log | sed 's/^/  work.ui: /'
 rm -f /tmp/deploy-basic-ui-bootstrap.$$.log

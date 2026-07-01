@@ -137,6 +137,7 @@ Invoke as `@<skill-id>` + mode. **Do not** reimplement these as unprefixed skill
 | Skill | Purpose |
 |-------|---------|
 | ui-bootstrap | Scaffold `.work.ui/`; install or merge UI rules in `.cursorrules` |
+| deploy-basic | Thin-client bootstrap / `update`: re-sync `AI_UI_SOURCE` pointer + merge local scaffold surface; skills resolve from source at runtime (see § Source resolution) |
 | ui-design-foundation | Tokens, screen map; certify screen-spec-ready |
 | ui-screen-spec | Screen SPECs under `.work.ui/screens/` |
 | ui-component-build | UI iteration from `NEXT_UI.md` |

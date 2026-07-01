@@ -67,7 +67,9 @@ copy_if_missing "${AI_UI_ROOT}/templates/DOCS_UI_STACK.md.template" "${REPO_ROOT
 
 echo ""
 echo "--- .cursorrules ---"
-if [[ -x "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" ]]; then
+if [[ -n "${BOOTSTRAP_SKIP_CURSERRULES:-}" ]]; then
+  echo "skip (.cursorrules owned by caller): ${REPO_ROOT}/.cursorrules"
+elif [[ -x "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" ]]; then
   case "${CURSORRULES_MODE}" in
     merge-cursorrules)
       bash "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" merge-block
