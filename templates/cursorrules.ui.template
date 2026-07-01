@@ -103,6 +103,33 @@ You may only claim UI work complete when all are true:
 
 ---
 
+## Source resolution — fat-client vs thin-client (UI Design OS)
+
+This repo was bootstrapped in one of two modes. The agent MUST apply the matching resolution rule before reading any `.ai.ui/...` path. Read this section at the start of every conversation.
+
+**UI Design OS source (thin-client only — set by `@deploy-basic`):**
+
+AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
+
+*(If the line above still shows `REPLACE_BASICUI_SOURCE`, the repo is **fat-client** — see below.)*
+
+| Mode | Bootstrapped via | Where framework assets live | `AI_UI_SOURCE` |
+|------|------------------|----------------------------|----------------|
+| **Fat-client** (vendored) | `@ui-bootstrap init` or `@deploy-files` | this repo's `.ai.ui/` | unset (token left as `REPLACE_BASICUI_SOURCE`) |
+| **Thin-client** (remote) | `@deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/mnt/work/Projects/.ai.ui`) |
+
+**Resolution rule (agents MUST apply before reading any `.ai.ui/...` reference):**
+
+1. `.cursorrules` (this file) and `.work.ui/**` — read from the **local** project (this repo), always, in both modes.
+2. **Thin-client** (`AI_UI_SOURCE` is set and readable as a directory): read every other `.ai.ui/<path>` reference from `$AI_UI_SOURCE/<path>` — i.e. `skills/<id>/skill.md`, `skills/README.md`, `standards/**`, `concepts/**`, `docs/**`, `scripts/**`, `templates/**`, `START_HERE.md`, `COHABITATION.md`. **Never** assume a local `.ai.ui/` exists. When you invoke `@<skill>`, read `$AI_UI_SOURCE/skills/<id>/skill.md`; inside it, any `.ai.ui/<x>` reference resolves to `$AI_UI_SOURCE/<x>`.
+3. **Fat-client** (`AI_UI_SOURCE` is unset or still `REPLACE_BASICUI_SOURCE`): read `.ai.ui/<path>` locally in this repo.
+4. `.work.ui/...` references and project app code (REPLACE:UI_APP_ROOT) resolve locally in this repo in both modes.
+5. **Thin-client + unreachable source:** if `$AI_UI_SOURCE` is set but the directory does not exist or `skills/README.md` is unreadable, **stop** and report `ui-design-os source unreachable: $AI_UI_SOURCE` — do **not** silently fall back to a local `.ai.ui/` (there isn't one) and do **not** guess a different path.
+
+**First bootstrap in thin-client mode** is a chicken-and-egg escape: before `@deploy-basic` runs, the target has no local skill to invoke. Bootstrap is initiated either (a) from the **source** repo — `@deploy-basic - /abs/path/to/target` — or (b) by invoking the shell directly from the target: `bash /abs/path/to/source/.ai.ui/scripts/deploy-basic.sh .` After that, the source pointer in `.cursorrules` lets the local agent load `@deploy-basic update` and every other UI skill from source.
+
+---
+
 ## UI Skills (`.ai.ui/skills/`)
 
 Invoke as `@<skill-id>` + mode. **Do not** reimplement these as unprefixed skills.

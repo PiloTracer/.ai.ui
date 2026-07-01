@@ -3,11 +3,18 @@
 # Usage: bash .ai.ui/templates/bootstrap.sh [merge-cursorrules|create-cursorrules]
 set -euo pipefail
 
-AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+if [[ -n "${AI_UI_ROOT:-}" ]]; then
+  AI_UI_ROOT="$(cd "$AI_UI_ROOT" && pwd)"
+else
+  AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+fi
 TPL="${AI_UI_ROOT}/templates/work.ui"
 CURSORRULES_MODE="${1:-}"
 
-if [[ -d "${AI_UI_ROOT}/.git" ]]; then
+# Honor explicit REPO_ROOT env override (set by deploy-basic when targeting an external project).
+if [[ -n "${REPO_ROOT:-}" ]]; then
+  REPO_ROOT="$(cd "$REPO_ROOT" && pwd)"
+elif [[ -d "${AI_UI_ROOT}/.git" ]]; then
   REPO_ROOT="${AI_UI_ROOT}"
 elif [[ -d "${AI_UI_ROOT}/../.git" ]] && [[ -d "${AI_UI_ROOT}/templates" ]]; then
   REPO_ROOT="$(cd "${AI_UI_ROOT}/.." && pwd)"
