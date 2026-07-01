@@ -70,6 +70,27 @@ You may only claim UI work complete when all are true:
 
 **Agent OS (when `.ai/` is present):** Also read `.ai/START_HERE.md`, `.work/context/HANDOFF.md`, and use `@session-control` for session bookends — UI skills do not replace session-control.
 
+
+**Free-text entry points:** If you don't know which UI skill to run, invoke `@ui-director - <describe what you want>` (UI Design OS), `@ai-director - <describe what you want>` (Agent OS), or `@x-director - <describe what you want>` when the work spans frameworks. x-director resolves paths from the **Frameworks registry** below before routing.
+
+### Frameworks registry (cross-framework discovery)
+
+Sister frameworks live as siblings on disk. `.ai.ui/` is the self framework (this repo's UI layer). x-director and ui-director use this table to locate sister frameworks. **Path is resolved at runtime** — an empty Path cell means "auto-discover" (see Path resolution below).
+
+| Framework | Director | Path (relative to this `.ai.ui/` parent, or absolute) | Bootstrap artifact |
+|-----------|----------|------------------------------------------------------|--------------------|
+| `.ai.ui` (UI Design OS) | `@ui-director` | *this directory* | `.ai.ui/skills/README.md` |
+| `.ai` (Agent OS) | `@ai-director` | REPLACE:AGENT_OS_PATH (default: `../.ai`) | `.ai/skills/README.md` |
+| `.ai.biz` (Business OS) | `@biz-director` | REPLACE:AI_BIZ_PATH (default: `../.ai.biz`) | `.ai.biz/skills/README.md` |
+| `.ai.soc` (Social OS) | `@soc-director` | REPLACE:AI_SOC_PATH (default: `../.ai.soc`) | `.ai.soc/skills/README.md` |
+
+**Path resolution (in order):**
+
+1. Resolve from the replaceable cells above. Empty/unset cells → fall through.
+2. **Fat-client (local `.ai.ui/` exists):** auto-discover from `.ai.ui` parent: `parent="$(cd "$REPO_ROOT/.ai.ui/.." && pwd)"`; check `${parent}/.ai`, `${parent}/.ai.biz`, and `${parent}/.ai.soc`. Use whichever exists; treat missing as "framework not installed".
+3. **Thin-client (`AI_UI_SOURCE` is set):** auto-discover from the **source's parent** — sister frameworks sit alongside the source `.ai.ui` on disk: `parent="$(cd "$AI_UI_SOURCE/.." && pwd)"`; check `${parent}/.ai`, `${parent}/.ai.biz`, and `${parent}/.ai.soc`. Use whichever exists.
+4. **Preflight:** before routing to a director, verify its framework directory exists **and** its `skills/README.md` is readable. If absent, stop routing with a one-line `framework not installed here` message — never silently route into the void.
+
 ### Concept pack (UIS)
 
 `.ai.ui/concepts/README.md` (UIS-01–UIS-07). For UI changes: list applicable UIS ids in screen SPEC §12 and `NEXT_UI.md` § UIS registry; run `prompt.md`; tag claims `measured` | `estimated` | `assumption` | `unknown`.

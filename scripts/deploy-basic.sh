@@ -119,6 +119,24 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 
 SRCEOF
   fi
+  # Resolve sister frameworks from source's parent dir (bootstrap-time resolution).
+  # Fills REPLACE:AGENT_OS_PATH / AI_BIZ_PATH / AI_SOC_PATH when sister frameworks
+  # are present alongside the source .ai.ui. Otherwise tokens stay for user fill-in.
+  FRAMEWORKS_PARENT="$(cd "$AI_UI_ROOT/.." && pwd)"
+  for fw_short in ai ai.biz ai.soc; do
+    case "$fw_short" in
+      ai)     fw_token="AGENT_OS_PATH" ;;
+      ai.biz) fw_token="AI_BIZ_PATH" ;;
+      ai.soc) fw_token="AI_SOC_PATH" ;;
+    esac
+    fw_candidate="$FRAMEWORKS_PARENT/.$fw_short"
+    if [[ -d "$fw_candidate" ]] && [[ -f "$fw_candidate/skills/README.md" ]]; then
+      fw_resolved="$(cd "$fw_candidate" && pwd)"
+      fw_esc="${fw_resolved//\//\\/}"
+      perl -i -pe "s/REPLACE:${fw_token}/${fw_esc}/" "$tmp"
+    fi
+  done
+
   cat "$tmp"
   rm -f "$tmp"
 }
@@ -219,6 +237,16 @@ echo "  .cursorrules: $([ -f "$CURS_DEST" ] && echo present || echo MISSING)"
 echo "  AI_UI_SOURCE: $(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" 2>/dev/null | head -1 | cut -d= -f2- || echo '<unset — fat-client>')"
 echo "  .work.ui/: $([ -d "${DEST_ROOT}/.work.ui" ] && echo present || echo MISSING)"
 echo "  skills (local): $([ -d "${DEST_ROOT}/.ai.ui/skills" ] && echo "present — fat-client (unexpected for basic)" || echo 'absent — thin-client (skills load from source)')"
+echo "  sister frameworks: $(
+  fw_list=""
+  for fw_short in ai ai.biz ai.soc; do
+    fw_candidate="$(cd "$AI_UI_ROOT/.." && pwd)/.$fw_short"
+    if [[ -d "$fw_candidate" ]] && [[ -f "$fw_candidate/skills/README.md" ]]; then
+      fw_list="${fw_list}.${fw_short} "
+    fi
+  done
+  [[ -z "$fw_list" ]] && echo "none found" || echo "$fw_list"
+)"
 echo ""
 echo "Next steps in target project:"
 echo "  1. Edit ${DEST_ROOT}/.cursorrules — fill every REPLACE: token EXCEPT AI_UI_SOURCE (deploy-basic set it)"
