@@ -1,4 +1,4 @@
-# SKILL: project-query-setup
+# SKILL: ui-project-query-setup
 
 **Purpose:** Guide user through connecting their coding agent to tools-project, and teach it to query tasks, tickets, projects, and clients for context-aware work.
 
@@ -21,13 +21,13 @@
 
 | Invocation | Mode |
 |-----------|------|
-| `@project-query-setup install` | Full guided setup: generate key → create file → test → register MCP |
-| `@project-query-setup status` | Check if connected (key file exists? API reachable? MCP tools listed?) |
-| `@project-query-setup key` | Guide the user through web UI → key creation → `~/.tools-project-key` |
-| `@project-query-setup test` | Verify connectivity by listing projects |
-| `@project-query-setup register-mcp` | Register MCP server in consuming project's opencode.json |
-| `@project-query-setup help` | Show available tools and usage patterns for this OS |
-| `@project-query-setup` (no verb) | Default to `status` mode |
+| `@ui-project-query-setup install` | Full guided setup: generate key → create file → test → register MCP |
+| `@ui-project-query-setup status` | Check if connected (key file exists? API reachable? MCP tools listed?) |
+| `@ui-project-query-setup key` | Guide the user through web UI → key creation → `~/.tools-project-key` |
+| `@ui-project-query-setup test` | Verify connectivity by listing projects |
+| `@ui-project-query-setup register-mcp` | Register MCP server in consuming project's opencode.json |
+| `@ui-project-query-setup help` | Show available tools and usage patterns for this OS |
+| `@ui-project-query-setup` (no verb) | Default to `status` mode |
 
 ---
 

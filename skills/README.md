@@ -32,7 +32,7 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | ui-design-foundation | `ui-design-foundation/` | Tokens, patterns, screen map; certifies **screen-spec-ready** |
 | ui-screen-spec | `ui-screen-spec/` | Author/review screen SPECs |
 | ui-component-build | `ui-component-build/` | UI iteration from `NEXT_UI.md` |
-| project-query-setup | `project-query-setup/` | **Optional integration:** guide through tools-project API key, MCP registration, connectivity test. OS-aware (tailors guidance per framework). |
+| ui-project-query-setup | `ui-project-query-setup/` | **Optional integration:** guide through tools-project API key, MCP registration, connectivity test. OS-aware (tailors guidance per framework). |
 | ui-visual-verify | `ui-visual-verify/` | Visual/token regression audits |
 | ui-accessibility-audit | `ui-accessibility-audit/` | WCAG-oriented checks |
 | ui-design-system | `ui-design-system/` | Primitives catalog and Storybook discipline |
