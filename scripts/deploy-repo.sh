@@ -11,14 +11,40 @@
 # target exists and needs a partial update.
 #
 # Usage:
+#   bash scripts/deploy-repo.sh --status [target-path]
 #   bash scripts/deploy-repo.sh clone    /absolute/path/to/target
 #   bash scripts/deploy-repo.sh archive  /absolute/path/to/target
 #
 set -euo pipefail
 
-MODE="${1:?Usage: $0 <clone|archive> <target-path>}"
-RAW_TARGET="${2:?Usage: $0 <clone|archive> <target-path>}"
 AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "--status" || "${1:-}" == "status" ]]; then
+  shift || true
+  TARGET="${1:-}"
+  echo "=== deploy-repo status (UI Design OS) ==="
+  echo "  source: $AI_UI_ROOT"
+  REMOTE="$(cd "$AI_UI_ROOT" && git remote get-url origin 2>/dev/null || true)"
+  [[ -n "$REMOTE" ]] && echo "  origin: $REMOTE (clone available)" || echo "  origin: none (use archive mode)"
+  echo "  branch: $(cd "$AI_UI_ROOT" && git branch --show-current 2>/dev/null || echo '?')"
+  echo "  head: $(cd "$AI_UI_ROOT" && git rev-parse --short HEAD 2>/dev/null || echo '?')"
+  echo "  modes: clone | archive"
+  if [[ -n "$TARGET" ]]; then
+    T="$([ "$TARGET" = "." ] || [ "$TARGET" = "$PWD" ] && pwd || (cd "$TARGET" 2>/dev/null && pwd || echo "$TARGET"))"
+    echo ""
+    echo "=== target: $T ==="
+    [[ -e "$T" ]] && echo "  exists: yes" || echo "  exists: no"
+    [[ -e "$T" ]] || exit 0
+    [[ -d "$T/.git" ]] && echo "  .git/: present" || echo "  .git/: absent"
+    [[ -f "$T/.cursorrules" ]] && echo "  .cursorrules: present" || echo "  .cursorrules: missing"
+    [[ -d "$T/.github" ]] && echo "  .github/: present" || echo "  .github/: missing"
+    [[ -d "$T/skills" ]] && echo "  skills/: present" || echo "  skills/: missing"
+  fi
+  exit 0
+fi
+
+MODE="${1:?Usage: $0 --status [path] | <clone|archive> <target-path>}"
+RAW_TARGET="${2:?Usage: $0 <clone|archive> <target-path>}"
 
 # ── Resolve target ──────────────────────────────────────────────────
 # Always use as-is (unlike deploy-files, this is a full repo deploy)

@@ -6,7 +6,9 @@ AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 FULL_TPL="${AI_UI_ROOT}/templates/cursorrules.ui.template"
 SNIP_TPL="${AI_UI_ROOT}/templates/cursorrules.ui.snippet.template"
 
-if [[ -d "${AI_UI_ROOT}/.git" ]] && [[ ! -d "${AI_UI_ROOT}/../.ai.ui" ]]; then
+if [[ -n "${REPO_ROOT:-}" ]]; then
+  REPO_ROOT="$(cd "$REPO_ROOT" && pwd)"
+elif [[ -d "${AI_UI_ROOT}/.git" ]] && [[ ! -d "${AI_UI_ROOT}/../.ai.ui" ]]; then
   REPO_ROOT="${AI_UI_ROOT}"
 elif [[ -d "${AI_UI_ROOT}/../.git" ]]; then
   REPO_ROOT="$(cd "${AI_UI_ROOT}/.." && pwd)"

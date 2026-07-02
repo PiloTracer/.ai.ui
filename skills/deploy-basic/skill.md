@@ -61,7 +61,7 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 |-----------|--------|
 | Source `templates/cursorrules.ui.template` missing | **Block**: source is not a valid `.ai.ui` framework root |
 | Target dir does not exist | **Block**: report missing path |
-| Target already has local `.ai.ui/skills/` | **Warn** fat-client leak: target was previously bootstrapped fat; thin-client would duplicate. Ask user to confirm intent (proceed leaves the local `.ai.ui/` in place — deploy-basic does not delete it). |
+| Target already has local `.ai.ui/skills/` | **Block** fat-client leak (use `--force` to override, or remove local `.ai.ui/` first) |
 | Target `.cursorrules` exists + lacks `AI_UI_SOURCE=` line | In `update` mode → flag as **MERGE CANDIDATE** (the Source-resolution section is missing); in default mode → skip (preserve) and report that source-resolution is not wired. |
 
 ---
@@ -71,9 +71,10 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 1. Resolve source `AI_UI_ROOT` (explicit `AI_UI_ROOT` env, else script's parent). Validate `templates/cursorrules.ui.template` exists.
 2. Resolve target = `REPO_ROOT` of the consumer (cwd for in-place, or the named path for outbound).
 3. Write `.cursorrules` into the target from the template, substituting `AI_UI_SOURCE=REPLACE_BASICUI_SOURCE` → `AI_UI_SOURCE=<absolute AI_UI_ROOT>`. **No-overwrite** if `.cursorrules` exists; `--force` overwrites. If the template lacks a source-resolution section, append it.
-4. **Resolve sister frameworks** at bootstrap time: discover `.ai`, `.ai.biz`, `.ai.soc` from `$AI_UI_ROOT/..` (sister frameworks sit alongside the source `.ai.ui` on disk). For each sister framework whose directory exists and `skills/README.md` is readable, fill its `REPLACE:` token with the absolute path. Frameworks not present stay as `REPLACE:` tokens for user fill-in. This prevents the thin-client auto-discovery gap where `$REPO_ROOT/.ai.ui/..` fails because the target has no local `.ai.ui/`.
-5. Run the `.work.ui/` + `DOCS_UI_STACK.md` scaffold via `REPO_ROOT=<target> AI_UI_ROOT=<source> bash <source>/templates/bootstrap.sh` (bootstrap's `copy_if_missing` enforces no-overwrite).
-6. Report: source pointer value, `.work.ui/` presence, fat-client leak check, resolved sister frameworks, next steps.
+4. Run the `.work.ui/` + `DOCS_UI_STACK.md` scaffold via `REPO_ROOT=<target> AI_UI_ROOT=<source> bash <source>/templates/bootstrap.sh` (bootstrap's `copy_if_missing` enforces no-overwrite).
+5. Report: source pointer value, `.work.ui/` presence, fat-client leak check, next steps.
+
+**No local `opencode.json`.** UI Design OS does not ship or sync `opencode.json` in consumer repos. When co-installed with Agent OS, register skills via the parent `.ai/opencode.json` (or your host's coding-agent config).
 
 **Idempotent re-run.** Safe to re-run; no-overwrite preserves target customizations. The source pointer is re-synced only in `update` mode (or `--force`).
 

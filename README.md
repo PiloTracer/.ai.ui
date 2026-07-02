@@ -2,7 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> Ship **accessible, on-brand, responsive** interfaces — without generic AI chrome. Skills + standards + `.work.ui/` memory; works beside [Agent OS](https://github.com/PiloTracer/.ai) (`.ai/` + `.work/`).
+> Ship **accessible, on-brand, responsive** interfaces — without generic AI chrome. Skills + standards + `.work.ui/` memory for UI design workflows.
+
+**Platform:** Developed and verified on **Linux** (bash, git, rsync). Shell scripts and docs assume a POSIX environment. macOS, Windows (WSL2), and other OSes work when you adapt paths, line endings, and local tooling in your consumer repo — run `bash scripts/framework-verify.sh` to confirm the baseline toolchain on your host.
+
+**Customization:** UI Design OS is a starting point, not a fixed contract. You are already working with a coding agent — use the same workflow to tailor skills, standards, `.cursorrules`, and `.work.ui/` to your repository, stack, and preferences. Fork, trim, or extend the framework in your consumer project (or in this repo when self-hosting) as your process evolves; after substantive changes to shared scripts, re-run `bash scripts/framework-verify.sh` to confirm the baseline still holds.
+
+**Works with:** Cursor, Claude Code, Codex, and any agent that reads project files. OpenCode and other host configs are owned by your primary Agent OS (`.ai/`) when co-installed — this framework does not ship a local `opencode.json`.
 
 **60-second start** (app repo root):
 

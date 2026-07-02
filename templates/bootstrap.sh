@@ -9,7 +9,7 @@ else
   AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
 TPL="${AI_UI_ROOT}/templates/work.ui"
-CURSORRULES_MODE="${1:-}"
+CURSORRULES_MODE="${1:-${CURSORRULES_MODE:-}}"
 
 # Honor explicit REPO_ROOT env override (set by deploy-basic when targeting an external project).
 if [[ -n "${REPO_ROOT:-}" ]]; then
@@ -72,20 +72,19 @@ if [[ -n "${BOOTSTRAP_SKIP_CURSERRULES:-}" ]]; then
 elif [[ -x "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" ]]; then
   case "${CURSORRULES_MODE}" in
     merge-cursorrules)
-      bash "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" merge-block
+      REPO_ROOT="${REPO_ROOT}" bash "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" merge-block
       ;;
     create-cursorrules)
       if [[ -f "${REPO_ROOT}/.cursorrules" ]]; then
         echo "skip: .cursorrules exists — use merge-cursorrules or @ui-bootstrap status"
       else
-        bash "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" create-full
+        REPO_ROOT="${REPO_ROOT}" bash "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" create-full
       fi
       ;;
     *)
-      bash "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" status
+      REPO_ROOT="${REPO_ROOT}" bash "${AI_UI_ROOT}/scripts/cursorrules-ui.sh" status
       echo "To install rules: bash .ai.ui/templates/bootstrap.sh create-cursorrules"
       echo "  or (with Agent OS .cursorrules): bash .ai.ui/templates/bootstrap.sh merge-cursorrules"
-      echo "  or: @ui-bootstrap init merge-cursorrules"
       ;;
   esac
 else

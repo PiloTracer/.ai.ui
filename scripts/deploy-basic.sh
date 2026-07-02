@@ -24,13 +24,62 @@
 #
 # Usage:
 #   bash scripts/deploy-basic.sh <target-path>              # no-overwrite (skip existing)
+#   bash scripts/deploy-basic.sh --status [target-path]   # read-only report
 #   bash scripts/deploy-basic.sh <target-path> --update    # no-overwrite + merge candidate list
 #   bash scripts/deploy-basic.sh <target-path> --force     # overwrite local scaffold (legacy)
 #   AI_UI_ROOT=/path/.ai.ui bash scripts/deploy-basic.sh <target-path>
 #
 set -euo pipefail
 
-RAW_TARGET="${1:?Usage: $0 <target-path> [--force|--update]}"
+# ── Status mode (read-only) ───────────────────────────────────────────
+if [[ "${1:-}" == "--status" ]]; then
+  shift
+  RAW_TARGET="${1:-.}"
+  if [[ "$RAW_TARGET" == "." || "$RAW_TARGET" == "$PWD" ]]; then
+    DEST_ROOT="$(pwd)"
+  else
+    DEST_ROOT="$(cd "$RAW_TARGET" && pwd)"
+  fi
+  CURS_DEST="${DEST_ROOT}/.cursorrules"
+
+  echo "=== deploy-basic status → $DEST_ROOT ==="
+
+  if [[ -f "$CURS_DEST" ]]; then
+    echo "  .cursorrules: present"
+    src="$(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" 2>/dev/null | head -1 | cut -d= -f2- || true)"
+    if [[ -n "$src" && "$src" != "REPLACE_BASICUI_SOURCE" ]]; then
+      if [[ -d "$src" ]]; then
+        echo "  AI_UI_SOURCE: $src (reachable)"
+      else
+        echo "  AI_UI_SOURCE: $src (UNREACHABLE)"
+      fi
+    elif grep -q 'AI_UI_SOURCE=' "$CURS_DEST"; then
+      echo "  AI_UI_SOURCE: <unset token>"
+    else
+      echo "  AI_UI_SOURCE: missing (fat-client template?)"
+    fi
+    replace_count="$(grep -c 'REPLACE:' "$CURS_DEST" 2>/dev/null || true)"
+    replace_count="${replace_count:-0}"
+    echo "  REPLACE: tokens in .cursorrules: $replace_count"
+  else
+    echo "  .cursorrules: MISSING"
+  fi
+
+  if [[ -d "${DEST_ROOT}/.work.ui/context" ]]; then
+    echo "  .work.ui/: present"
+  else
+    echo "  .work.ui/: missing"
+  fi
+
+  if [[ -d "${DEST_ROOT}/.ai.ui/skills" ]]; then
+    echo "  local .ai.ui/skills/: present (WARN — fat-client leak / mixed state)"
+  else
+    echo "  local .ai.ui/skills/: absent (thin-client ok)"
+  fi
+  exit 0
+fi
+
+RAW_TARGET="${1:?Usage: $0 [--status] <target-path> [--force|--update]}"
 shift || true
 MODE="skip"
 while [[ $# -gt 0 ]]; do
@@ -82,6 +131,16 @@ echo "=== deploy-basic (UI Design OS) → $DEST_ROOT (thin-client bootstrap) ===
 echo "  source: $AI_UI_ROOT"
 echo "  mode:   $MODE (no-overwrite by default)"
 
+if [[ -d "${DEST_ROOT}/.ai.ui/skills" ]]; then
+  echo "  WARN: target has local .ai.ui/skills/ directory (fat-client leak)"
+  if [[ "$MODE" != "force" ]]; then
+    echo "  BLOCKED: use --force to confirm thin-client on a fat-client target,"
+    echo "    or remove the local .ai.ui/ directory first."
+    exit 1
+  fi
+  echo "  --force: proceeding (mixed state accepted by operator)"
+fi
+
 # Build the substituted .cursorrules content (AI_UI_SOURCE → absolute source path).
 # Also appends the source-resolution section if the template doesn't already have it.
 subst_cursorules() {
@@ -119,24 +178,6 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 
 SRCEOF
   fi
-  # Resolve sister frameworks from source's parent dir (bootstrap-time resolution).
-  # Fills REPLACE:AGENT_OS_PATH / AI_BIZ_PATH / AI_SOC_PATH when sister frameworks
-  # are present alongside the source .ai.ui. Otherwise tokens stay for user fill-in.
-  FRAMEWORKS_PARENT="$(cd "$AI_UI_ROOT/.." && pwd)"
-  for fw_short in ai ai.biz ai.soc; do
-    case "$fw_short" in
-      ai)     fw_token="AGENT_OS_PATH" ;;
-      ai.biz) fw_token="AI_BIZ_PATH" ;;
-      ai.soc) fw_token="AI_SOC_PATH" ;;
-    esac
-    fw_candidate="$FRAMEWORKS_PARENT/.$fw_short"
-    if [[ -d "$fw_candidate" ]] && [[ -f "$fw_candidate/skills/README.md" ]]; then
-      fw_resolved="$(cd "$fw_candidate" && pwd)"
-      fw_esc="${fw_resolved//\//\\/}"
-      perl -i -pe "s/REPLACE:${fw_token}/${fw_esc}/" "$tmp"
-    fi
-  done
-
   cat "$tmp"
   rm -f "$tmp"
 }
@@ -195,7 +236,7 @@ fi
 # pointing at the source .ai.ui templates.
 BOOTSTRAP_SKIP_CURSERRULES=1 REPO_ROOT="$DEST_ROOT" AI_UI_ROOT="$AI_UI_ROOT" bash "$AI_UI_ROOT/templates/bootstrap.sh" \
   > /tmp/deploy-basic-ui-bootstrap.$$.log 2>&1 || { cat /tmp/deploy-basic-ui-bootstrap.$$.log; rm -f /tmp/deploy-basic-ui-bootstrap.$$.log; exit 1; }
-grep -E '^(created:|skip )' /tmp/deploy-basic-ui-bootstrap.$$.log | sed 's/^/  work.ui: /'
+grep -E '(created:|skip )' /tmp/deploy-basic-ui-bootstrap.$$.log | sed 's/^/  work.ui: /' || true
 rm -f /tmp/deploy-basic-ui-bootstrap.$$.log
 
 # Step 3: --update — list existing-but-differing local-surface files as merge candidates.
@@ -237,16 +278,6 @@ echo "  .cursorrules: $([ -f "$CURS_DEST" ] && echo present || echo MISSING)"
 echo "  AI_UI_SOURCE: $(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" 2>/dev/null | head -1 | cut -d= -f2- || echo '<unset — fat-client>')"
 echo "  .work.ui/: $([ -d "${DEST_ROOT}/.work.ui" ] && echo present || echo MISSING)"
 echo "  skills (local): $([ -d "${DEST_ROOT}/.ai.ui/skills" ] && echo "present — fat-client (unexpected for basic)" || echo 'absent — thin-client (skills load from source)')"
-echo "  sister frameworks: $(
-  fw_list=""
-  for fw_short in ai ai.biz ai.soc; do
-    fw_candidate="$(cd "$AI_UI_ROOT/.." && pwd)/.$fw_short"
-    if [[ -d "$fw_candidate" ]] && [[ -f "$fw_candidate/skills/README.md" ]]; then
-      fw_list="${fw_list}.${fw_short} "
-    fi
-  done
-  [[ -z "$fw_list" ]] && echo "none found" || echo "$fw_list"
-)"
 echo ""
 echo "Next steps in target project:"
 echo "  1. Edit ${DEST_ROOT}/.cursorrules — fill every REPLACE: token EXCEPT AI_UI_SOURCE (deploy-basic set it)"

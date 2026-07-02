@@ -25,6 +25,7 @@ for p in \
   concepts/README.md \
   templates/bootstrap.sh templates/cursorrules.ui.template templates/cursorrules.ui.snippet.template \
   templates/DOCS_UI_STACK.md.template scripts/cursorrules-ui.sh \
+  scripts/deploy-basic.sh scripts/deploy-files.sh scripts/deploy-repo.sh \
   scripts/token-lint.sh scripts/bootstrap-test.sh \
   docs/adoption/FROM_AGENT_OS.md \
   style-stacks/README.md examples/INDEX.md resources/control-platforms.md \
@@ -214,6 +215,40 @@ while IFS= read -r md; do
   done < <(grep -oE '\]\([^)]+\)' "${md}" | sed -E 's/^\]\(//; s/\)$//')
 done < <(find "${ROOT}" -name '*.md' -not -path '*/.git/*' | sort)
 [[ "${link_breaks}" -eq 0 ]] && echo "ok: markdown local-link scan (no broken relative links)"
+
+# --- deploy-files in-place scaffold (fat-client) ---
+note_deploy="deploy-files in-place scaffold"
+echo ""
+echo "==> ${note_deploy}"
+DF_SMOKE="$(mktemp -d)"
+pushd "${DF_SMOKE}" >/dev/null
+bash "${ROOT}/scripts/deploy-files.sh" . >/dev/null
+[[ -f .cursorrules ]] || { echo "FAIL: deploy-files in-place did not create .cursorrules"; FAIL=1; }
+[[ -f .work.ui/context/HANDOFF_UI.md ]] || { echo "FAIL: deploy-files in-place did not create .work.ui/context/HANDOFF_UI.md"; FAIL=1; }
+[[ -d .ai.ui/skills ]] || { echo "FAIL: deploy-files in-place did not create .ai.ui/skills"; FAIL=1; }
+popd >/dev/null
+[[ $FAIL -eq 0 ]] && echo "ok: deploy-files in-place creates .ai.ui/ + .work.ui/ + .cursorrules"
+
+echo ""
+echo "==> deploy-repo --status"
+bash "${ROOT}/scripts/deploy-repo.sh" --status >/dev/null
+bash "${ROOT}/scripts/deploy-repo.sh" --status "${DF_SMOKE}" >/dev/null
+[[ $FAIL -eq 0 ]] && echo "ok: deploy-repo --status reports source + target"
+
+rm -rf "${DF_SMOKE}"
+
+# --- deploy-basic thin-client smoke ---
+echo ""
+echo "==> deploy-basic thin-client scaffold"
+DB_SMOKE="$(mktemp -d)"
+bash "${ROOT}/scripts/deploy-basic.sh" "${DB_SMOKE}" >/dev/null
+if [[ ! -f "${DB_SMOKE}/.cursorrules" ]] || ! grep -q 'AI_UI_SOURCE=' "${DB_SMOKE}/.cursorrules"; then
+  echo "FAIL: deploy-basic did not set AI_UI_SOURCE in .cursorrules"
+  FAIL=1
+else
+  echo "ok: deploy-basic creates thin-client .cursorrules + .work.ui/"
+fi
+rm -rf "${DB_SMOKE}"
 
 # Lean invariant + count self-report. Example PNGs are gitignored (manifests are
 # the agent source of truth), so this repo must track 0 binary images; an

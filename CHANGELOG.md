@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.4.3] - 2026-07-02
+
 ### Added
 
 - **`scripts/token-lint.sh` — machine-enforced design-token contract.** Fails when component source contains raw hex/color literals instead of semantic tokens (`var(--…)`), the deterministic backstop behind `DESIGN_TOKENS_STANDARD` and the "no generic AI chrome" promise: an agent that hardcodes `#3b82f6` is caught here, not graded "looks good" by the same agent in a prose audit. Token files are exempt (`--tokens`); single lines opt out with a `token-lint-ignore` comment. No-op without paths (`$UI_LINT_PATHS` / args). Wired into `@ui-visual-verify` milestone checks; self-tested in `framework-verify`.
@@ -37,11 +39,17 @@
 - **`@ui-plan-verify`** documents the adopter-repo path (`.ai.ui/scripts/…`) for the verifier commands.
 - **`scripts/framework-verify.sh`** now **enforces the lean invariant** — fails on any tracked binary image (example PNGs must stay gitignored; manifests are the source of truth) and self-reports the tracked-file count. Runs only when `.ai.ui/` is the git top-level, so it is a no-op when nested in an adopter repo. This converted a manually-asserted "0 tracked images / N files" claim (which had drifted 119→125) into a checked figure. Also gained 5 new self-tests (token-lint accept/reject; traceability accepts approved-with-SPEC, rejects approved-without-SPEC and rogue SPEC dirs) and now runs `bootstrap-test`.
 - **`scripts/traceability-verify.sh`** extended from screen→milestone scheduling into the full **screen↔SPEC↔milestone chain**: an Approved screen with no SPEC file under `screens/<slug>/` fails (claimed-Approved without an artifact is dishonest, like an uncited probe dimension), and a `screens/<slug>/` directory with no row in the screen map fails (ungoverned UI). SPEC-backing/rogue checks run only when the screens dir exists; scheduling still always runs.
+- **`scripts/deploy-files.sh` / `scripts/deploy-basic.sh` / `scripts/deploy-repo.sh`** — no-overwrite default (`--force` / `--update`); `--status` read-only report; deploy-files in-place auto-scaffolds `.work.ui/` + `.cursorrules`; deploy-basic blocks fat-client leak unless `--force`.
+- **`scripts/cursorrules-ui.sh` / `templates/bootstrap.sh`** — honor `REPO_ROOT` env for out-of-tree bootstrap (deploy flows).
+- **`scripts/framework-verify.sh`** — deploy smoke tests (deploy-files in-place, deploy-basic thin-client, deploy-repo `--status`).
+- **`README.md`** — platform (Linux-first), customization, and co-installation notes.
+- **`.quick/deploy-to-project.md`** — thin-client vs fat-client deploy reference rewrite.
 
 ### Verified
 
 - **Lean:** 127 tracked files, 0 tracked images (example PNGs, `tmp/`, `credentials/` are gitignored). The 0-tracked-images invariant is now **enforced** by `framework-verify.sh`, which also self-reports the live tracked-file count — so this figure is checked at every run rather than hand-maintained.
 - **Usability:** adopter install simulated from a clean `git archive` — `bootstrap.sh` resolves the parent repo, creates `.work.ui/` + `.cursorrules` + `DOCS_UI_STACK.md`, and the seeded `## Intake queue` propagates.
+- **Deploy:** `framework-verify` smoke-tests deploy-files in-place scaffold, deploy-basic thin-client bootstrap, and deploy-repo `--status`.
 
 ## [0.5.0] - 2026-05-29
 
@@ -67,16 +75,6 @@
 - **`@ui-component-build complete`** now runs `@ui-plan-verify audit` (readiness + traceability) at the UI milestone boundary, so an orphan screen or dishonest ledger blocks close rather than surfacing late at `@session-control close`. Documented in `COHABITATION.md`.
 - **`ui-process-router`** — fixed bucket drift: `skill.md` no longer keeps a stale inline bucket list (was 10, missing the 16 in `reference.md`); it now points to `reference.md` as the single source and adds a no-match fallback to `START_HERE` §1. Added `probe`, `screen-request`, and `plan-verify` buckets.
 - **`START_HERE.md`** surfaces `probe`, `intake`, and `@ui-plan-verify`; **`SKILL_DEPENDENCIES.md`** adds probe/intake/plan-verify matrix + redirect rows; **`CONTRIBUTING.md`** documents `release.sh`; **`DESIGN_TOKENS_STANDARD`** adds dark/scoped theme token-completeness requirements.
-
-## [0.4.3] - 2026-05-23
-
-### Changed (audit / lean)
-
-- Onboarding aligned: S0 primitives before S1 in README, NEXT_UI template, demo `.work.ui`
-- `framework-verify.sh`: all 11 skills, all 8 standards, all 5 example manifests; S0/S1 drift warning
-- `examples/INDEX.md`: honest partial rating for mobile; PNG gitignore documented
-- Trimmed README skills table + extending bullets; fixed START_HERE §8 numbering
-- `FROM_AGENT_OS.md` UIS-07; workflows guide stub trimmed
 
 ## [0.4.2] - 2026-05-23
 
