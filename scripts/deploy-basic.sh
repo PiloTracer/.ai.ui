@@ -19,7 +19,7 @@
 #
 # Source resolution: AI_UI_ROOT is derived from this script's location, so the
 # script can be invoked from a TARGET using an external source .ai.ui:
-#   bash /mnt/work/Projects/.ai.ui/scripts/deploy-basic.sh /mnt/work/Projects/tools-project
+#   bash /mnt/work/Projects/.ai.ui/scripts/deploy-basic.sh /path/to/target-project
 # Override the source with AI_UI_ROOT=/abs/path/.ai.ui if needed.
 #
 # Usage:

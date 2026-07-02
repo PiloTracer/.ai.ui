@@ -27,12 +27,12 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | Skill id | Folder | Role |
 |----------|--------|------|
 | ui-bootstrap | `ui-bootstrap/` | Scaffold `.work.ui/`; create/merge `.cursorrules`; `DOCS_UI_STACK.md` |
+| deploy-basic | `deploy-basic/` | Thin-client bootstrap: `.cursorrules` + `.work.ui/` skeleton only; skills load from source at runtime |
 | deploy-files | `deploy-files/` | Deploy `.ai.ui` files into target project (clean file copy, respects .gitignore) |
 | deploy-repo | `deploy-repo/` | Full git-based deploy (clone or archive) |
 | ui-design-foundation | `ui-design-foundation/` | Tokens, patterns, screen map; certifies **screen-spec-ready** |
 | ui-screen-spec | `ui-screen-spec/` | Author/review screen SPECs |
 | ui-component-build | `ui-component-build/` | UI iteration from `NEXT_UI.md` |
-| ui-project-query-setup | `ui-project-query-setup/` | **Optional integration:** guide through tools-project API key, MCP registration, connectivity test. OS-aware (tailors guidance per framework). |
 | ui-visual-verify | `ui-visual-verify/` | Visual/token regression audits |
 | ui-accessibility-audit | `ui-accessibility-audit/` | WCAG-oriented checks |
 | ui-design-system | `ui-design-system/` | Primitives catalog and Storybook discipline |
