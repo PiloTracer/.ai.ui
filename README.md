@@ -40,7 +40,7 @@ Full playbook: [`examples/INDEX.md`](examples/INDEX.md)
 | Screen SPECs, tokens, visual/a11y quality | Master plan, API SPECs, backend implementation |
 | `.work.ui/` | `.work/` |
 | `ui-*` skills | `plan-*`, `code-*`, `session-control` |
-| UIS-01…09 concepts | MOD-01…06 |
+| UIS-01…10 concepts | MOD-01…06 |
 
 **One session owner:** `@session-control` (Agent OS). Details: [`COHABITATION.md`](COHABITATION.md).
 

@@ -13,7 +13,7 @@
 
 | Agent OS (`.ai/concepts/`) | UI Design OS (this pack) |
 |----------------------------|---------------------------|
-| MOD-01…06 architecture, cost, coupling | **UIS-01…09** visual / UX / intuitive / data-viz |
+| MOD-01…06 architecture, cost, coupling | **UIS-01…10** visual / UX / intuitive / data-viz / creative direction |
 | `@concept-run - MOD-06` for app code | `@ui-concept-run - UIS-06` for UI diffs |
 | Both may apply on one PR | Run **both** when diff spans API + UI |
 

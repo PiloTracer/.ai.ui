@@ -11,7 +11,7 @@
 
 ```text
 @ui-accessibility-audit milestone
-@ui-accessibility-audit uncommitted
+@ui-accessibility-audit screen - <slug>
 ```
 
 ## Plan audit (probe coverage + traceability)
@@ -29,6 +29,7 @@
 @ui-concept-run - UIS-07
 @ui-concept-run - UIS-08
 @ui-concept-run - UIS-09    # if analytical dashboard
+@ui-concept-run - UIS-10    # if marketing-site / hybrid
 @ui-concept-run status
 ```
 

@@ -78,6 +78,11 @@ done
 # strings and #anchors do not match).
 hex_re='#([0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{4}|[0-9a-fA-F]{3})([^0-9a-fA-F]|$)'
 
+# Raw CSS color functions: rgb(), rgba(), hsl(), hsla() with numeric arguments.
+# Matches e.g. rgb(51, 130, 246) or hsl(220, 90%, 56%) but not var(--color) or
+# token references. Skips lines with token-lint-ignore just like hex.
+color_fn_re='(rgba?|hsla?)\([[:space:]]*[0-9]'
+
 violations=0
 scanned=0
 for f in "${candidates[@]}"; do
@@ -90,6 +95,12 @@ for f in "${candidates[@]}"; do
     echo "    RAW HEX: ${f}:${m}"
     violations=$((violations + 1))
   done < <(grep -nE "$hex_re" "$f" 2>/dev/null || true)
+  while IFS= read -r m; do
+    [[ -z "$m" ]] && continue
+    case "$m" in *token-lint-ignore*) continue ;; esac
+    echo "    RAW COLOR FN: ${f}:${m}"
+    violations=$((violations + 1))
+  done < <(grep -nE "$color_fn_re" "$f" 2>/dev/null || true)
 done
 
 if [[ "$violations" -gt 0 ]]; then

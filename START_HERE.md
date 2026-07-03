@@ -100,7 +100,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | Free-text UI idea (don't know where it goes) | `@ui-screen-spec intake - <free sentence>` (classifies + routes) |
 | New screen / flow SPEC | `@ui-screen-spec create - <slug>` |
 | Review before build | `@ui-screen-spec review - <path>` |
-| UIS prompts in SPEC | List UIS-01…09 in SPEC §12 Concept registry |
+| UIS prompts in SPEC | List UIS-01…10 in SPEC §12 Concept registry |
 | Bind example patterns | SPEC §13: `exampleIds` + `extractedRules` from `examples/*/manifest.md` |
 
 Screen SPECs live under **`.work.ui/screens/<slug>/`** — not `.work/features/`.

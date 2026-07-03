@@ -27,7 +27,7 @@
 | 9 | Accessibility | WCAG target level, focus trap rules, live regions |
 | 10 | Analytics & observability | Events (no PII in payloads) |
 | 11 | Acceptance criteria | Testable bullets; include **extractedRules** copied from cited examples |
-| 12 | Concept / UIS registry | UIS-01…09 applies yes/no + reason |
+| 12 | Concept / UIS registry | UIS-01…10 applies yes/no + reason |
 | 13 | Visual references | **Required shape** — see §6 below |
 
 ## 3. §12 Concept registry (required)

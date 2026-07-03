@@ -47,6 +47,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | Skill / mode | Depends on | Gate |
 |--------------|------------|------|
 | **ui-bootstrap** `init` | `.ai.ui/` present; must not overwrite `.work/` or base `.cursorrules` | - |
+| **deploy-basic** `- <target>` | Source `.ai.ui/` path or git remote; target dir must exist | - |
 | **deploy-files** `copy` | Source git repo with `.ai.ui/` as root; target parent dir must exist | - |
 | **deploy-repo** `clone` / `archive` | Source git repo; origin remote required for clone mode | - |
 | **ui-design-foundation** `greenfield` | `{HANDOFF_UI}`; UI standards paths in `.cursorrules` snippet | Recommended: `@ui-bootstrap init` |
@@ -78,6 +79,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | User tried | Run next |
 |------------|----------|
 | `@ui-director - <request>` | Orchestrates across all skills (route by [`ui-director/reference.md`](ui-director/reference.md)) |
+| `@deploy-basic - /path` | `bash scripts/deploy-basic.sh /path` |
 | `@deploy-files copy - /path` | `bash scripts/deploy-files.sh /path` |
 | `@deploy-repo clone - /path` | `bash scripts/deploy-repo.sh clone /path` |
 | `@deploy-repo archive - /path` | `bash scripts/deploy-repo.sh archive /path` |

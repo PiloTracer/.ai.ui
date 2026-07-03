@@ -6,7 +6,7 @@ Full skill registry, dependency map, and routing tables for the `@ui-director` o
 
 ## 1. Complete skill registry (all `ui-*` skills)
 
-All 13 other registered ui-* skills + 2 deploy utilities (the 14th ui-* skill is `ui-director` itself, not listed here). Source of truth: `skills/README.md` (16 total).
+All 13 other registered ui-* skills + 3 deploy utilities (the 14th ui-* skill is `ui-director` itself, not listed here). Source of truth: `skills/README.md` (17 total).
 
 | `@` handle | Folder | Role | Modes | Writes? | Depends on |
 |------------|--------|------|-------|---------|------------|
@@ -20,10 +20,11 @@ All 13 other registered ui-* skills + 2 deploy utilities (the 14th ui-* skill is
 | `ui-design-system` | `ui-design-system/` | Primitives catalog and Storybook discipline | `init`, `add - <component>`, `status` | Yes (`CATALOG.md`, files) | Tokens doc (foundation doc 02) |
 | `ui-visual-verify` | `ui-visual-verify/` | Visual/token regression audits | `milestone`, `uncommitted`, `status` | Read-only (report) | Active UI milestone |
 | `ui-accessibility-audit` | `ui-accessibility-audit/` | WCAG-oriented checks | `screen - <slug>`, `milestone`, `status` | Read-only (report) | Active UI milestone |
-| `ui-concept-run` | `ui-concept-run/` | Run UIS-01…09 prompts | `list`, `run - UIS-0N`, `status` | Varies (attachments) | Trigger table in `concepts/README.md` |
+| `ui-concept-run` | `ui-concept-run/` | Run UIS-01…10 prompts | `list`, `run - UIS-NN`, `status` | Varies (attachments) | Trigger table in `concepts/README.md` |
 | `ui-plan-verify` | `ui-plan-verify/` | Read-only audit: verifiers, probe coverage, traceability | `audit`, `probe-coverage`, `traceability` | Read-only (report) | — |
 | `ui-process-router` | `ui-process-router/` | Read-only UI process Q&A | `- <question>`, `help` | Read-only | — |
 | `deploy-files` | `deploy-files/` | Deploy `.ai.ui` files to target project | `copy - <path>`, `status` | Yes (target `.ai.ui/`) | Source git repo |
+| `deploy-basic` | `deploy-basic/` | Thin-client bootstrap (cursorrules + .work.ui/ only; skills load from source) | `- <target-path>`, `status` | Yes (target `.cursorrules`, `.work.ui/`) | Source `.ai.ui/` path or git remote |
 | `deploy-repo` | `deploy-repo/` | Full git-based deploy (clone/archive) | `clone - <path>`, `archive - <path>`, `status` | Yes (target repo) | Source git remote (for clone) |
 
 ---
@@ -84,6 +85,7 @@ From `concepts/README.md`. Run these as required during the build cycle:
 | Breakpoints, grid, mobile | `@ui-concept-run - UIS-02` | Recommended per SPEC |
 | Animation beyond micro-feedback | `@ui-concept-run - UIS-03` | Recommended |
 | Multi-step flow or modal | `@ui-concept-run - UIS-05` | Recommended |
+| Marketing / landing page / hero section | `@ui-concept-run - UIS-10` | **Required** (marketing-site, hybrid) |
 
 ---
 
@@ -100,6 +102,7 @@ Before `@ui-component-build complete`, ensure these all pass:
 | Surface & control craft (if tier ≥ refined) | `@ui-concept-run - UIS-07` | Craft ≥ refined |
 | Intuitive UX | `@ui-concept-run - UIS-08` | All screens |
 | Data viz quality (if analytical dashboard) | `@ui-concept-run - UIS-09` | Analytical dashboards |
+| Creative direction (if marketing/landing) | `@ui-concept-run - UIS-10` | Marketing-site, hybrid |
 | Token contract (no raw hex) | `bash scripts/token-lint.sh` | All builds |
 
 ---
@@ -172,8 +175,8 @@ Before `@ui-component-build complete`, ensure these all pass:
 | Resource | Location | Purpose |
 |----------|----------|---------|
 | Probe protocol | `skills/probe-protocol.md` | Shared adaptive interrogation loop for `ui-design-foundation probe` and `ui-component-build probe` |
-| Standards | `standards/*.md` (8 files) | Binding templates for screen SPECs, craft, tokens, components, a11y, conventions, directory map, patterns |
-| Concepts | `concepts/*/` (UIS-01..09) | Design/UX quality prompts |
+| Standards | `standards/*.md` (11 files) | Binding templates for screen SPECs, craft, tokens, components, a11y, conventions, directory map, patterns, responsive, motion, copy |
+| Concepts | `concepts/*/` (UIS-01…10) | Design/UX quality prompts |
 | Style stacks | `style-stacks/*.md` (4 files) | Implementation rules per CSS approach |
 | Examples | `examples/*/` with `manifest.md` | Reference implementations with extractedRules |
 | Approach | `APPROACH.md` | Archetype definitions, skill chains, complexity levels |

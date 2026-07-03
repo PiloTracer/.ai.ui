@@ -1,8 +1,8 @@
 ---
 name: ui-concept-run
 description: >-
-  Run UIS-01 through UIS-09 concept prompts from .ai.ui/concepts/. Attach output
-  to screen SPEC, NEXT_UI, or PR. Use list, run - UIS-0N, status.
+  Run UIS-01 through UIS-10 concept prompts from .ai.ui/concepts/. Attach output
+  to screen SPEC, NEXT_UI, or PR. Use list, run - UIS-NN, status.
 ---
 
 # ui-concept-run
@@ -14,7 +14,7 @@ description: >-
 | Mode | Action |
 |------|--------|
 | `list` | UIS index + trigger table summary |
-| `run - UIS-0N` | Execute `concepts/<folder>/prompt.md` for UIS-01…09 |
+| `run - UIS-NN` | Execute `concepts/<folder>/prompt.md` for UIS-01…10 |
 | `status` | Pending UIS rows in active NEXT_UI |
 
 ## Hard rules
@@ -24,6 +24,7 @@ description: >-
 - **UIS-07 required** when craft tier ≥ refined (foundation 01) at milestone verify
 - **UIS-08 required** for all screens before `@ui-component-build complete`
 - **UIS-09 required** for analytical dashboard screens at milestone verify
+- **UIS-10 required** for marketing-site / hybrid marketing shell at milestone verify
 - Do not write into `.ai/concepts/`
 
 Trigger table: [`.ai.ui/concepts/README.md`](../../concepts/README.md)

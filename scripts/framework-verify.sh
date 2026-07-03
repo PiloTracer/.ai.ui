@@ -37,6 +37,9 @@ for p in \
   standards/20260523-ACCESSIBILITY_STANDARD.md \
   standards/20260523-UI-CONVENTIONS.md \
   standards/20260523-FRONTEND_DIRECTORY_MAP.md \
+  standards/20260523-RESPONSIVE_STANDARD.md \
+  standards/20260523-MOTION_STANDARD.md \
+  standards/20260523-COPY_STANDARD.md \
   examples/dashboards/manifest.md examples/mobile-controls/manifest.md \
   examples/mobile/manifest.md examples/websites/manifest.md examples/websites-tecnology/manifest.md; do
   check "$p"
@@ -64,8 +67,8 @@ for name in $FORBIDDEN; do
   fi
 done
 
-# UIS concepts present
-for id in visual-hierarchy responsive-layout motion-design color-contrast interaction-patterns ai-visual-quality surface-control-craft; do
+# UIS concepts present (UIS-01 through UIS-10)
+for id in visual-hierarchy responsive-layout motion-design color-contrast interaction-patterns ai-visual-quality surface-control-craft intuitive-ux data-visualization-quality creative-direction; do
   check "concepts/${id}/prompt.md"
 done
 

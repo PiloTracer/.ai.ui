@@ -165,7 +165,7 @@ Invoke as `@<skill-id>` + mode. **Do not** reimplement these as unprefixed skill
 | ui-visual-verify | Visual / token regression |
 | ui-accessibility-audit | WCAG audits |
 | ui-design-system | Primitives + catalog |
-| ui-concept-run | UIS-01…09 prompts |
+| ui-concept-run | UIS-01…10 prompts |
 | ui-process-router | UI process Q&A (read-only) |
 
 **Session bookends:** `@session-control` from `.ai/` when present.

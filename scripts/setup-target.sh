@@ -7,23 +7,28 @@
 # project and scaffolds .work.ui/ there — useful for monorepos or when
 # developing multiple UIs against one framework checkout.
 #
-# Usage: bash scripts/setup-target.sh <target-dir> <profile>
-#   profile: ecards | dashboard
+# Usage: bash scripts/setup-target.sh <target-dir>
 #
 # Idempotent: skips existing .work.ui/ files; re-copies .ai.ui on re-run.
 set -euo pipefail
 
-TARGET="$(cd "$1" && pwd)"
-PROFILE="${2}"
+if [[ $# -lt 1 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+  echo "Usage: bash scripts/setup-target.sh <target-dir>"
+  echo "  Copies .ai.ui/ into target project and scaffolds .work.ui/ there."
+  exit 0
+fi
+
 AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TPL="${AI_UI_ROOT}/templates/work.ui"
 
-if [[ ! -d "$TARGET" ]]; then
-  echo "ERROR: target dir does not exist: $TARGET" >&2
+if [[ ! -d "$1" ]]; then
+  echo "ERROR: target dir does not exist: $1" >&2
   exit 1
 fi
 
-echo "=== Setting up .ai.ui → ${TARGET} (profile: ${PROFILE}) ==="
+TARGET="$(cd "$1" && pwd)"
+
+echo "=== Setting up .ai.ui → ${TARGET} ==="
 
 # ── 1. Copy .ai.ui into target ──────────────────────────────────────
 if [[ -d "${TARGET}/.ai.ui" ]] && [[ ! -L "${TARGET}/.ai.ui" ]]; then
