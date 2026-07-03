@@ -1,15 +1,15 @@
 # Examples index
 
-**Last reviewed:** 2026-05-23 · **PNG files:** gitignored (large); **manifests** are the agent source of truth. Clone without PNGs → use manifest columns only; vision agents need local `examples/**/*.png`.
+**Last reviewed:** 2026-07-03 · **PNG files:** gitignored (large); **manifests** are the agent source of truth. Clone without PNGs → use manifest columns only; vision agents need local `examples/**/*.png`.
 
 ## Value matrix (for agents)
 
 | Folder | Count | Archetype | Actionable today | Notes |
 |--------|-------|-----------|------------------|-------|
-| [websites](websites/manifest.md) | 9 | marketing-site | **High** (W1–W3) | W4–W9: open PNG before cite |
-| [websites-tecnology](websites-tecnology/manifest.md) | 8 | saas-product | **High** (T1–T3) | T4–T8: open PNG before cite |
-| [dashboards](dashboards/manifest.md) | 13 | admin-dashboard | **High** (D1–D12) | Full row schema; D9–D12 are analytical/reporting (text-only, no PNG) |
-| [mobile](mobile/manifest.md) | 9 | mobile-app | **Partial** (M1 + rules) | M2–M9: open PNG before cite |
+| [websites](websites/manifest.md) | 9 | marketing-site | **High** (W1–W9) | All individually annotated; PNGs optional |
+| [websites-tecnology](websites-tecnology/manifest.md) | 8 | saas-product | **High** (T1–T8) | All individually annotated; PNGs optional |
+| [dashboards](dashboards/manifest.md) | 13 | admin-dashboard | **High** (D1–D13) | Full row schema; D9–D13 are text-only (no PNG) |
+| [mobile](mobile/manifest.md) | 9 | mobile-app | **High** (M1–M9) | All individually annotated; PNGs optional |
 | [mobile-controls](mobile-controls/manifest.md) | 6 | mobile-app | **High** (C1–C6) | Controls / surfaces / primitives |
 
 **Critical:** Filenames (`image copy N.png`) are not semantic. Use manifest **id** column (`C1`, `D1`, `W1`, …).

@@ -34,6 +34,7 @@
 | UIS-07 | [`surface-control-craft/`](surface-control-craft/README.md) | **Craft tier ≥ refined** — surfaces, controls, §13 compliance |
 | UIS-08 | [`intuitive-ux/`](intuitive-ux/README.md) | **All screens** — discoverability, feedback, error forgiveness, cognitive load |
 | UIS-09 | [`data-visualization-quality/`](data-visualization-quality/README.md) | **Analytical dashboards & charts** — truthful encoding, colorblind safety, responsive, chart junk |
+| UIS-10 | [`creative-direction/`](creative-direction/README.md) | **Marketing & landing pages** — hero differentiation, typographic drama, scroll narrative, visual tension, anti-template |
 
 ---
 
@@ -41,7 +42,7 @@
 
 | If you are about to… | Run prompt | Output goes to | Required? |
 |---|---|---|---|---|
-| Open a screen SPEC | List UIS-01…08 in SPEC §12 | screen SPEC | **Required** |
+| Open a screen SPEC | List UIS-01…10 in SPEC §12 | screen SPEC | **Required** |
 | `@ui-component-build plan` | Copy SPEC §12 → `### UIS registry` in NEXT_UI | `NEXT_UI.md` | **Required** |
 | Agent/Cursor UI session (default **AI-assisted: yes**) | [`ai-visual-quality/prompt.md`](ai-visual-quality/prompt.md) | PR, task Notes, NEXT_UI | **Required** unless **`human-only`** in same message |
 | Craft tier ≥ refined; forms/settings/dashboards | [`surface-control-craft/prompt.md`](surface-control-craft/prompt.md) | PR, verify report | **Required** at milestone |
@@ -50,6 +51,7 @@
 | Multi-step flow or modal | UIS-05 | screen SPEC §6 | Recommended |
 | Any screen before ship | UIS-08 | PR, verify report, NEXT_UI | **Required** |
 | Analytical dashboard or report screen | UIS-09 | PR, verify report, NEXT_UI | **Required** (analytical dashboards) |
+| Marketing / landing page / hero section | UIS-10 | PR, verify report, NEXT_UI | **Required** (marketing-site, hybrid marketing shell) |
 | If unsure | UIS-01 | PR / Notes | Default lightest prompt |
 
 **Evidence tags:** `measured` | `estimated` | `assumption` | `unknown`

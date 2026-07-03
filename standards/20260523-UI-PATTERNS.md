@@ -23,12 +23,71 @@
 
 ## Marketing / landing (`marketing-site`)
 
+### Baseline
+
 - [ ] Hero: headline hierarchy (one H1-equivalent), subcopy, single primary CTA
 - [ ] Nav: logo, 3–7 top links or hub MENU pattern; sticky only if SPEC says so
 - [ ] Social proof block (logos, quote, award badge) optional but structured
 - [ ] Footer: legal, contact, sitemap — do not bury sole CTA
 - [ ] Imagery: alt text; text-on-image contrast (UIS-04) or scrim
+- [ ] UIS-10 required at milestone for creative surfaces
 - [ ] Reference: `examples/websites/manifest.md`
+
+### Hero patterns (pick one per screen, name it in SPEC §4)
+
+| Pattern | When | Key rule |
+|---------|------|----------|
+| **Immersive photography** | Lifestyle brands, strong visual identity | Full-bleed; text needs scrim or contrast region; `<picture>` for art direction |
+| **Split layout** | SaaS demos, balanced info density | Text side gets ≥45% width; image side is product-in-context, not stock |
+| **Typographic hero** | Bold brand voice, editorial, luxury | Display type IS the visual; headline ≥3x body size; whitespace is the design |
+| **Product-in-context** | Apps, tools, SaaS — "see it working" | Real UI in device frame or environment; not a screenshot dump |
+| **Illustrated narrative** | Playful brands, dev tools, startups | Custom illustration; no generic stock vectors; animation optional |
+| **Editorial whitespace** | Premium, minimal, luxury | Sparse elements create tension; fewer words, more impact |
+| **Video background** | Events, travel, lifestyle | Looping, muted, no autoplay audio; text overlay must meet UIS-04; lazy-load |
+
+- [ ] Hero pattern named in SPEC §4
+- [ ] Pattern matches brand/product type (don't use immersive photography for a developer CLI)
+- [ ] Hero works without reading text (visual story test)
+
+### Scroll rhythm (section pacing)
+
+Landing pages are sequential narratives. Alternate energy levels to prevent fatigue:
+
+```text
+HIGH  → Hero (hook)
+LOW   → Value prop (breathing room, whitespace)
+HIGH  → Product demo / screenshot (proof)
+LOW   → Single stat or quote (pause)
+HIGH  → Feature grid or comparison (details)
+LOW   → Testimonial (trust)
+HIGH  → Final CTA (close)
+```
+
+- [ ] No more than 2 consecutive high-energy sections without a breathing section
+- [ ] Each section has one dominant visual element — not "more cards"
+- [ ] Background color or surface shifts between sections create rhythm
+- [ ] CTA appears at least twice: hero + final; optionally mid-page after proof section
+- [ ] Below-fold content has at least one visual surprise (animation, scale shift, unexpected layout)
+
+### Typography as design element
+
+On marketing pages, type is not just information delivery — it's a primary visual:
+
+- [ ] Headline-to-body size ratio ≥ 3:1 in hero (e.g. 64px headline / 18px body)
+- [ ] Font pairing documented in SPEC §5 or foundation doc 02: display + body must create contrast
+- [ ] At least 3 distinct visual levels in hero: headline, subhead/tagline, CTA label
+- [ ] Whitespace around headlines is generous — type reads as *design*, not as "text on background"
+- [ ] Avoid all-caps body text; reserve caps for labels, badges, or section markers
+
+| Pairing strategy | Effect | Example |
+|-----------------|--------|---------|
+| Serif headline + sans body | Classic editorial tension | Playfair Display + Inter |
+| Sans display + sans body (weight contrast) | Modern, clean | Inter 800 headline + Inter 400 body |
+| Mono headline + sans body | Technical, developer-focused | JetBrains Mono + Inter |
+| Display serif + serif body | Premium, editorial | Fraunces + Source Serif |
+
+- [ ] Font pairing creates intentional contrast — not the same font at two sizes
+- [ ] Display font chosen for brand personality, not just readability
 
 ---
 
