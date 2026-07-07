@@ -92,6 +92,44 @@ if [[ "$MODE" != "archive" ]]; then
   exit 1
 fi
 
+# --- Coexistence safety scan ---
+CONFLICT_FILES=""
+for candidate in .cursorrules .github/ .gitignore .gitattributes .editorconfig; do
+  if [[ -e "${DEST_DIR}/${candidate}" ]]; then
+    CONFLICT_FILES="${CONFLICT_FILES}  ${candidate}"$'\n'
+  fi
+done
+
+SISTER_FRAMEWORKS=""
+for sf in .ai .ai.biz .ai.soc .work; do
+  if [[ -d "${DEST_DIR}/${sf}" ]]; then
+    SISTER_FRAMEWORKS="${SISTER_FRAMEWORKS}  ${sf}"$'\n'
+  fi
+done
+
+if [[ -n "$CONFLICT_FILES" ]]; then
+  echo "WARN: The following existing files will be OVERWRITTEN:"
+  echo "$CONFLICT_FILES"
+  echo "  Recommend: backup the target first, or use deploy-files instead"
+  echo "  (deploy-files respects existing files with no-overwrite default)."
+  echo ""
+fi
+
+if [[ -n "$SISTER_FRAMEWORKS" ]]; then
+  echo "INFO: Sister framework directories detected:"
+  echo "$SISTER_FRAMEWORKS"
+  echo "  deploy-repo archive will NOT touch these directories — safe coexistence."
+  echo ""
+fi
+
+# Confirm on overwrite when key project files exist
+if [[ -n "$CONFLICT_FILES" ]]; then
+  echo "Press Ctrl-C to cancel, or ENTER to proceed with archive deploy."
+  read -r </dev/tty || true
+fi
+
+# --- End coexistence safety ---
+
 mkdir -p "$DEST_DIR"
 cd "$AI_UI_ROOT"
 
@@ -102,6 +140,7 @@ echo "=== Done: repo archive deployed to $DEST_DIR ==="
 echo "Includes: .github/, .gitignore, .cursorrules (full tree, no .git history)"
 echo ""
 echo "Next steps in target project:"
-echo "  1. Initialize git: git init && git add . && git commit -m 'init: UI Design OS'"
-echo "  2. Set origin remote if needed"
-echo "  3. Run @ui-bootstrap init merge-cursorrules"
+echo "  1. Review overwritten files (.cursorrules, .github/ may need merge)"
+echo "  2. Initialize git: git init && git add . && git commit -m 'init: UI Design OS'"
+echo "  3. Set origin remote if needed"
+echo "  4. Run @ui-bootstrap init merge-cursorrules"

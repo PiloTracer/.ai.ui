@@ -163,6 +163,47 @@ printf 'const c = "#2f6df6";\n' > "${tmpd}/tl-dirty.tsx"
 selftest "token-lint accepts token usage" 0 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-clean.tsx"
 selftest "token-lint rejects raw hex"     1 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-dirty.tsx"
 
+# change-safety self-tests: touch-scope, blast-radius, gate-verify must not silently rot.
+selftest "touch-scope-verify self-test"   0 "${ROOT}/scripts/touch-scope-verify.sh" "--self-test"
+selftest "blast-radius-check self-test"   0 "${ROOT}/scripts/blast-radius-check.sh" "--self-test"
+
+# gate-verify: create NEXT_UI.md with done tasks — one with notes (pass), one without (fail).
+cat > "${tmpd}/NEXT_UI.md.with-notes" <<'EOF'
+## Done
+| Task | Notes |
+|------|-------|
+| T1 | Verified by test |
+## Blocked
+| Task | Notes |
+|------|-------|
+EOF
+cat > "${tmpd}/NEXT_UI.md.empty-notes" <<'EOF'
+## Done
+| Task | Notes |
+|------|-------|
+| T1 |  |
+## Blocked
+| Task | Notes |
+|------|-------|
+EOF
+mkdir -p "${tmpd}/.work.ui/plans"
+cp "${tmpd}/NEXT_UI.md.with-notes" "${tmpd}/.work.ui/plans/NEXT_UI.md"
+selftest "gate-verify accepts done task with notes" 0 "${ROOT}/scripts/gate-verify.sh" "${tmpd}/.work.ui/plans/NEXT_UI.md"
+cp "${tmpd}/NEXT_UI.md.empty-notes" "${tmpd}/.work.ui/plans/NEXT_UI.md"
+selftest "gate-verify rejects done task without notes" 1 "${ROOT}/scripts/gate-verify.sh" "${tmpd}/.work.ui/plans/NEXT_UI.md"
+
+# install-git-hooks: smoke test on a throwaway .git repo.
+mkdir -p "${tmpd}/hooks-test/.git/hooks"
+pushd "${tmpd}/hooks-test" >/dev/null
+AI_UI_ROOT="${ROOT}" bash "${ROOT}/scripts/install-git-hooks.sh" >/dev/null 2>&1
+HOOK_COUNT="$(find .git/hooks -type f | wc -l)"
+if [[ "$HOOK_COUNT" -ge 4 ]]; then
+  echo "ok: selftest install-git-hooks copies hooks (${HOOK_COUNT} installed)"
+else
+  echo "SELFTEST FAIL: install-git-hooks (${HOOK_COUNT} hooks, expected ≥4)"; FAIL=1
+fi
+popd >/dev/null
+
 # traceability SPEC-backing + rogue-SPEC self-tests (need a .work.ui/plans + screens
 # layout so the screens dir is derivable from the map path).
 mkdir -p "${tmpd}/.work.ui/plans/foundation" "${tmpd}/.work.ui/screens/home"
