@@ -1,0 +1,23 @@
+#!/bin/sh
+# commit-msg — reject Co-authored-by trailers; warn when task ref missing.
+#
+# Installation:
+#   bash scripts/install-git-hooks.sh          (self-hosted)
+#   bash .ai.ui/scripts/install-git-hooks.sh   (fat-client)
+
+# Reject Co-authored-by trailers (hard block)
+if grep -qiE '^Co-authored-by:' "$1"; then
+  echo "ERROR: Co-authored-by trailers are not permitted. Remove them and try again." >&2
+  echo "  The prepare-commit-msg hook should have stripped them automatically." >&2
+  exit 1
+fi
+
+# Warn if no task ref in subject line
+FIRST="$(head -1 "$1")"
+case "$FIRST" in
+  [A-Z]*-[0-9]*:*) ;;  # Has ref — ok
+  fix:*|feat:*|docs:*|refactor:*|chore:*|style:*|test:*) ;;  # type: is ok for chore
+  *) echo "WARNING: commit subject has no task ref (e.g. UIS-123: ...)" >&2 ;;
+esac
+
+exit 0

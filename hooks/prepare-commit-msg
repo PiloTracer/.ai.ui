@@ -1,0 +1,26 @@
+#!/bin/sh
+# prepare-commit-msg — strip Co-authored-by trailers; auto-prepend task ref.
+#
+# Installation:
+#   bash scripts/install-git-hooks.sh          (self-hosted)
+#   bash .ai.ui/scripts/install-git-hooks.sh   (fat-client)
+
+# Strip Co-authored-by trailers (idempotent — handles leading blank lines + mixed spacing)
+TMPFILE="$1.tmp"
+grep -viE '^Co-authored-by:' "$1" > "$TMPFILE" && mv "$TMPFILE" "$1"
+
+# Prepend task ref from branch when on a template / not-merge / not-squash commit
+BRANCH="$(git symbolic-ref --short HEAD 2>/dev/null || true)"
+case "${2:-}" in
+  message|commit|template)
+    REF=""
+    REF="$(echo "$BRANCH" | grep -oE '[A-Z]+-[0-9]+' | head -1)"
+    if [ -n "$REF" ]; then
+      FIRST="$(head -1 "$1")"
+      case "$FIRST" in
+        [A-Z]*-[0-9]*:*) ;;
+        *) sed -i "1s/^/${REF}: /" "$1" ;;
+      esac
+    fi
+    ;;
+esac

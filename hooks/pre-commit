@@ -1,0 +1,47 @@
+#!/bin/sh
+# pre-commit — change-safety gate (blocks commits by default).
+#
+# Runs touch-scope-verify and gate-verify on all uncommitted changes, and
+# blast-radius-check on the staged changes for the current commit.
+# Set WARN_ONLY=1 to warn instead of blocking.
+#
+# Installation: bash scripts/install-git-hooks.sh  (self-hosted)
+#               bash .ai.ui/scripts/install-git-hooks.sh  (fat-client)
+
+WARN_ONLY="${WARN_ONLY:-0}"
+SCRIPTS=""
+
+# Resolve scripts directory — handles self-hosted and fat-client layouts
+REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+if [ -d "${REPO_ROOT}/scripts" ]; then
+  SCRIPTS="${REPO_ROOT}/scripts"
+elif [ -d "${REPO_ROOT}/.ai.ui/scripts" ]; then
+  SCRIPTS="${REPO_ROOT}/.ai.ui/scripts"
+else
+  exit 0
+fi
+
+# Run change-safety scripts; capture output so the user sees why a gate failed.
+for check in touch-scope-verify blast-radius-check gate-verify; do
+  script="${SCRIPTS}/${check}.sh"
+  if [ -f "$script" ]; then
+    status=0
+    args=""
+    if [ "$check" = "blast-radius-check" ]; then
+      args="--staged"
+    fi
+    output="$(bash "$script" $args 2>&1)" || status=1
+    if [ "$status" -ne 0 ]; then
+      echo "FAIL: ${script}"
+      echo "$output"
+      if [ "$WARN_ONLY" = "1" ]; then
+        echo "WARN: ${check} failed — review output above"
+      else
+        echo "pre-commit: blocking commit due to ${check} failure"
+        exit 1
+      fi
+    fi
+  fi
+done
+
+exit 0
