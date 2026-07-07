@@ -1,0 +1,23 @@
+{
+  "description": "Touch scope for this UI iteration — declare what files you intend to change.",
+  "allowed_paths": [
+    ".work.ui/",
+    ".work.ui/context/",
+    ".work.ui/plans/",
+    ".work.ui/screens/",
+    ".ai.ui/",
+    "src/",
+    "apps/"
+  ],
+  "allowed_patterns": [
+    "*.ts", "*.tsx", "*.js", "*.jsx",
+    "*.css", "*.scss", "*.less",
+    "*.md", "*.json", "*.yaml", "*.yml",
+    "*.sh"
+  ],
+  "rules": [
+    "Only touch files under allowed_paths",
+    "Only touch files matching allowed_patterns",
+    "If you need to touch a file outside scope, update this file first"
+  ]
+}

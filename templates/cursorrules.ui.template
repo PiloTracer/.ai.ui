@@ -50,6 +50,21 @@ You may only claim UI work complete when all are true:
 
 ---
 
+## Change safety
+
+Run before commit / `@ui-component-build complete`:
+
+| Gate | Command | Fail when |
+|------|---------|-----------|
+| Touch scope | `bash .ai.ui/scripts/touch-scope-verify.sh` | File outside `.work.ui/touch-scope` |
+| Blast radius | `bash .ai.ui/scripts/blast-radius-check.sh` | Cross-area diff ≥3 areas |
+| Tests | `bash .ai.ui/scripts/framework-verify.sh` | Non-zero exit |
+| Gate check | `bash .ai.ui/scripts/gate-verify.sh` | Done task with empty Notes |
+
+**Declare scope first:** Copy `templates/work.ui/touch-scope.template` → `.work.ui/touch-scope`.
+
+---
+
 ## Required Context Files
 
 **Lost on UI?** Read [`.ai.ui/START_HERE.md`](.ai.ui/START_HERE.md) first.

@@ -7,6 +7,15 @@
 
 **Lost on UI?** [`.ai.ui/START_HERE.md`](.ai.ui/START_HERE.md) · **Router:** `@ui-process-router - <question>`
 
+### Change safety (add to existing change-safety section or create one)
+
+| Gate | Command | Fail when |
+|------|---------|-----------|
+| Touch scope | `bash .ai.ui/scripts/touch-scope-verify.sh` | File outside `.work.ui/touch-scope` |
+| Blast radius | `bash .ai.ui/scripts/blast-radius-check.sh` | Cross-area diff ≥3 areas |
+| Tests | `bash .ai.ui/scripts/framework-verify.sh` | Non-zero exit |
+| Gate check | `bash .ai.ui/scripts/gate-verify.sh` | Done task with empty Notes |
+
 ### UI completion gate (addition to Core Principle 7)
 
 UI milestone work is not done until: UI lint/type/tests pass; `@ui-visual-verify` + `@ui-accessibility-audit` pass or are waived in `{HANDOFF_UI}`; agent-assisted UI has `@ui-concept-run - UIS-06` unless **`human-only`** in the same message.
