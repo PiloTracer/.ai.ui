@@ -16,6 +16,12 @@
 | Tests | `bash .ai.ui/scripts/framework-verify.sh` | Non-zero exit |
 | Gate check | `bash .ai.ui/scripts/gate-verify.sh` | Done task with empty Notes |
 
+### Data loss & destructive operations (union with Agent OS rules)
+
+**Permission rule:** Explicit human approval applies **only to the current request (same message)** — never standing or permanent.
+
+Unless requested in the **same message**, MUST NOT: `git commit` / `git push` / force-push / hard reset / `git clean -fd`; `DROP` / `TRUNCATE` / wipe any database or datastore; delete files or directories; overwrite `.ai/`, `.work/`, or replace `.cursorrules` wholesale (merge or `confirm-overwrite-cursorrules` only when named); modify **UI protected files** below without same-message permission.
+
 ### UI completion gate (addition to Core Principle 7)
 
 UI milestone work is not done until: UI lint/type/tests pass; `@ui-visual-verify` + `@ui-accessibility-audit` pass or are waived in `{HANDOFF_UI}`; agent-assisted UI has `@ui-concept-run - UIS-06` unless **`human-only`** in the same message.
@@ -68,7 +74,7 @@ UI milestone work is not done until: UI lint/type/tests pass; `@ui-visual-verify
 
 **Sessions:** `@session-control` (`.ai/`) · **Backend:** `@code-implementation` (`.ai/`) · **UIS-06** (agent-assisted) + **UIS-07** (craft ≥ refined) + **UIS-08** (all screens) + **UIS-09** (analytical dashboards) before `ui-component-build complete`.
 
-### UI protected files (union with existing list)
+### UI protected files (union with existing list; same-message permission only)
 
 - `REPLACE:UI_TOKENS_FILE`
 - `REPLACE:UI_FRAMEWORK_CONFIG_PATHS`
