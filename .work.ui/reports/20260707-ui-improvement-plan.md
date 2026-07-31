@@ -96,3 +96,24 @@ All changes are read-only on the reference `.ai` repo — the reference was anal
 - Skill paths use `ui-` prefix and `.work.ui/` work tree
 - Commit refs use `UIS-` prefix
 - Verification scripts are standalone (no dependency on `.ai/` scripts)
+
+---
+
+## Follow-up (2026-07-31)
+
+**Re-scan:** All artifacts and defect fixes listed above remain present and verified. `bash scripts/framework-verify.sh` → **PASS** (re-run 2026-07-31).
+
+| Check | Result |
+|-------|--------|
+| `scripts/touch-scope-verify.sh` | ✅ exists; self-test in framework-verify |
+| `scripts/blast-radius-check.sh` | ✅ exists; exits 1 on ≥3 areas (verified on pending web-research diff) |
+| `scripts/gate-verify.sh` | ✅ exists; awk parser self-tested |
+| `hooks/*` (4) + `install-git-hooks.sh` | ✅ present; `gate-verify` in pre-commit |
+| `hooks/post-commit` → `.work.ui/commit-ref-pending` | ✅ COHABITATION fix intact |
+| Adopter cursorrules templates § Change safety | ✅ present |
+| `.github/workflows/framework-verify.yml` | ✅ CI on push/PR |
+| Deferred items | ✅ unchanged (still N/A) |
+
+**Subsequent work (separate track):** Web research integration — see [`.work.ui/reports/20260731-web-research-integration-report.md`](20260731-web-research-integration-report.md). Not part of this plan; uncommitted at follow-up scan.
+
+**Deployment (committed HEAD):** Ready for adopter deploy (`deploy-files`, `deploy-repo`, `deploy-basic`). Pending web-research commit is a pre-release gate, not a regression of this plan.

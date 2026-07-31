@@ -161,6 +161,8 @@ Full-stack tasks: also follow `@code-implementation` for non-UI files ([`COHABIT
 | Data viz quality (analytical dashboards) | `@ui-concept-run - UIS-09` |
 | Plan/roadmap readiness (verifiers + probe coverage + orphan screens) | `@ui-plan-verify audit` |
 
+**Verify policy:** Static checks first (token-lint, jest-axe, rubrics in [`resources/web-research-2026.md`](resources/web-research-2026.md)). Browser control (Playwright MCP, Lighthouse, screenshots) is **opt-in** — requires explicit operator authorization per doc §8.2.
+
 ---
 
 ## 8. Reading order
@@ -173,7 +175,8 @@ Full-stack tasks: also follow `@code-implementation` for non-UI files ([`COHABIT
 | 4 | [`APPROACH.md`](APPROACH.md) | Archetype + skill chain |
 | 5 | [`skills/README.md`](skills/README.md) | `ui-*` registry |
 | 6 | [`concepts/README.md`](concepts/README.md) | UIS trigger table |
-| 7 | The `ui-*/skill.md` you invoke | Verbs and gates |
+| 7 | [`resources/web-research-2026.md`](resources/web-research-2026.md) | Curated external references + verify policies |
+| 8 | The `ui-*/skill.md` you invoke | Verbs and gates |
 
 ---
 

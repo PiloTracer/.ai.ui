@@ -103,44 +103,13 @@ Resolve from conversation or screen SPEC:
 
 #### Universal microcopy rules
 
-1. **Say what it does, not what it is.** A button labeled "Save" is better than "Submit". An error saying "Enter a valid email address" is better than "Validation error".
+Bind to `standards/20260523-COPY_STANDARD.md` §2–§8 (labels & actions, errors, empty states, confirmations, tooltips, numbers, i18n) — do not restate them here. Only rules the standard does **not** cover:
 
-2. **One action per button/link.** If two actions are needed, use two controls.
-
-3. **Errors must include: what happened + why + how to fix.** Never just "Error" or "Something went wrong."
-
-    ```
-    Bad:  "Error 500"
-    Good: "We couldn't save your changes. Your internet connection may have dropped. Try again."
-    ```
-
-4. **Empty states must guide.** Never just "No data" or an empty box. Tell the user what to do next.
-
-    ```
-    Bad:  "No invoices"
-    Good: "You haven't created any invoices yet. Create your first invoice to get started."
-    ```
-
-5. **Confirmations state what will happen, not just ask "Are you sure?".**
-
-    ```
-    Bad:  "Are you sure you want to delete this?"
-    Good: "Delete 'Q3 Report'? This action cannot be undone. All charts and data in this report will be permanently removed."
-    ```
-
-6. **Labels are visible, not placeholder-only.** Placeholders disappear on input; they are not a substitute for labels.
-
-7. **Tooltips add context, they don't repeat the label.** If a tooltip is needed, the label is too vague — fix the label first.
-
-8. **Headings answer "Where am I? What is this section for?".** Every section needs a heading that distinguishes it from adjacent content.
-
-9. **Button text is a verb phrase.** "Save changes", "Add member", "Export CSV" — never just "OK", "Submit", or "Click here".
-
-10. **Alt text describes what's depicted, not what the file is.** Decorative images get `alt=""`.
-
-11. **Numbers and specifics beat generalities.** "Last updated 3 min ago" beats "Recently updated". "3 members online" beats "Some members online".
-
-12. **Skip confirmation bias.** "Join 10,000+ users" is marketing copy, not microcopy — reserve for marketing surfaces.
+1. **Headings answer "Where am I? What is this section for?".** Every section needs a heading that distinguishes it from adjacent content.
+2. **One action per button/link.** Two actions → two controls.
+3. **Alt text describes what's depicted, not the file.** Decorative images get `alt=""`.
+4. **Numbers and specifics beat generalities** ("Last updated 3 min ago" > "Recently updated"; "3 members online" > "Some members online").
+5. **Skip confirmation bias.** "Join 10,000+ users" is marketing copy, not microcopy — reserve for marketing surfaces.
 
 #### Element-type guidelines
 
@@ -154,7 +123,7 @@ Resolve from conversation or screen SPEC:
 | **Error** | [What's wrong] + [how to fix]. Inline for the field + optional summary for forms >5 fields. |
 | **Empty state** | [What's absent] + [what to do about it]. Icon + heading (1 line) + body (1–2 lines) + optional CTA. |
 | **Confirmation** | [What will happen] + [consequences] + [two buttons: primary action + cancel]. |
-| **Tooltip** | Context or rationale, never repeats the label. 1–2 sentences. |
+| **Tooltip** | Context or rationale, never repeats the label. One sentence max (COPY_STANDARD §6). |
 | **Toast/notification** | [What happened] in 1 line. Success = green, error = red, info = neutral. |
 | **Loading** | What's loading ("Loading reports…"), not just a spinner. Under 2 words. |
 | **Heading** | Distinguish from siblings. Screens get a page title; sections get H2/H3. |
@@ -217,15 +186,10 @@ Full copy audit against all standards:
 
 | Check | Pass/Fail | Notes |
 |-------|-----------|-------|
-| All buttons use verb phrases | | |
-| All errors explain what + why + how to fix | | |
-| Empty states include guidance | | |
-| Confirmations state consequences | | |
-| Labels visible (not placeholder-only) | | |
+| COPY_STANDARD §2–§8 conformance (labels, errors, empty states, confirmations, tooltips, numbers, i18n) | | |
 | Required fields marked | | |
 | No marketing filler in functional text | | |
 | Brand voice consistent across screens | | |
-| i18n-compatible (no concatenated strings where interpolation works) | | |
 | Alt text on all informative images | | |
 | Text length fits constraints | | |
 
@@ -320,6 +284,7 @@ When `.ai.biz` is present and you need *external* marketing content (articles, b
 
 | Resource | When |
 |----------|------|
+| [`resources/web-research-2026.md`](../../resources/web-research-2026.md) §5 | Copy rubrics (error formula, tone, action-label dictionary) — apply license + verify rules ([§8.1](../../resources/web-research-2026.md#81-verify-resource-urls-skill-rule), [§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)) |
 | `@ui-screen-spec create` | Write copy during SPEC authoring (§5 Content) |
 | `@ui-component-build` | Implement copy in components |
 | `@ui-accessibility-audit` | Verify label association, error association, alt text |

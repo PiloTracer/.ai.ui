@@ -29,6 +29,8 @@ Mirror of Agent OS `code-implementation` **for UI scope only**.
 | `continue` | Next task(s); UI task gate each |
 | `complete` | After `@ui-visual-verify milestone` + `@ui-accessibility-audit milestone` |
 
+**Verify policy:** `@ui-visual-verify` and `@ui-accessibility-audit` use **static-first** checks per [`resources/web-research-2026.md`](../../resources/web-research-2026.md) (token-lint, rubrics, jest-axe). Browser tools are opt-in with explicit operator authorization (§8.2).
+
 ## Probe protocol
 
 Interactive completeness check on the UI roadmap before broad iteration. Asks the owner to resolve gaps an automated sweep can flag but not answer (unscheduled screens, vague craft targets, ownerless risks). Engine: [`probe-protocol.md`](../probe-protocol.md). Supplies the roadmap **coverage profile**.

@@ -1,0 +1,22 @@
+{
+  "description": "Touch scope — 2026-07-31 web-research integration batch: catalog + skill wiring + debloat + director routing + context update.",
+  "allowed_paths": [
+    ".gitignore",
+    "README.md",
+    "START_HERE.md",
+    "CHANGELOG.md",
+    "skills/",
+    "resources/",
+    ".work.ui/"
+  ],
+  "allowed_patterns": [
+    "*.md",
+    "*.json",
+    ".gitignore"
+  ],
+  "rules": [
+    "Only touch files under allowed_paths",
+    "Only touch files matching allowed_patterns",
+    "If you need to touch a file outside scope, update this file first"
+  ]
+}

@@ -25,3 +25,7 @@ description: >-
 - Variants documented in CATALOG before use in screens
 - Cite **example id** from manifests when visual target exists
 - Craft tier ≥ refined: optional **behavior source** from [`resources/control-platforms.md`](../../resources/control-platforms.md) in CATALOG; style stays project tokens
+
+## External resources
+
+Curated references: [`resources/web-research-2026.md`](../../resources/web-research-2026.md) §4 — apply its license policy + rules ([§8.1](../../resources/web-research-2026.md#81-verify-resource-urls-skill-rule), [§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)). Query Storybook MCP before inventing primitives.

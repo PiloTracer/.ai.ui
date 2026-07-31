@@ -2,6 +2,18 @@
 
 ## [Unreleased]
 
+### Added
+
+- **`resources/web-research-2026.md` — curated external-resource catalog with agent apply rules.** Six verified clusters (tokens/color, accessibility, visual QA, design systems, UX writing, agent integration) + **license policy** (commercial-safe: MIT/Apache-2.0/BSD/CC0; MPL-2.0 for unmodified tool deps) + **browser-control policy** (static-first default; Playwright/DevTools MCP and live navigation opt-in with explicit operator authorization, §8.2) + **URL-verify skill rule** (§8.1). Non-commercial/paid/SaaS-required resources documented as exclusions (§7).
+- **`20260731-web-research-integration-report.md`** (`.work.ui/reports/`) — audit + integration verification: skill→§ map, license audit fixes, deployment readiness.
+
+### Changed
+
+- **Skills wired to the research catalog** — `ui-design-foundation` (§1 tokens), `ui-accessibility-audit` (§2 + static/CI/browser tooling tiers), `ui-visual-verify` (§3+§6 + verification tiers), `ui-design-system` (§4), `ui-copy` (§5); `ui-component-build` static-first verify policy; `ui-process-router` `research` bucket; `ui-director` + reference index the catalog; `README.md` / `START_HERE.md` / `skills/README.md` link it.
+- **Skill debloat (−118/+51)** — `ui-copy` universal rules deduped to `COPY_STANDARD` pointer (kept only rules the standard lacks; tooltip length conflict fixed to standard); `ui-director/reference.md` verbatim copies → single-source pointers; repeated license/URL-verify boilerplate → §8.1/§8.2 pointers; stale `uncommitted` mode row in `SKILL_DEPENDENCIES.md` fixed.
+- **Director routing completeness** — `deploy-basic` (thin-client) now routable from free text via the `deploy` bucket + shortcut chains + reference routing table; verified 17/17 registered skills locatable.
+- **`.gitignore`** — host/tooling artifacts (`reasonix.toml`, `*.code-workspace`, `session-*.md`).
+
 ## [0.4.3] - 2026-07-02
 
 ### Added

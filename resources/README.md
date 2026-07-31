@@ -29,3 +29,7 @@ Prefer annotated [`examples/INDEX.md`](../examples/INDEX.md) over hotlinking gal
 ## Control behavior (OSS, commercial-safe)
 
 Headless platforms for sliders, selects, dialogs — **you** style with project tokens: [`control-platforms.md`](control-platforms.md)
+
+## Research & apply (how-to guidance)
+
+[`web-research-2026.md`](web-research-2026.md) — verified external resources + agent application rules for tokens/color, accessibility, visual QA, design systems, UX writing, and agent tooling. **Commercial-safe license policy** enforced (see doc header). **Static verify first** — browser control opt-in with operator authorization (browser policy + §8.2). **Verify URLs before citing** (§8.1).

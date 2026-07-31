@@ -19,7 +19,9 @@ description: >-
 
 ## Checks (milestone)
 
-1. `REPLACE:UI_VISUAL_TEST` exit 0 (or documented baseline update with owner approval)
+**Verification tiers** (see [`web-research-2026.md`](../../resources/web-research-2026.md) browser policy): run **static** checks first (items 2–7 below, rubrics in §3). Item 1 (`REPLACE:UI_VISUAL_TEST`) runs only when the project defines it. **Do not** launch Playwright MCP, DevTools MCP, or live browser screenshots unless the operator has **explicitly authorized** browser control ([§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)).
+
+1. `REPLACE:UI_VISUAL_TEST` exit 0 when configured (or documented baseline update with owner approval) — typically CI/browser; not an agent default
 2. **Token contract (machine):** `bash .ai.ui/scripts/token-lint.sh --tokens REPLACE:UI_TOKENS_FILE REPLACE:UI_APP_ROOT` exits 0 — no raw hex/color literals in component source (DESIGN_TOKENS_STANDARD). This is the deterministic backstop: an agent that hardcoded a color fails here, not in a prose grade. One-off exceptions need a trailing `token-lint-ignore` with a reason.
 3. Token file unchanged without accompanying visual diff review
 4. Storybook/build for UI package passes
@@ -53,3 +55,7 @@ Include section:
 **Does not** replace `@ui-accessibility-audit`.
 
 **Encourage:** register BEFORE/AFTER in `inputs/design-references/` for regression context.
+
+## External resources
+
+Curated references: [`resources/web-research-2026.md`](../../resources/web-research-2026.md) §3 + §6 — apply its license policy + rules ([§8.1](../../resources/web-research-2026.md#81-verify-resource-urls-skill-rule), [§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)). **Default path:** static rubrics + token-lint + Storybook build; browser control opt-in only.

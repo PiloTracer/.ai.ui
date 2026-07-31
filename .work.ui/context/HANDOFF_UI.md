@@ -6,11 +6,13 @@
 
 **Open:** -
 
-**Updated:** 2026-05-29
+**Updated:** 2026-07-31
 
 **Closed:** 2026-06-23 (director-strengthening session)
 
 **UI layer state:** **Framework development.** `@ui-director` now has an explicit free-text intake contract and is wired into `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, and `context/README.md` as the default free-text entry point. Cross-framework requests route through `@x-director`. Existing demo foundation (docs 01–04 + `design-system/tokens.css` + `PROBE_LEDGER.md`) remains in place.
+
+**2026-07-31 — web-research integration batch (committed on explicit owner request):** `resources/web-research-2026.md` curated catalog (6 verified clusters) wired into 5 skills + `ui-component-build` verify policy + `ui-process-router` `research` bucket + director index; **license policy** (commercial-safe; MPL-2.0 unmodified-dep exception) + **browser-control policy** (static-first; §8.2 opt-in authorization) + **URL-verify rule** (§8.1) encoded; **skill debloat** (−118/+51: `ui-copy` → COPY_STANDARD pointer; director reference single-source pointers); **director routing completeness** — `deploy-basic` routable, 17/17 skills locatable (verified). Audit: `.work.ui/reports/20260731-web-research-integration-report.md`. `bash scripts/framework-verify.sh` PASS.
 
 **This session ported the `.ai` improvements into `.ai.ui` (domain-adapted, lean house style):**
 
@@ -109,6 +111,7 @@ Backlog 1 + 3–10 cleared in the follow-up session; only the commit (#2) remain
 
 | Date | Session | Artifacts |
 |------|---------|-----------|
+| 2026-07-31 | web-research integration + skill debloat + director routing | `resources/web-research-2026.md` (catalog + license/browser/URL policies); wired `ui-design-foundation`, `ui-accessibility-audit`, `ui-visual-verify`, `ui-design-system`, `ui-copy`, `ui-component-build`, `ui-process-router`, `ui-director`; CHANGELOG [Unreleased]; `.work.ui/reports/20260731-web-research-integration-report.md`; verified 17/17 director routing, `framework-verify` PASS |
 | 2026-06-23 | director free-text intake | `skills/ui-director/skill.md` gained explicit Free-text intake contract (capture → load → classify → channel → record); `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, `context/README.md` now route free-text requests to `@ui-director` / `@x-director` |
 | 2026-05-23 | bootstrap | `.work.ui/` skeleton |
 | 2026-05-29 | framework: probe + intake + verifiers | `skills/probe-protocol.md`, `templates/work.ui/plans/foundation/PROBE_LEDGER.md.template`, `scripts/{readiness-verify,traceability-verify,release}.sh`; edited `framework-verify.sh`, `ui-design-foundation`, `ui-component-build`, `ui-screen-spec`, `ui-process-router` (+reference), `SKILL_DEPENDENCIES.md`, `START_HERE.md`, `README` count prose, `CONTRIBUTING.md`, `CHANGELOG.md` |

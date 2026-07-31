@@ -19,7 +19,15 @@ description: >-
 
 ## Tooling
 
-Run `REPLACE:UI_A11Y_TOOL` in container per `.cursorrules`.
+**Default (static):** jest-axe / axe rule review + WCAG/APG rubric + manual checklist (§2 of [`web-research-2026.md`](../../resources/web-research-2026.md)) — no live browser in agent session.
+
+**CI / configured:** Run `REPLACE:UI_A11Y_TOOL` in container per `.cursorrules` when the project defines it.
+
+**Browser control (opt-in):** `@axe-core/playwright`, Lighthouse, Playwright MCP — only after **explicit operator authorization** ([§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)). State tool + scope; wait for confirmation.
+
+## External resources
+
+Curated references: [`resources/web-research-2026.md`](../../resources/web-research-2026.md) §2 — apply its license policy + rules ([§8.1](../../resources/web-research-2026.md#81-verify-resource-urls-skill-rule), [§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)).
 
 ## Verdict
 

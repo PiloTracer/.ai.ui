@@ -10,6 +10,11 @@ node_modules/
 dist/
 build/
 
+# Host/tooling artifacts (agent configs, local scratch)
+reasonix.toml
+*.code-workspace
+session-*.md
+
 # Project inputs may contain large assets — track selectively
 .ai.ui/inputs/**/*
 !.ai.ui/inputs/README.md

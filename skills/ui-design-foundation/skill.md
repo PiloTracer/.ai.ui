@@ -76,3 +76,7 @@ Adaptive, gap-driven interrogation that **guarantees foundation understanding** 
 
 - `@ui-design-system init` after tokens doc
 - Agent OS `@plan-foundation` — parallel; cross-link FRs in screen map, do not duplicate
+
+## External resources
+
+Curated references: [`resources/web-research-2026.md`](../../resources/web-research-2026.md) §1 — apply its license policy + rules ([§8.1](../../resources/web-research-2026.md#81-verify-resource-urls-skill-rule), [§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)). Token output: DTCG JSON + OKLCH palettes.

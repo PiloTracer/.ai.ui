@@ -67,6 +67,19 @@ After the workflow completes or changes state, append to `{HANDOFF_UI}` using th
 
 Also update `{UI_ITERATION_CARRIER}` § **Recommended next** when the UI build cycle advances.
 
+### 6. External resources & verify policy
+
+When routing to foundation, verify, a11y, copy, or design-system skills, agents load curated external references from **[`resources/web-research-2026.md`](../../resources/web-research-2026.md)** (in-repo — no external fetch required to discover them). Apply:
+
+| Policy | Rule |
+|--------|------|
+| License | Commercial-safe only — see doc header; §7 exclusions |
+| URLs | Verify live before citing ([§8.1](../../resources/web-research-2026.md#81-verify-resource-urls-skill-rule)) |
+| Verify default | **Static first** — rubrics, jest-axe, token-lint, Storybook build |
+| Browser control | Opt-in only — explicit operator authorization required ([§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)) |
+
+**Skill → research § map:** foundation §1 · a11y §2 · visual-verify §3+§6 · design-system §4 · copy §5 · behavior OSS [`control-platforms.md`](../../resources/control-platforms.md).
+
 ## Orchestration protocol
 
 When user says `@ui-director - <anything>`:
@@ -92,7 +105,7 @@ Read `{HANDOFF_UI}` and `{UI_ITERATION_CARRIER}` for context. Classify the reque
 | `copy` | "write UI copy", "microcopy", "button labels", "error messages", "empty states", "copy review", "copy audit", "set UI voice" | `ui-copy` |
 | `concept` | "run UIS prompt", "check visual hierarchy", "motion design", "intuitive UX", "data viz quality", "surface craft" | `ui-concept-run` |
 | `audit` | "audit everything", "run verifiers", "check readiness", "traceability" | `ui-plan-verify` |
-| `deploy` | "deploy framework to another project", "copy to repo", "clone to path" | `deploy-files` / `deploy-repo` |
+| `deploy` | "deploy framework to another project", "copy to repo", "clone to path", "thin-client bootstrap", "lightweight setup (skills load from source)" | `deploy-basic` (thin client) / `deploy-files` / `deploy-repo` |
 | `router` | "how do I...?", "where is...?", "what skill...?" | `ui-process-router` |
 | `session-control` | "start session", "close session", "commit" | Redirect to `@session-control` (Agent OS) |
 | `backend` | "backend work", "database", "API", "migration" | Redirect to Agent OS |
@@ -136,7 +149,7 @@ Map the classified bucket to the correct skill chain. Respect the dependency gra
 | "Check all the UI text is consistent" | `@ui-copy audit - .work.ui/screens/` |
 | "Set the voice for our UI copy" | `@ui-copy tone - <description>` |
 | "How do I add a new screen?" | `@ui-process-router - how do I add a new screen?` |
-| "Deploy UI Design OS to my other project" | `@deploy-files copy - <path>` or `@deploy-repo clone - <path>` |
+| "Deploy UI Design OS to my other project" | `@deploy-files copy - <path>` or `@deploy-repo clone - <path>`; thin client (cursorrules + `.work.ui/` only) → `@deploy-basic - <path>` |
 
 ### 3. EXECUTE
 
@@ -148,20 +161,7 @@ For each skill in the chain:
 
 ### 4. RECORD
 
-After completing the workflow (or on any meaningful state change), update `{HANDOFF_UI}`:
-
-```markdown
-## Latest action (@ui-director)
-**Date:** YYYY-MM-DD
-**Request:** "<user's original request>"
-**Executed:**
-1. @ui-<skill> <mode> - <arg> → <result>
-2. ...
-**Blockers:** <any unresolved items>
-**Next recommended:** @<skill> <mode> - <arg>
-```
-
-Also update `{UI_ITERATION_CARRIER}` § Recommended next if the workflow advanced the build cycle.
+After completing the workflow (or on any meaningful state change), update `{HANDOFF_UI}` using the **same block shape** as § Free-text intake contract → 5. Structure/format the record. Also update `{UI_ITERATION_CARRIER}` § Recommended next if the workflow advanced the build cycle.
 
 ## New skill protocol
 
@@ -207,3 +207,4 @@ If the user request genuinely cannot be fulfilled by any registered `ui-*` skill
 - [`probe-protocol.md`](../probe-protocol.md) — Shared probe engine
 - [`COHABITATION.md`](../../COHABITATION.md) — Agent OS coexistence rules
 - [`concepts/README.md`](../../concepts/README.md) — UIS prompt trigger table
+- [`resources/web-research-2026.md`](../../resources/web-research-2026.md) — Curated external resources + license/browser policies (§8.1–§8.2)

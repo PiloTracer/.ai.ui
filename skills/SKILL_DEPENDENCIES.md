@@ -90,6 +90,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | Brand/users/scope vague; "do you understand the UI?" | `@ui-design-foundation probe` (then `certify`) |
 | Roadmap completeness unclear before broad build | `@ui-component-build probe` |
 | Audit readiness (verifiers + coverage + orphans) | `@ui-plan-verify audit` |
+| External UX/a11y/token/copy references | read `resources/web-research-2026.md` (route via `@ui-process-router`) |
 | UI session close / commit | `@session-control close` (Agent OS) |
 | Backend migration | `@db-migration` (Agent OS) — not a ui-* skill |
 
@@ -119,7 +120,8 @@ One verb set across `ui-*` skills. New verbs go here first, then into the matrix
 | `review` | ui-screen-spec, ui-copy | yes | Check / amend a SPEC; evaluate screen copy |
 | `audit` / `probe-coverage` / `traceability` | ui-plan-verify, ui-copy | read | Report + route readiness gaps; audit UI copy quality |
 | `tone` | ui-copy | yes | Define or reload brand voice for UI copy |
-| `milestone` / `uncommitted` | ui-visual-verify, ui-accessibility-audit | read | Verify before ship |
+| `milestone` | ui-visual-verify, ui-accessibility-audit | read | Verify before ship |
+| `uncommitted` | ui-visual-verify | read | Visual/token regression on uncommitted tree |
 | `status` | most skills | read | Read-only state |
 | *(question)* | ui-process-router, ui-project-approach | read | Classify / orient |
 

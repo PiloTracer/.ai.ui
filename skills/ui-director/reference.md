@@ -31,61 +31,19 @@ All 13 other registered ui-* skills + 3 deploy utilities (the 14th ui-* skill is
 
 ## 2. Gate / dependency matrix
 
-| Gate state | Meaning | Certified by |
-|------------|---------|--------------|
-| *(scaffold)* | `.work.ui/` skeleton exists | `@ui-bootstrap init` |
-| **ui-foundation-complete** | All 4 foundation docs present | `@ui-design-foundation status` |
-| **screen-spec-ready** | Tokens + screen map ready for SPEC authoring | `@ui-design-foundation certify screen-spec-ready` |
-| **ui-implementation-ready** | Active milestone with passing verify | `@ui-component-build status` + verify pass |
-
-**Gate blocking rules:**
-
-| Attempted skill/mode | Blocked unless | Route instead |
-|----------------------|----------------|---------------|
-| `@ui-design-foundation greenfield` | `.work.ui/` exists (or bootstrap complete) | `@ui-bootstrap init` |
-| `@ui-screen-spec create` | **screen-spec-ready** | `@ui-design-foundation certify screen-spec-ready` |
-| `@ui-component-build plan` | Approved screen SPEC(s) for milestone | `@ui-screen-spec review - <path>` → approve |
-| `@ui-component-build start` | Valid `NEXT_UI.md` + screen-spec-ready or waiver | `@ui-component-build plan - S{N}` |
-| `@ui-component-build complete` | `@ui-visual-verify milestone` + `@ui-accessibility-audit milestone` + `@ui-plan-verify audit` pass | Run each verify first |
-| `@ui-component-build complete` (craft ≥ refined) | `@ui-concept-run - UIS-07` done | Run UIS-07 |
-| `@ui-component-build complete` (any screen) | `@ui-concept-run - UIS-08` done | Run UIS-08 |
-| `@ui-component-build complete` (analytical dashboard) | `@ui-concept-run - UIS-09` done | Run UIS-09 |
-| `@ui-design-system init` | Tokens doc (foundation doc 02) exists | `@ui-design-foundation greenfield` |
+Single source: [`SKILL_DEPENDENCIES.md`](../SKILL_DEPENDENCIES.md) — readiness states, dependency matrix, and blocked-until rules. The director checks the gate before invoking any skill; if a prerequisite is unmet, report it and run the prerequisite first (see § ROUTE).
 
 ---
 
 ## 3. Skill chain templates by archetype
 
-From `APPROACH.md` §2. Use these when the user describes a project:
-
-| Archetype | Chain (after `@ui-bootstrap init`) |
-|-----------|----------------------------------|
-| **marketing-site** | `@ui-style-stack set` → `@ui-design-foundation greenfield` → `@ui-screen-spec create` per route → `@ui-copy write` per screen → `@ui-component-build` → verify |
-| **saas-product** | `@ui-style-stack set` → `@ui-design-foundation` → `@ui-screen-spec` (shell + key flows) → `@ui-copy write` per screen → `@ui-design-system init` → `@ui-component-build` → verify + a11y |
-| **admin-dashboard (operational)** | Same as saas; **require** UIS-01 + UI-PATTERNS § data-density in SPECs |
-| **admin-dashboard (analytical)** | Same as saas; **require** chart library in doc 03, UIS-09 at milestone verify, chart tokens in foundation 02 |
-| **mobile-app** | `@ui-style-stack set` → foundation → specs per screen → build; **UIS-02 required** every screen |
-| **design-system** | foundation → `@ui-design-system init` → primitives before screens |
-| **hybrid** | foundation once → separate SPEC groups per shell |
+Single source: `APPROACH.md` §2 (archetypes → chains). Director note: always start from `@ui-bootstrap init` unless the scaffold is already present.
 
 ---
 
 ## 4. UIS concept trigger table
 
-From `concepts/README.md`. Run these as required during the build cycle:
-
-| Trigger | Run | Required? |
-|---------|-----|-----------|
-| Agent-assisted UI session | `@ui-concept-run - UIS-06` | **Required** (unless human-only) |
-| Build complete, craft tier ≥ refined | `@ui-concept-run - UIS-07` | **Required** |
-| Any screen before ship | `@ui-concept-run - UIS-08` | **Required** |
-| Analytical dashboard screens | `@ui-concept-run - UIS-09` | **Required** |
-| New theme or semantic color token | `@ui-concept-run - UIS-04` | **Required** |
-| New screen, marketing block, dense dashboard | `@ui-concept-run - UIS-01` | Default lightest prompt |
-| Breakpoints, grid, mobile | `@ui-concept-run - UIS-02` | Recommended per SPEC |
-| Animation beyond micro-feedback | `@ui-concept-run - UIS-03` | Recommended |
-| Multi-step flow or modal | `@ui-concept-run - UIS-05` | Recommended |
-| Marketing / landing page / hero section | `@ui-concept-run - UIS-10` | **Required** (marketing-site, hybrid) |
+Single source: `concepts/README.md` trigger table. Required at the gates listed there: UIS-06 (agent-assisted), UIS-07 (craft ≥ refined), UIS-08 (any screen), UIS-09 (analytical dashboards), UIS-10 (marketing/hybrid), UIS-04 (token/theme changes).
 
 ---
 
@@ -136,6 +94,7 @@ Before `@ui-component-build complete`, ensure these all pass:
 | "Check if we're ready to close the milestone" | `audit` | `@ui-plan-verify audit` |
 | "How do I create a screen spec?" | `router` | `@ui-process-router - how do I create a screen spec?` |
 | "Deploy to /path/to/project" | `deploy` | `@deploy-files copy - /path/to/project` |
+| "Thin-client deploy (just cursorrules + .work.ui/)" | `deploy` | `@deploy-basic - /path/to/project` |
 | "Start a session" | `session-control` | Redirect: `@session-control start` (Agent OS) |
 | "Commit my changes" | `session-control` | Redirect: `@session-control close` (Agent OS) |
 | "Create a migration" | `backend` | Redirect: `@db-migration` (Agent OS) |
@@ -144,16 +103,7 @@ Before `@ui-component-build complete`, ensure these all pass:
 
 ## 7. State files (paths)
 
-| Placeholder | Resolved path | Purpose |
-|-------------|---------------|---------|
-| `{WORK_UI_ROOT}` | `.work.ui/` | Project memory root |
-| `{HANDOFF_UI}` | `.work.ui/context/HANDOFF_UI.md` | UI session state |
-| `{UI_ITERATION_CARRIER}` | `.work.ui/plans/NEXT_UI.md` | Active iteration + intake queue |
-| `{SCREEN_SPEC_ROOT}` | `.work.ui/screens/` | Screen SPECs |
-| `{UI_PLANS_ROOT}` | `.work.ui/plans/` | Foundation docs, ledgers, roadmap |
-| `{UI_DECISIONS_ROOT}` | `.work.ui/decisions/` | Architecture Decision Records |
-| `{UI_DESIGN_SYSTEM_ROOT}` | `.work.ui/design-system/` | CATALOG.md, stories |
-| `{UI_ROADMAP}` | `.work.ui/plans/full/*-ui-roadmap.md` | Full roadmap |
+Single source: `SKILL_DEPENDENCIES.md` § Work tree path resolution (mandatory). `{WORK_UI_ROOT}` always resolves to `<repo-root>/.work.ui/` — never under `.ai.ui/`.
 
 ---
 
@@ -182,3 +132,24 @@ Before `@ui-component-build complete`, ensure these all pass:
 | Approach | `APPROACH.md` | Archetype definitions, skill chains, complexity levels |
 | Decision tree | `START_HERE.md` | Operator entry point |
 | Cohabitation | `COHABITATION.md` | Rules when coexisting with Agent OS |
+| Control platforms | `resources/control-platforms.md` | OSS behavior libraries (MIT/Apache) |
+| Web research | `resources/web-research-2026.md` | Curated external URLs + agent apply rules; license + browser policies |
+| Resource index | `resources/README.md` | Gallery URLs + pointers to research + control platforms |
+
+---
+
+## 10. External research → skill map
+
+Canonical source: [`resources/web-research-2026.md`](../../resources/web-research-2026.md) §9. Director routes verify/foundation/copy work through the mapped skill; each skill's `skill.md` links its §.
+
+| Research § | Primary `@` skills | Static default | Browser opt-in |
+|------------|-------------------|----------------|----------------|
+| §1 Tokens/color | `ui-design-foundation`, UIS-04 | DTCG JSON, OKLCH, color.js, token-lint | — |
+| §2 Accessibility | `ui-accessibility-audit` | jest-axe, WCAG/APG rubric, manual checklist | `@axe-core/playwright`, Lighthouse, Playwright MCP |
+| §3 Visual QA | `ui-visual-verify`, `ui-concept-run` (UIS-01/08/09) | NN/g, Laws of UX, GoodUI, FT Vocabulary rubrics | Playwright snapshots, Chromatic (CI) |
+| §4 Design systems | `ui-design-system` | Storybook MCP query, Open UI, Style Dictionary | Framelink Figma MCP |
+| §5 UX writing | `ui-copy` | Polaris/Google/Microsoft tone rubrics | — |
+| §6 Agent verify | `ui-visual-verify`, `ui-plan-verify` | Static checklists, Design2Code metrics | Playwright MCP, DevTools MCP (authorized) |
+| Behavior OSS | `ui-design-system`, `ui-component-build` | `control-platforms.md` | — |
+
+**Policies (all skills):** commercial-safe license (doc header) · verify URLs before citing (§8.1) · browser control requires explicit operator authorization (§8.2).

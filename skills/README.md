@@ -50,4 +50,6 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 
 **Gates:** [`SKILL_DEPENDENCIES.md`](SKILL_DEPENDENCIES.md)
 
+**External research:** [`resources/web-research-2026.md`](../resources/web-research-2026.md) (curated URLs + apply rules; static verify default; browser opt-in §8.2) · [`resources/control-platforms.md`](../resources/control-platforms.md) (OSS behavior)
+
 **Orientation:** `@ui-process-router - <question>` · [`START_HERE.md`](../START_HERE.md)

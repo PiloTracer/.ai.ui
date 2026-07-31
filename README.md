@@ -56,7 +56,8 @@ Full playbook: [`examples/INDEX.md`](examples/INDEX.md)
 | [`style-stacks/`](style-stacks/README.md) | Tailwind, CSS Modules, vanilla CSS, styled-components |
 | [`examples/INDEX.md`](examples/INDEX.md) | Annotated screenshots + value matrix |
 | [`resources/control-platforms.md`](resources/control-platforms.md) | OSS behavior platforms (MIT/Apache) |
-| [`resources/README.md`](resources/README.md) | External gallery URLs |
+| [`resources/web-research-2026.md`](resources/web-research-2026.md) | Curated external references + agent apply rules (license §, static verify, browser opt-in §8.2) |
+| [`resources/README.md`](resources/README.md) | External gallery URLs + resource index |
 | **17 `ui-*` skills** | Bootstrap → foundation → spec → build → verify (+ plan audit + deploy + copy) |
 
 See [`APPROACH.md` §6](APPROACH.md#6-skills-we-explicitly-did-not-add) for skills we did not add (coverage via UI-PATTERNS).
