@@ -16,12 +16,13 @@
   - **P6 — Eval harness** — `scripts/ui-eval.sh` (approximate, stdlib, advisory) + `.github/workflows/ui-eval.yml` + `ui-plan-verify eval` + UIS-09 FT reject list.
   - **P7 — Agent MCP surface** — `docs/guides/agent-mcp.md` (Storybook/Playwright/DevTools MCP configs, tier table) + `ui-bootstrap` pointer.
   - **P8 — Python desktop UI skills** — new **`ui-python-desktop`** skill (18th; FLET/PySide6/PyQt6 first-class, PyQt6 license note, zero-install framework) + primitive-map reference + runbook; `desktop-app` archetype; `desktop` bucket wired into director/router/dependencies; `token-lint` extended to `.py`; catalog §10.
+  - **Post-audit (2026-07-31)** — desktop-app skill chain in `APPROACH.md`; desktop token binding in `DESIGN_TOKENS_STANDARD` §7; tracked `scripts/fixtures/python-desktop/` + `framework-verify` py_compile gates; completion audit + demo reports in `.work.ui/reports/`.
 
 ### Changed
 
 - **Skills wired to the research catalog** — `ui-design-foundation` (§1 tokens), `ui-accessibility-audit` (§2 + static/CI/browser tooling tiers), `ui-visual-verify` (§3+§6 + verification tiers), `ui-design-system` (§4), `ui-copy` (§5); `ui-component-build` static-first verify policy; `ui-process-router` `research` bucket; `ui-director` + reference index the catalog; `README.md` / `START_HERE.md` / `skills/README.md` link it.
 - **Skill debloat (−118/+51)** — `ui-copy` universal rules deduped to `COPY_STANDARD` pointer (kept only rules the standard lacks; tooltip length conflict fixed to standard); `ui-director/reference.md` verbatim copies → single-source pointers; repeated license/URL-verify boilerplate → §8.1/§8.2 pointers; stale `uncommitted` mode row in `SKILL_DEPENDENCIES.md` fixed.
-- **Director routing completeness** — `deploy-basic` (thin-client) now routable from free text via the `deploy` bucket + shortcut chains + reference routing table; verified 17/17 registered skills locatable.
+- **Director routing completeness** — `deploy-basic` (thin-client) now routable from free text via the `deploy` bucket + shortcut chains + reference routing table; verified **18/18** registered skills locatable (`framework-verify.sh` skill-count derivation).
 - **`.gitignore`** — host/tooling artifacts (`reasonix.toml`, `*.code-workspace`, `session-*.md`).
 
 ## [0.4.3] - 2026-07-02

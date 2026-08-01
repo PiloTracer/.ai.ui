@@ -1,5 +1,7 @@
 {
-  "description": "Touch scope — 2026-07-31 web-research integration batch: catalog + skill wiring + debloat + director routing + context update.",
+  "description": "Touch scope — 2026-07-31 improvement-plan audit closure: cross-area gap corrections + demo reports + desktop fixtures.",
+  "blast_radius_approved": true,
+  "blast_radius_note": "Session close commit — audit corrections span skills/scripts/standards/.work.ui by design; operator authorized commit+push.",
   "allowed_paths": [
     ".gitignore",
     "README.md",

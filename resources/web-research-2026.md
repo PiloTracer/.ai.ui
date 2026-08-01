@@ -139,7 +139,7 @@ Browser control remains **available** for deep verification; it is never the def
 | Resource | Why it matters | Agent application |
 |----------|----------------|-------------------|
 | [Claude Code Best Practices](https://www.anthropic.com/engineering/claude-code-best-practices) ✔ | Agent-workflow canon: give the agent a check to run, CLAUDE.md as persistent memory, plan-mode, fresh-context adversarial review, "don't let the worker grade itself" | Blueprint: static verify checklist first; design-ADR as memory; reviewer subagent in fresh context — browser screenshot compare only when operator authorizes |
-| [screenshot-to-code](https://github.com/abi/screenshot-to-code) ✔ | OSS screenshot→code with self-render-inspect loop; `QA.md` / `Evaluation.md` | Mine `QA.md` / `Evaluation.md` checklists for static rubrics; asset-extraction rules (reuse real images/logos, not placeholders) |
+| [screenshot-to-code](https://github.com/abi/screenshot-to-code) ✔ | OSS screenshot→code with self-render-inspect loop; `QA.md` / `Evaluation.md` | Mine `QA.md` / `Evaluation.md` checklists for static rubrics; asset-extraction rules (reuse real images/logos, not placeholders). **Intake runbook:** [`docs/guides/reference-image-intake.md`](../docs/guides/reference-image-intake.md) (`@ui-screen-spec intake - <image>`) |
 | [Design2Code benchmark](https://github.com/NoviScl/Design2Code) ✔ | 484 real webpages; 5 auto metrics (block-match, text, position, color, CLIP) + human pairwise eval; self-revision prompting | Eval harness metrics for offline comparison; self-revision loop uses static diff first — live render only with authorization |
 
 ### 6.2 Browser control (opt-in — operator authorization required)

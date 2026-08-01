@@ -73,3 +73,13 @@ Define a separate chart palette in the token file. Charts must **not** consume g
 ## 6. Brand inputs
 
 Brand colors from `.ai.ui/inputs/brand/` map **into** semantic tokens — components never import brand files directly.
+
+## 7. Desktop binding (Python — FLET / Qt)
+
+When `@ui-python-desktop` is active (`UI_DESKTOP_STACK` in HANDOFF_UI), emit tokens to platform targets from the same DTCG `tokens.json`:
+
+- **Constants module:** `tokens.py` with semantic names (no raw hex in component code — `token-lint.sh` scans `.py`)
+- **FLET:** `ft.Theme` / `ThemeData` from token names (see `ui-python-desktop` scaffold protocol)
+- **Qt (PySide6 / PyQt6):** `QPalette` + QSS referencing token constants; palette roles map to semantic surface/text/accent tokens
+
+Generated desktop source must consume tokens — never literals in widgets/controls.

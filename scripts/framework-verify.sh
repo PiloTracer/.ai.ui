@@ -165,6 +165,26 @@ printf 'const c = "#2f6df6";\n' > "${tmpd}/tl-dirty.tsx"
 selftest "token-lint accepts token usage" 0 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-clean.tsx"
 selftest "token-lint rejects raw hex"     1 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-dirty.tsx"
 
+# Python desktop skeleton proofs (Phase 8): stdlib py_compile only — no pip/Qt/FLET required.
+desk_base="${ROOT}/scripts/fixtures/python-desktop"
+for stack in flet pyside6 pyqt; do
+  skel="${desk_base}/${stack}/app.py"
+  if [[ -f "$skel" ]]; then
+    if python3 -m py_compile "$skel" >/dev/null 2>&1; then
+      echo "ok: desktop skeleton py_compile (${stack})"
+    else
+      echo "DESKTOP: py_compile failed for ${stack} skeleton"; FAIL=1
+    fi
+    if "${ROOT}/scripts/token-lint.sh" "$skel" >/dev/null 2>&1; then
+      echo "ok: desktop skeleton token-lint (${stack})"
+    else
+      echo "DESKTOP: token-lint failed for ${stack} skeleton"; FAIL=1
+    fi
+  else
+    echo "DESKTOP: missing skeleton ${skel}"; FAIL=1
+  fi
+done
+
 # token-schema (DTCG) self-tests + demo validation (Phase 2 token pipeline).
 cat > "${tmpd}/ts-ok.json" <<'EOF'
 { "color": { "accent": { "$type": "color", "$value": "#2f6df6" }, "page": { "$type": "color", "$value": "{color.accent}" } } }

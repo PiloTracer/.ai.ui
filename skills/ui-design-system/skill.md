@@ -12,7 +12,7 @@ description: >-
 | Mode | Action |
 |------|--------|
 | `init` | Create or refresh `<repo-root>/.work.ui/design-system/CATALOG.md` from foundation doc 03 — seeds from the brand doc (`*-03-design-system.brand.md` §3/§6) when present |
-| `add - <component>` | Add primitive: file + story + catalog row per COMPONENT_STANDARD |
+| `add - <component>` | Add primitive: file + story + catalog row per COMPONENT_STANDARD; when `UI_DESKTOP_STACK` is set, map to FLET controls / Qt widgets per [`ui-python-desktop/reference.md`](../ui-python-desktop/reference.md) |
 | `status` | Missing stories, deprecated components |
 
 ## Prerequisites
@@ -26,6 +26,7 @@ description: >-
 - Cite **example id** from manifests when visual target exists
 - Craft tier ≥ refined: optional **behavior source** from [`resources/control-platforms.md`](../../resources/control-platforms.md) in CATALOG; style stays project tokens
 - **Token compile:** DTCG `tokens.json` → Style Dictionary v4 → platform files; CATALOG rows reference token **names**, never literals
+- **Desktop primitives:** when `UI_DESKTOP_STACK` is set (`flet` / `pyside6` / `pyqt`), `init`/`add` seed CATALOG rows from the desktop primitive map (FLET `ft.*` controls / Qt widgets) — same token binding rules as web primitives
 
 ## External resources
 

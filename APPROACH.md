@@ -36,6 +36,7 @@ If hybrid → document **marketing** vs **app** shells separately in screen map 
 | reporting / export | Add `@ui-screen-spec create` for each report view; chart + table pair required per SPEC; UIS-08 + UIS-09 both required |
 | mobile-app | `ui-style-stack set` → foundation → specs per screen → build; **UIS-02 required** every screen |
 | design-system | foundation → `ui-design-system init` → primitives before screens |
+| desktop-app | `ui-style-stack set` (CSS if hybrid web) → foundation → `ui-screen-spec` → `@ui-python-desktop stack set` → `scaffold` / `component add` → `verify` (static tier); visual tier user-env + opt-in §8.2 |
 | hybrid | foundation once → separate SPEC groups per shell |
 
 **Copy craft:** Add `@ui-copy write` per screen (after SPEC, before build) for dedicated microcopy work — or rely on `@ui-component-build` to handle copy inline.

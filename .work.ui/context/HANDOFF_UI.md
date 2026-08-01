@@ -4,17 +4,17 @@
 
 ## Session status
 
-**Open:** -
+**Open:** closed
 
 **Updated:** 2026-07-31
 
-**Closed:** 2026-06-23 (director-strengthening session)
+**Closed:** 2026-07-31 (improvement-plan audit + gap corrections)
 
 **UI layer state:** **Framework development.** `@ui-director` now has an explicit free-text intake contract and is wired into `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, and `context/README.md` as the default free-text entry point. Cross-framework requests route through `@x-director`. Existing demo foundation (docs 01–04 + `design-system/tokens.css` + `PROBE_LEDGER.md`) remains in place.
 
 **2026-07-31 — web-research integration batch (committed on explicit owner request):** `resources/web-research-2026.md` curated catalog (6 verified clusters) wired into 5 skills + `ui-component-build` verify policy + `ui-process-router` `research` bucket + director index; **license policy** (commercial-safe; MPL-2.0 unmodified-dep exception) + **browser-control policy** (static-first; §8.2 opt-in authorization) + **URL-verify rule** (§8.1) encoded; **skill debloat** (−118/+51: `ui-copy` → COPY_STANDARD pointer; director reference single-source pointers); **director routing completeness** — `deploy-basic` routable, 17/17 skills locatable (verified). Audit: `.work.ui/reports/20260731-web-research-integration-report.md`. `bash scripts/framework-verify.sh` PASS.
 
-**2026-07-31 — improvement-plan implementation batch (Phases 0–8, uncommitted):** license standard + machine-checked license scan (P0); vision-verify tier + assertion catalog + self-revision loop (P1); DTCG token pipeline + schema validator (P2); brand design-system contract template (P3); reference-image intake mode + runbook (P4); copy rubrics reference (P5); eval harness + CI + UIS-09 reject list (P6); agent MCP guide (P7); **`ui-python-desktop`** skill (18th — FLET/PySide6/PyQt6 first-class, zero-install framework, PyQt6 license note) + runbook + full registration + token-lint `.py` (P8). `framework-verify` PASS; 18/18 director routing verified; zero-install proven (3 skeletons `py_compile` with stdlib only).
+**2026-07-31 — improvement-plan implementation batch (Phases 0–8, commit `9aa9e63`):** license standard + machine-checked license scan (P0); vision-verify tier + assertion catalog + self-revision loop (P1); DTCG token pipeline + schema validator (P2); brand design-system contract template (P3); reference-image intake mode + runbook (P4); copy rubrics reference (P5); eval harness + CI + UIS-09 reject list (P6); agent MCP guide (P7); **`ui-python-desktop`** skill (18th — FLET/PySide6/PyQt6 first-class, zero-install framework, PyQt6 license note) + runbook + full registration + token-lint `.py` (P8). Post-commit audit: `.work.ui/reports/20260731-improvement-plan-completion-audit.md`. `framework-verify` PASS; 18/18 director routing; desktop skeleton py_compile ×3 machine-checked.
 
 **This session ported the `.ai` improvements into `.ai.ui` (domain-adapted, lean house style):**
 
@@ -113,6 +113,7 @@ Backlog 1 + 3–10 cleared in the follow-up session; only the commit (#2) remain
 
 | Date | Session | Artifacts |
 |------|---------|-----------|
+| 2026-07-31 | improvement-plan audit corrections | Post-commit audit of Phases 0–8: `APPROACH` desktop-app chain; `ui-design-system` desktop primitives; `DESIGN_TOKENS_STANDARD` §7 desktop binding; `framework-verify` desktop py_compile×3 + `scripts/fixtures/python-desktop/`; `bootstrap-test` brand template; demo reports (`completion-audit`, `vision-verify-demo`, `ui-eval-demo.json`); 18/18 director routing; `framework-verify` PASS |
 | 2026-07-31 | web-research integration + skill debloat + director routing | `resources/web-research-2026.md` (catalog + license/browser/URL policies); wired `ui-design-foundation`, `ui-accessibility-audit`, `ui-visual-verify`, `ui-design-system`, `ui-copy`, `ui-component-build`, `ui-process-router`, `ui-director`; CHANGELOG [Unreleased]; `.work.ui/reports/20260731-web-research-integration-report.md`; verified 17/17 director routing, `framework-verify` PASS |
 | 2026-06-23 | director free-text intake | `skills/ui-director/skill.md` gained explicit Free-text intake contract (capture → load → classify → channel → record); `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, `context/README.md` now route free-text requests to `@ui-director` / `@x-director` |
 | 2026-05-23 | bootstrap | `.work.ui/` skeleton |

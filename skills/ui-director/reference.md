@@ -6,7 +6,7 @@ Full skill registry, dependency map, and routing tables for the `@ui-director` o
 
 ## 1. Complete skill registry (all `ui-*` skills)
 
-All 14 other registered ui-* skills + 3 deploy utilities (the 15th ui-* skill is `ui-director` itself, not listed here). Source of truth: `skills/README.md` (18 total).
+All 17 registered skills except `ui-director` itself (14 `ui-*` + 3 deploy utilities listed below). Source of truth: `skills/README.md` (**18 total** including `ui-director`).
 
 | `@` handle | Folder | Role | Modes | Writes? | Depends on |
 |------------|--------|------|-------|---------|------------|

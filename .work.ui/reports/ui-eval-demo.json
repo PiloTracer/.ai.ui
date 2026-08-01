@@ -1,0 +1,13 @@
+{
+  "tool": "ui-eval.sh",
+  "screen": "demo-synthetic",
+  "approx": "color-histogram + text-presence + geometry proxies; NOT CLIP/semantic; directional only — humans decide on flags",
+  "color_hist_distance": 0.0,
+  "text_presence": {
+    "candidate_missing": []
+  },
+  "geometry": 0.0,
+  "verdict": "pass (human review still required)",
+  "flags": [],
+  "note": "Synthetic descriptor pair from framework-verify self-test; not a live route screenshot"
+}

@@ -50,6 +50,7 @@ check ".work.ui/decisions/README.md"
 check ".work.ui/prompts/README.md"
 check ".work.ui/plans/foundation/README.md"
 check ".work.ui/plans/full/README.md"
+check ".ai.ui/templates/work.ui/plans/foundation/03-design-system.brand.template.md"
 check ".cursorrules"
 check "DOCS_UI_STACK.md"
 

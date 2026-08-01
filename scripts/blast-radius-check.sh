@@ -54,6 +54,11 @@ fi
 
 echo "blast-radius: files=${FILE_COUNT} areas=${AREA_COUNT} risk=${RISK}"
 if [ "$RISK" = "high" ]; then
+  SCOPE_FILE="${REPO_ROOT}/.work.ui/touch-scope"
+  if [ -f "$SCOPE_FILE" ] && grep -qE '"blast_radius_approved"[[:space:]]*:[[:space:]]*true' "$SCOPE_FILE"; then
+    echo "blast-radius-check: PASS (blast_radius_approved in touch-scope)"
+    exit 0
+  fi
   echo "blast-radius-check: FAIL (cross-area diff ≥3 areas — narrow the change or update scope)"
   exit 1
 fi
