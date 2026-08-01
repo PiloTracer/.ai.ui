@@ -68,6 +68,9 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | **ui-process-router** | - | Read-only |
 | **ui-project-approach** | - | Read-only (optional write to HANDOFF_UI on user request) |
 | **ui-copy** `write` / `plan` / `review` / `audit` / `tone` | None — can run at any stage | — |
+| **ui-python-desktop** `stack set` | None — records `UI_DESKTOP_STACK` | — |
+| **ui-python-desktop** `scaffold` | Tokens doc (Phase 2 DTCG) + approved screen SPEC | **Required** |
+| **ui-python-desktop** `component add` | CATALOG binding when `UI_DESKTOP_STACK` set | Recommended |
 | **ui-style-stack** `set` | Recommended: before `ui-design-foundation greenfield` | Warn if missing |
 | **ui-component-build** `start` | Active style stack in HANDOFF_UI or user-named in message | Recommended |
 | **ui-director** `- <request>` | Reads `{HANDOFF_UI}` + `{UI_ITERATION_CARRIER}` for context | Recommends: execute prerequisite first |
@@ -83,6 +86,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | `@deploy-files copy - /path` | `bash scripts/deploy-files.sh /path` |
 | `@deploy-repo clone - /path` | `bash scripts/deploy-repo.sh clone /path` |
 | `@deploy-repo archive - /path` | `bash scripts/deploy-repo.sh archive /path` |
+| `@ui-python-desktop scaffold - <slug>` | Generates Python desktop skeleton (FLET/PySide6/PyQt6) from tokens + SPEC |
 | `@ui-screen-spec create` | `@ui-design-foundation certify screen-spec-ready` |
 | `@ui-component-build start` | `@ui-component-build plan - S{N}` |
 | Free-text UI request, unsure where it goes | `@ui-screen-spec intake - <sentence>` |
@@ -120,6 +124,9 @@ One verb set across `ui-*` skills. New verbs go here first, then into the matrix
 | `review` | ui-screen-spec, ui-copy | yes | Check / amend a SPEC; evaluate screen copy |
 | `audit` / `probe-coverage` / `traceability` | ui-plan-verify, ui-copy | read | Report + route readiness gaps; audit UI copy quality |
 | `tone` | ui-copy | yes | Define or reload brand voice for UI copy |
+| `stack` | ui-python-desktop | yes (HANDOFF_UI) | Set desktop stack (flet/pyside6/pyqt) |
+| `scaffold` | ui-python-desktop | yes (code) | Generate Python desktop app skeleton |
+| `component` | ui-python-desktop | yes (code) | Add FLET control / Qt widget primitive |
 | `milestone` | ui-visual-verify, ui-accessibility-audit | read | Verify before ship |
 | `uncommitted` | ui-visual-verify | read | Visual/token regression on uncommitted tree |
 | `status` | most skills | read | Read-only state |

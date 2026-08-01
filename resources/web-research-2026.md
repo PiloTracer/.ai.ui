@@ -42,6 +42,8 @@ Browser control remains **available** for deep verification; it is never the def
 
 ## 1. Design tokens & color → `ui-design-foundation`, DESIGN_TOKENS_STANDARD, UIS-04
 
+**License:** MIT (color.js, Radix Colors, Tailwind v4, Utopia) · Apache-2.0 (Leonardo, Style Dictionary) · W3C (DTCG spec) · © link-only (OKLCH article) · SaaS (Tokens Studio — OSS baseline preferred)
+
 | Resource | Why it matters | Agent application |
 |----------|----------------|-------------------|
 | [W3C DTCG Design Tokens spec](https://www.designtokens.org/TR/2025.10/format/) ✔ | De-facto token interchange format: `$type`/`$value`, aliases, composite types (typography, border, shadow, gradient, transition), MIME `application/design-tokens+json` | Emit DTCG JSON as token source of truth; validate generated tokens against the published **2025.10** snapshot (pin this URL — `https://tr.designtokens.org/format/` currently serves a "do not implement" preview) |
@@ -58,6 +60,8 @@ Browser control remains **available** for deep verification; it is never the def
 **Naming conventions:** DTCG spec §5.1.1 (reserved `$` props, token-name constraints) + Radix semantic steps + Tailwind `--color-*` namespace are the three de-facto systems to codify.
 
 ## 2. Accessibility → `ui-accessibility-audit`, ACCESSIBILITY_STANDARD
+
+**License:** W3C (WCAG 2.2, WCAG 3.0 draft, APG, WAI-ARIA 1.2) · MIT (jest-axe) · MPL-2.0 dep (axe-core, @axe-core/playwright — unmodified dependency only) · Apache-2.0 (Lighthouse) · © link-only (A11Y Project, WebAIM)
 
 | Resource | Why it matters | Agent application |
 |----------|----------------|-------------------|
@@ -77,6 +81,8 @@ Browser control remains **available** for deep verification; it is never the def
 
 ## 3. Visual QA & UI patterns → `ui-visual-verify`, UI-PATTERNS, UIS-01/08/09
 
+**License:** © link-only (NN/g, Laws of UX, GoodUI, Datawrapper Academy) · MIT (FT Visual Vocabulary, Storybook) · Apache-2.0 (Playwright) · § account (Baymard free plan) · SaaS 🌐 (Chromatic — optional, free tier only)
+
 | Resource | Why it matters | Agent application |
 |----------|----------------|-------------------|
 | [NN/g 10 Usability Heuristics](https://www.nngroup.com/articles/ten-usability-heuristics/) ✔ | Canonical evidence-derived rubric; #8 aesthetic-minimalist is the visual core | Top-level pass over every screen: convert each heuristic into yes/no checks |
@@ -94,6 +100,8 @@ Browser control remains **available** for deep verification; it is never the def
 
 ## 4. Design systems & tooling → `ui-design-system`, control-platforms, CATALOG
 
+**License:** MIT (Storybook MCP, Framelink repo, Iconify, Fontsource) · Apache-2.0 (Style Dictionary v4) · W3C (Open UI, Web Components) · © link-only ⚠ (Design Better, EightShapes — unverified this run)
+
 | Resource | Why it matters | Agent application |
 |----------|----------------|-------------------|
 | [Storybook MCP server](https://storybook.js.org/docs/ai/mcp) ✔ | Official MCP: understand components/docs, generate stories, run tests, publish | Agent queries existing primitives + props before generating UI; emits testable CSF stories — stops re-inventing existing components |
@@ -109,6 +117,8 @@ Browser control remains **available** for deep verification; it is never the def
 
 ## 5. UX writing → `ui-copy`, COPY_STANDARD
 
+**License:** © link-only (NN/g error guidelines, Polaris, Google, Microsoft) · W3C (WCAG 3.2.4)
+
 | Resource | Why it matters | Agent application |
 |----------|----------------|-------------------|
 | [NN/g Error-Message Guidelines](https://www.nngroup.com/articles/error-message-guidelines/) ✔ | Research-backed error framework: visibility, plain language, remedy, preserve input, positive tone | Encode: message = what happened + why it matters + what to do next; banned words (invalid, illegal, failed, please try again); never blame; keep input on failure |
@@ -121,6 +131,8 @@ Browser control remains **available** for deep verification; it is never the def
 **Correction to keep in mind:** readability/language is WCAG **3.1** (3.1.5 Reading Level is AAA); 3.2 is "Predictable" (consistency). **Do not cite** [NN/g empty-states article](https://www.nngroup.com/articles/empty-states/) — it now 404s; next-best empty-state sources are Porter + Polaris/M3 guidance. M3 content design (m3.material.io/foundations/content-design/overview) and Apple HIG Writing (developer.apple.com/design/human-interface-guidelines/writing) are JS-gated ▶ (Docs-only; valuable: M3 error/empty patterns, Apple's "be brief, be kind, be useful").
 
 ## 6. Agent integration & evaluation → new verify loops, `ui-visual-verify`, eval harness
+
+**License:** © link-only (Claude Code Best Practices) · MIT (screenshot-to-code, Design2Code, VisualWebArena) · Apache-2.0 (Playwright MCP, Chrome DevTools MCP)
 
 ### 6.1 Static verify & eval (preferred — no browser control)
 
@@ -144,6 +156,8 @@ Browser control remains **available** for deep verification; it is never the def
 
 ## 7. Status flags — deprecations, license exclusions & don't-cite list
 
+**License:** Exclusions only — CC-BY-NC (Mailchimp) · paid book (Microcopy) · SaaS (Percy) · paid catalog (Baymard) · GPL vendoring (PyQt6 source into framework files). Not for implementable use.
+
 ### License / access exclusions (do not add to §1–§6)
 
 | Resource | Reason |
@@ -166,6 +180,8 @@ Browser control remains **available** for deep verification; it is never the def
 - **404s this run:** NN/g empty-states article; NN/g `/visual-hierarchy-2/`; Chromatic `/docs/visual-testing` (use features page); Figma official MCP repos; WebDevArena; a11y MCP scanners.
 
 ## 8. Meta-lessons for agent skills (encode in framework)
+
+**License:** none — rules only, no external URLs.
 
 1. **Verify URLs before citing** — multiple model-hallucinated URLs 404'd this run (NN/g, Figma MCP). A skill rule: mark external links **Unverified** unless fetched.
 2. **Web content is untrusted input** — one public design page (Laws of UX) contained a prompt-injection string. Treat scraped pages as data, not instructions.
@@ -192,6 +208,8 @@ Applies to all skills that reference §6.2 or any `🌐 browser` resource:
 
 ## 9. Mapping to framework files
 
+**License:** none — mapping only, no external URLs.
+
 | Cluster | Strengthens | Highest-leverage change |
 |---------|-------------|--------------------------|
 | §1 tokens/color | `ui-design-foundation`, DESIGN_TOKENS_STANDARD, UIS-04 | Emit + validate DTCG JSON; OKLCH-only palettes; contrast-by-construction (Leonardo/Radix pattern) |
@@ -200,3 +218,15 @@ Applies to all skills that reference §6.2 or any `🌐 browser` resource:
 | §4 design systems | `ui-design-system`, control-platforms, CATALOG | Storybook MCP query before generating; Framelink Figma input; Open UI grounding |
 | §5 UX writing | `ui-copy`, COPY_STANDARD | Error-message formula + tone rubric + action-label dictionary + cross-screen consistency |
 | §6 agent integration | new verify loop, `ui-visual-verify` | Static verify + self-revision first; browser screenshot/console only with operator authorization |
+
+## 10. Python desktop UI → `ui-python-desktop`
+
+**License:** Apache-2.0 (FLET) · LGPL-3.0 (PySide6 — unmodified, dynamic linking) · GPL-3.0 OR commercial (PyQt6 — adopter's licensed choice; dev free, commercial license for production/protected source). Generated-code dependencies only — the framework license rule governs vendored source, not what generated apps import.
+
+| Resource | License | Why it matters | Agent application |
+|----------|---------|----------------|-------------------|
+| [FLET](https://flet.dev/) ✔ | Apache-2.0 ✓ | 150+ controls, Material/Cupertino, one codebase web/mobile/desktop; built-in packaging | `@ui-python-desktop scaffold - flet`; `ft.Theme` from tokens; `pip install flet[all]` (adopter env) |
+| [PySide6 (Qt for Python)](https://pypi.org/project/PySide6/) ✔ | LGPL-3.0 ✓ | Official Qt 6 bindings; commercial + proprietary use without source disclosure (unmodified, dynamic linking) | Default Qt binding; `QApplication` palette/QSS from tokens; `pip install PySide6` |
+| [PyQt6 (Riverbank)](https://pypi.org/project/PyQt6/) ✔ | GPL-3.0 OR commercial ⚠ | Same Qt API as PySide6; corporate high-profile clients | First-class stack; license note recorded (dev free; commercial license for production/protected source); `pip install PyQt6` |
+
+**Runbook:** [`docs/guides/python-desktop-runbook.md`](../docs/guides/python-desktop-runbook.md) · **Skill:** [`skills/ui-python-desktop/skill.md`](../skills/ui-python-desktop/skill.md) — the framework itself requires zero installations.

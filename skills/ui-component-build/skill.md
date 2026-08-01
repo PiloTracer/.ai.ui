@@ -83,6 +83,10 @@ Same structure as Agent OS iteration block but in `NEXT_UI.md`:
 | SPEC §13 compliance | extractedRules reflected in diff |
 | Scope | Only declared UI paths |
 
+## Self-revision loop (agent-assisted builds)
+
+For each generated/edited screen: **generate → render → assert → fix → re-assert (max 2 iterations)**. Use the static tier first (token-lint, rubrics, build); the vision tier only after operator authorization (§8.2). Log every iteration in the task Notes with an honest verdict — including regressions a fix introduced (a fix that drifts elsewhere is a failure to report, not a pass).
+
 ## Full-stack tasks
 
 If task lists backend files → user runs `@code-implementation` for those files in same session; both gates must pass.

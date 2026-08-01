@@ -187,6 +187,7 @@ Full copy audit against all standards:
 | Check | Pass/Fail | Notes |
 |-------|-----------|-------|
 | COPY_STANDARD §2–§8 conformance (labels, errors, empty states, confirmations, tooltips, numbers, i18n) | | |
+| Cross-screen label consistency (WCAG 3.2.4 — one verb per action) | | |
 | Required fields marked | | |
 | No marketing filler in functional text | | |
 | Brand voice consistent across screens | | |

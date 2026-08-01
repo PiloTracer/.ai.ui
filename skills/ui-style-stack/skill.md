@@ -15,13 +15,14 @@ description: >-
 - One active stack per repo phase — record in `{HANDOFF_UI}`.
 - `ui-component-build` must follow active stack doc when emitting styles.
 - Do not add dependencies (Tailwind, styled-components) without user approval (protected files).
+- Desktop stacks (FLET/Qt) are **not** CSS stacks — recorded separately as `UI_DESKTOP_STACK` by `@ui-python-desktop stack set`; this skill only *reports* them.
 
 ## Modes
 
 | Mode | Action |
 |------|--------|
 | `set - tailwind` \| `css-modules` \| `vanilla-css` \| `styled-components` | Write stack to HANDOFF_UI; point to `style-stacks/<stack>.md` |
-| `status` | Read HANDOFF + confirm stack doc exists |
+| `status` | Read HANDOFF + confirm stack doc exists; cross-report `UI_DESKTOP_STACK` when set (`flet`/`pyside6`/`pyqt` — owned by `@ui-python-desktop stack set`) |
 
 ## set protocol
 

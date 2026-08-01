@@ -58,7 +58,7 @@ for t in "${tokens[@]}"; do
 done
 
 # Component-source extensions worth linting (skip lockfiles, md, json, etc.).
-exts_re='\.(tsx?|jsx?|mjs|cjs|vue|svelte|css|scss|sass|less|styl)$'
+exts_re='\.(tsx?|jsx?|mjs|cjs|vue|svelte|css|scss|sass|less|styl|py)$'
 
 # Collect candidate files: directories are walked, explicit files are honored as-is
 # (so a single .tsx passed directly is linted regardless of extension).

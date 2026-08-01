@@ -15,7 +15,8 @@
 | **admin-dashboard** | *operational* | Dense tables, filters, KPIs, roles, real-time activity | Data-heavy back-office, activity feeds, audit logs |
 | **admin-dashboard** | *analytical* | Charts, trends, reporting, exports, date-range analysis, drill-down | KPI rows, chart grids, report builders, exportable tables |
 | **mobile-app** | — | Bottom nav, sheets, touch, narrow width | Native-like or PWA |
-| **design-system** | — | Primitives, docs, Storybook first | Buttons, forms, tokens |
+| **design-system** | — | Primitives, docs, Storybook first (optional brand doc `03-design-system.brand.md` — § Phase 3 plan) | Buttons, forms, tokens |
+| **desktop-app** | — | Native window, widgets, offline/data-heavy (FLET / PySide6 / PyQt6) | `@ui-python-desktop` chain (stack set → scaffold → verify) |
 | **hybrid** | — | Marketing + logged-in app | Split foundation; two screen maps |
 
 **If analytical dashboard →** require chart library selection in foundation doc 03, UIS-09 at milestone verify, and chart tokens in doc 02.

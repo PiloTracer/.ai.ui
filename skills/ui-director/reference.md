@@ -6,7 +6,7 @@ Full skill registry, dependency map, and routing tables for the `@ui-director` o
 
 ## 1. Complete skill registry (all `ui-*` skills)
 
-All 13 other registered ui-* skills + 3 deploy utilities (the 14th ui-* skill is `ui-director` itself, not listed here). Source of truth: `skills/README.md` (17 total).
+All 14 other registered ui-* skills + 3 deploy utilities (the 15th ui-* skill is `ui-director` itself, not listed here). Source of truth: `skills/README.md` (18 total).
 
 | `@` handle | Folder | Role | Modes | Writes? | Depends on |
 |------------|--------|------|-------|---------|------------|
@@ -17,6 +17,7 @@ All 13 other registered ui-* skills + 3 deploy utilities (the 14th ui-* skill is
 | `ui-screen-spec` | `ui-screen-spec/` | Author/review screen SPECs | `intake - <sentence>`, `create - <slug>`, `review - <path>`, `amend - <slug>`, `status` | Yes (SPECs) | `screen-spec-ready` certified |
 | `ui-component-build` | `ui-component-build/` | Execute UI iteration from NEXT_UI.md | `status`, `probe`, `probe - status`, `probe - until ready`, `plan - S{N}`, `start`, `continue`, `complete` | Yes (code, NEXT_UI, HANDOFF) | Approved SPECs, valid iteration block, style stack |
 | `ui-copy` | `ui-copy/` | Plan, write, review, or audit UI copy | `write - <element>`, `plan - <screen>`, `review - <path>`, `audit - <path>`, `tone - <description>`, `status` | Yes (copy deliverables) | — (gate-independent) |
+| `ui-python-desktop` | `ui-python-desktop/` | Design/scaffold/verify Python desktop UIs (FLET/PySide6/PyQt6) | `stack set - flet\|pyside6\|pyqt`, `scaffold - <slug>`, `component add - <name>`, `verify - <path>`, `status` | Yes (code, HANDOFF_UI) | screen-spec-ready + tokens (Phase 2) |
 | `ui-design-system` | `ui-design-system/` | Primitives catalog and Storybook discipline | `init`, `add - <component>`, `status` | Yes (`CATALOG.md`, files) | Tokens doc (foundation doc 02) |
 | `ui-visual-verify` | `ui-visual-verify/` | Visual/token regression audits | `milestone`, `uncommitted`, `status` | Read-only (report) | Active UI milestone |
 | `ui-accessibility-audit` | `ui-accessibility-audit/` | WCAG-oriented checks | `screen - <slug>`, `milestone`, `status` | Read-only (report) | Active UI milestone |
@@ -95,6 +96,7 @@ Before `@ui-component-build complete`, ensure these all pass:
 | "How do I create a screen spec?" | `router` | `@ui-process-router - how do I create a screen spec?` |
 | "Deploy to /path/to/project" | `deploy` | `@deploy-files copy - /path/to/project` |
 | "Thin-client deploy (just cursorrules + .work.ui/)" | `deploy` | `@deploy-basic - /path/to/project` |
+| "Build a desktop app" | `desktop` | `@ui-python-desktop stack set - pyside6` → `scaffold - <slug>` |
 | "Start a session" | `session-control` | Redirect: `@session-control start` (Agent OS) |
 | "Commit my changes" | `session-control` | Redirect: `@session-control close` (Agent OS) |
 | "Create a migration" | `backend` | Redirect: `@db-migration` (Agent OS) |

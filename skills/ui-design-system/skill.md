@@ -11,7 +11,7 @@ description: >-
 
 | Mode | Action |
 |------|--------|
-| `init` | Create or refresh `<repo-root>/.work.ui/design-system/CATALOG.md` from foundation doc 03 |
+| `init` | Create or refresh `<repo-root>/.work.ui/design-system/CATALOG.md` from foundation doc 03 — seeds from the brand doc (`*-03-design-system.brand.md` §3/§6) when present |
 | `add - <component>` | Add primitive: file + story + catalog row per COMPONENT_STANDARD |
 | `status` | Missing stories, deprecated components |
 
@@ -25,6 +25,7 @@ description: >-
 - Variants documented in CATALOG before use in screens
 - Cite **example id** from manifests when visual target exists
 - Craft tier ≥ refined: optional **behavior source** from [`resources/control-platforms.md`](../../resources/control-platforms.md) in CATALOG; style stays project tokens
+- **Token compile:** DTCG `tokens.json` → Style Dictionary v4 → platform files; CATALOG rows reference token **names**, never literals
 
 ## External resources
 

@@ -4,6 +4,7 @@
 |--------|------------------|----------|-------------------|
 | approach | what kind of app / site | `@ui-project-approach - …` | `APPROACH.md` |
 | style | tailwind vs css modules | `@ui-style-stack set - tailwind` | `style-stacks/` |
+| desktop | python desktop app, PyQt, FLET, native window | `@ui-python-desktop stack set - <flet\|pyside6\|pyqt>` | `ui-python-desktop/skill.md` |
 | bootstrap | empty .work.ui | `@ui-bootstrap init` | `templates/bootstrap.sh` |
 | patterns | forms, dashboard, nav | read | `standards/20260523-UI-PATTERNS.md` |
 | examples | apply example id to SPEC | `@ui-screen-spec create` | `examples/INDEX.md` |

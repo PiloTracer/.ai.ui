@@ -6,6 +6,16 @@
 
 - **`resources/web-research-2026.md` — curated external-resource catalog with agent apply rules.** Six verified clusters (tokens/color, accessibility, visual QA, design systems, UX writing, agent integration) + **license policy** (commercial-safe: MIT/Apache-2.0/BSD/CC0; MPL-2.0 for unmodified tool deps) + **browser-control policy** (static-first default; Playwright/DevTools MCP and live navigation opt-in with explicit operator authorization, §8.2) + **URL-verify skill rule** (§8.1). Non-commercial/paid/SaaS-required resources documented as exclusions (§7).
 - **`20260731-web-research-integration-report.md`** (`.work.ui/reports/`) — audit + integration verification: skill→§ map, license audit fixes, deployment readiness.
+- **Implementation batch (Phases 0–8 of the framework improvement plan)** — see `.work.ui/reports/20260731-framework-improvement-plan.md`:
+  - **P0 — `INTEGRATION_LICENSE_STANDARD`** + machine-checked license scan in `framework-verify.sh` (URL extraction + license assertion, 3 self-tests); catalog tagged §1–§10.
+  - **P1 — Vision-verify tier** — `ui-visual-verify vision - <route>` (opt-in §8.2) + assertion catalog (`reference.md`); `ui-component-build` self-revision loop.
+  - **P2 — DTCG token pipeline** — `tokens.json` (demo) + `scripts/token-schema-verify.sh` (stdlib validator, 3 self-tests); `DESIGN_TOKENS_STANDARD` §2 canonical DTCG source.
+  - **P3 — Brand design-system contract** — `03-design-system.brand.template.md` (9 sections); foundation certify + design-system seed + APPROACH wiring.
+  - **P4 — Reference-image intake** — `ui-screen-spec intake - <image>` + `docs/guides/reference-image-intake.md` runbook (scaffold → re-skin → gate).
+  - **P5 — Copy rubrics** — `ui-copy/reference.md` (error formula, tone grading, inclusive/i18n, WCAG 3.2.4 label dictionary); COPY_STANDARD pointer; audit row.
+  - **P6 — Eval harness** — `scripts/ui-eval.sh` (approximate, stdlib, advisory) + `.github/workflows/ui-eval.yml` + `ui-plan-verify eval` + UIS-09 FT reject list.
+  - **P7 — Agent MCP surface** — `docs/guides/agent-mcp.md` (Storybook/Playwright/DevTools MCP configs, tier table) + `ui-bootstrap` pointer.
+  - **P8 — Python desktop UI skills** — new **`ui-python-desktop`** skill (18th; FLET/PySide6/PyQt6 first-class, PyQt6 license note, zero-install framework) + primitive-map reference + runbook; `desktop-app` archetype; `desktop` bucket wired into director/router/dependencies; `token-lint` extended to `.py`; catalog §10.
 
 ### Changed
 

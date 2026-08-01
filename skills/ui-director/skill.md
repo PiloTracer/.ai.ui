@@ -106,6 +106,7 @@ Read `{HANDOFF_UI}` and `{UI_ITERATION_CARRIER}` for context. Classify the reque
 | `concept` | "run UIS prompt", "check visual hierarchy", "motion design", "intuitive UX", "data viz quality", "surface craft" | `ui-concept-run` |
 | `audit` | "audit everything", "run verifiers", "check readiness", "traceability" | `ui-plan-verify` |
 | `deploy` | "deploy framework to another project", "copy to repo", "clone to path", "thin-client bootstrap", "lightweight setup (skills load from source)" | `deploy-basic` (thin client) / `deploy-files` / `deploy-repo` |
+| `desktop` | "desktop app", "native window", "PyQt", "FLET", "Qt app", "python GUI" | `ui-python-desktop stack set - <flet\|pyside6\|pyqt>` → `scaffold` |
 | `router` | "how do I...?", "where is...?", "what skill...?" | `ui-process-router` |
 | `session-control` | "start session", "close session", "commit" | Redirect to `@session-control` (Agent OS) |
 | `backend` | "backend work", "database", "API", "migration" | Redirect to Agent OS |
@@ -150,6 +151,7 @@ Map the classified bucket to the correct skill chain. Respect the dependency gra
 | "Set the voice for our UI copy" | `@ui-copy tone - <description>` |
 | "How do I add a new screen?" | `@ui-process-router - how do I add a new screen?` |
 | "Deploy UI Design OS to my other project" | `@deploy-files copy - <path>` or `@deploy-repo clone - <path>`; thin client (cursorrules + `.work.ui/` only) → `@deploy-basic - <path>` |
+| "Build a Python desktop app" | `@ui-python-desktop stack set - pyside6` (or flet/pyqt) → `@ui-python-desktop scaffold - <slug>` → `verify` |
 
 ### 3. EXECUTE
 

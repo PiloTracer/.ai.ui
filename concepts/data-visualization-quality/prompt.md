@@ -31,3 +31,14 @@
 - Overall: ship | revise — <top 1-2 fixes>
 evidence: …
 ```
+
+## Chart-type reject list (FT Visual Vocabulary)
+
+Select the chart family from the data question (deviation / correlation / distribution / change over time / part-to-whole / magnitude / spatial / flow). Reject unless a waiver explains why:
+
+- **Pie/donut > 3 segments** (use bars; order by value)
+- **Dual axes on the same chart** without explicit labeling and a stated reason
+- **Truncated bar axes** (bars must start at zero)
+- **3D perspective** on 2D data marks
+- **Radar misuse** (more than ~5 variables, or where ranking is the message)
+- **Stacked bars > 4 series** (switch to faceted/small multiples)

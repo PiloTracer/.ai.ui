@@ -72,10 +72,16 @@ Adaptive, gap-driven interrogation that **guarantees foundation understanding** 
 
 **Unlocks:** `@ui-screen-spec create`
 
+**Optional brand input:** accepts `.work.ui/plans/foundation/*-03-design-system.brand.md` (template `templates/work.ui/plans/foundation/03-design-system.brand.template.md`) when craft tier ≥ refined or archetype = design-system — brand tokens flow into doc 02/CATALOG; certify still passes without it (utilitarian tier).
+
 ## Pairs with
 
 - `@ui-design-system init` after tokens doc
 - Agent OS `@plan-foundation` — parallel; cross-link FRs in screen map, do not duplicate
+
+## Token output (DTCG)
+
+`greenfield` emits `.work.ui/design-system/tokens.json` in **DTCG 2025.10** shape (`$type`/`$value`, aliases, composite types) as the canonical token source; platform files (CSS vars / TS theme / Style Dictionary output) are **generated** from it. Validate with `bash .ai.ui/scripts/token-schema-verify.sh .work.ui/design-system/tokens.json`. Author colors in `oklch()`; derive states via `color-mix()`; never HSL-derived scales (§1 research).
 
 ## External resources
 

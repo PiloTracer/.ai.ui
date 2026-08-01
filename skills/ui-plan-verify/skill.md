@@ -19,6 +19,7 @@ Read-only audit that **surfaces** UI readiness gaps and routes them — the skil
 | `audit` | Run all three verifiers + summarize readiness; route each gap to a command |
 | `probe-coverage` | Report per-dimension coverage from each `PROBE_LEDGER.md` (honesty-checked) |
 | `traceability` | Report chain breaks: unscheduled (orphan) screens, Approved screens with no SPEC file, rogue SPEC dirs absent from the map |
+| `eval - <screen>` | Advisory quality metrics via `scripts/ui-eval.sh` (approximate; directional only — humans decide) |
 
 ## audit protocol
 
@@ -52,6 +53,13 @@ bash scripts/token-lint.sh --tokens REPLACE:UI_TOKENS_FILE REPLACE:UI_APP_ROOT
 - Read-only — emits no SPECs, foundation docs, or ledger edits.
 - Report the verifier's real exit code; a red script is reported red.
 - Routes to existing `ui-*` skills only; never invents a skill or path (fallback: [`START_HERE.md`](../../START_HERE.md) §1).
+- `eval` is **advisory only** — approximate metrics (color-histogram/text/geometry proxies; NOT CLIP/semantic) flag, never block; humans decide on flags.
+
+## eval protocol (advisory)
+
+1. Produce the candidate + reference histogram descriptors (adopter CI runs Playwright screenshots → descriptors; the framework itself needs no install).
+2. `bash scripts/ui-eval.sh --json <candidate.json> <reference.json>` (adopter: `.ai.ui/scripts/…`).
+3. Report verdict + flags; route `flag` results to the responsible skill (`@ui-visual-verify`, `@ui-copy`, `@ui-concept-run - UIS-09`). Never gate `@ui-component-build complete` on eval alone.
 
 ## Pairs with
 

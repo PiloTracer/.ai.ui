@@ -27,6 +27,7 @@ for p in \
   templates/DOCS_UI_STACK.md.template scripts/cursorrules-ui.sh \
   scripts/deploy-basic.sh scripts/deploy-files.sh scripts/deploy-repo.sh \
   scripts/token-lint.sh scripts/bootstrap-test.sh \
+  scripts/token-schema-verify.sh scripts/ui-eval.sh \
   docs/adoption/FROM_AGENT_OS.md \
   style-stacks/README.md examples/INDEX.md resources/control-platforms.md \
   standards/20260523-SURFACE-AND-CONTROL-CRAFT.md \
@@ -40,6 +41,7 @@ for p in \
   standards/20260523-RESPONSIVE_STANDARD.md \
   standards/20260523-MOTION_STANDARD.md \
   standards/20260523-COPY_STANDARD.md \
+  standards/20260523-INTEGRATION_LICENSE_STANDARD.md \
   examples/dashboards/manifest.md examples/mobile-controls/manifest.md \
   examples/mobile/manifest.md examples/websites/manifest.md examples/websites-tecnology/manifest.md; do
   check "$p"
@@ -162,6 +164,136 @@ printf 'const c = "var(--color-accent)";\n' > "${tmpd}/tl-clean.tsx"
 printf 'const c = "#2f6df6";\n' > "${tmpd}/tl-dirty.tsx"
 selftest "token-lint accepts token usage" 0 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-clean.tsx"
 selftest "token-lint rejects raw hex"     1 "${ROOT}/scripts/token-lint.sh" "${tmpd}/tl-dirty.tsx"
+
+# token-schema (DTCG) self-tests + demo validation (Phase 2 token pipeline).
+cat > "${tmpd}/ts-ok.json" <<'EOF'
+{ "color": { "accent": { "$type": "color", "$value": "#2f6df6" }, "page": { "$type": "color", "$value": "{color.accent}" } } }
+EOF
+cat > "${tmpd}/ts-bad-alias.json" <<'EOF'
+{ "color": { "accent": { "$type": "color", "$value": "{color.missing}" } } }
+EOF
+cat > "${tmpd}/ts-bad-type.json" <<'EOF'
+{ "color": { "accent": { "$type": "notatype", "$value": "#2f6df6" } } }
+EOF
+selftest "token-schema accepts DTCG tokens"       0 "${ROOT}/scripts/token-schema-verify.sh" "${tmpd}/ts-ok.json"
+selftest "token-schema rejects unresolved alias"  1 "${ROOT}/scripts/token-schema-verify.sh" "${tmpd}/ts-bad-alias.json"
+selftest "token-schema rejects unknown type"      1 "${ROOT}/scripts/token-schema-verify.sh" "${tmpd}/ts-bad-type.json"
+if "${ROOT}/scripts/token-schema-verify.sh" "${ROOT}/.work.ui/design-system/tokens.json" >/dev/null 2>&1; then
+  echo "ok: token-schema validates demo tokens.json"
+else
+  echo "TOKEN-SCHEMA: demo .work.ui/design-system/tokens.json invalid"; FAIL=1
+fi
+
+# ui-eval (advisory quality metrics) self-tests: metric math must not silently rot.
+selftest "ui-eval metric core self-test" 0 "${ROOT}/scripts/ui-eval.sh" "--self-test"
+cat > "${tmpd}/eval-cand.json" <<'EOF'
+{"histogram": [3, 5, 2], "text": ["Save"], "width": 400, "height": 300}
+EOF
+cat > "${tmpd}/eval-ref.json" <<'EOF'
+{"histogram": [3, 5, 2], "expected_text": ["Save"], "width": 400, "height": 300}
+EOF
+selftest "ui-eval accepts matching descriptors" 0 "${ROOT}/scripts/ui-eval.sh" "--json" "${tmpd}/eval-cand.json" "${tmpd}/eval-ref.json"
+
+# Integration license scan (INTEGRATION_LICENSE_STANDARD): every numbered
+# section of the research catalog must declare a **License:** line; §1–§6 must
+# not carry forbidden markers (CC-BY-NC / GPL / LGPL) — those belong in §7
+# exclusions only. Dynamic section detection keeps it drift-proof.
+lic_scan() { # file — exit 0 = pass
+  local f="$1" line sec n ok=1 bad
+  local -A LIC
+  sec=""
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^##\ ([0-9]+)\. ]]; then sec="${BASH_REMATCH[1]}"; fi
+    if [[ -n "$sec" ]] && [[ "$line" == **License:** ]]; then LIC["$sec"]="$line"; fi
+  done < "$f"
+  for n in $(seq 1 20); do
+    [[ -n "${LIC[$n]:-}" ]] && continue
+    if grep -qE "^## ${n}\. " "$f"; then
+      echo "LICENSE: §${n} missing **License:** line"; ok=0
+    fi
+  done
+  bad="$(awk '/^## 7\./{exit} /^## 1\./{f=1} f && /http/ && /CC-BY-NC|GPL|LGPL/ {print NR": "$0}' "$f")"
+  if [[ -n "$bad" ]]; then
+    echo "LICENSE: forbidden marker in §1–§6:"; echo "$bad"; ok=0
+  fi
+  [[ "$ok" -eq 1 ]] && return 0 || return 1
+}
+cat > "${tmpd}/lic-ok.md" <<'EOF'
+## 1. Tokens
+**License:** MIT · W3C
+## 2. A11y
+**License:** MIT · W3C
+## 3. Visual QA
+**License:** © link-only
+## 4. Systems
+**License:** MIT
+## 5. Copy
+**License:** © link-only
+## 6. Agent
+**License:** MIT
+## 7. Exclusions
+**License:** CC-BY-NC · paid
+## 8. Rules
+**License:** none
+## 9. Mapping
+**License:** none
+EOF
+cat > "${tmpd}/lic-untagged.md" <<'EOF'
+## 1. Tokens
+https://example.com/x
+## 2. A11y
+**License:** MIT
+## 3. Visual QA
+**License:** © link-only
+## 4. Systems
+**License:** MIT
+## 5. Copy
+**License:** © link-only
+## 6. Agent
+**License:** MIT
+## 7. Exclusions
+**License:** CC-BY-NC
+## 8. Rules
+**License:** none
+## 9. Mapping
+**License:** none
+EOF
+cat > "${tmpd}/lic-forbidden.md" <<'EOF'
+## 1. Tokens
+**License:** MIT
+https://example.com/cc-by-nc CC-BY-NC licensed guide
+## 2. A11y
+**License:** MIT
+## 3. Visual QA
+**License:** © link-only
+## 4. Systems
+**License:** MIT
+## 5. Copy
+**License:** © link-only
+## 6. Agent
+**License:** MIT
+## 7. Exclusions
+**License:** CC-BY-NC
+## 8. Rules
+**License:** none
+## 9. Mapping
+**License:** none
+EOF
+lic_selftest() { # desc expected_exit fixture
+  local desc="$1" exp="$2" f="$3" got
+  if lic_scan "$f" >/dev/null 2>&1; then got=0; else got=1; fi
+  if [[ "$got" -eq "$exp" ]]; then
+    echo "ok: selftest ${desc}"
+  else
+    echo "SELFTEST FAIL: ${desc} (expected exit ${exp}, got ${got})"; FAIL=1
+  fi
+}
+lic_selftest "license scan accepts tagged catalog"    0 "${tmpd}/lic-ok.md"
+lic_selftest "license scan rejects untagged section"  1 "${tmpd}/lic-untagged.md"
+lic_selftest "license scan rejects CC-BY-NC in §1–§6" 1 "${tmpd}/lic-forbidden.md"
+lic_scan "${ROOT}/resources/web-research-2026.md" \
+  && echo "ok: integration license scan (catalog §1–§9 tagged, §1–§6 clean)" \
+  || { echo "LICENSE: research catalog fails the license scan"; FAIL=1; }
 
 # change-safety self-tests: touch-scope, blast-radius, gate-verify must not silently rot.
 selftest "touch-scope-verify self-test"   0 "${ROOT}/scripts/touch-scope-verify.sh" "--self-test"

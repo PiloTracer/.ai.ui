@@ -51,6 +51,8 @@ Verified 2026-07-31 by fetching each repo + doc site. All verdicts confirmed.
 
 Each phase: objective → value → legal → detailed changes → acceptance → risks. Each phase ships as its **own commit/PR** (per `blast-radius-check`, keep ≤2 areas per change — learned this session).
 
+**Pre-flight (before Phase 0):** pre-populate per-phase entries so no phase forgets them — `CHANGELOG.md [Unreleased]` placeholder per phase (one bullet, e.g. "- **Phase N — <title>** <one-line outcome>"; final text lands as the phase ships) and a HANDOFF_UI session-note template per phase (date / work done / next recommended).
+
 ---
 
 ### Phase 0 — Integration license standard (enforce the rule)
@@ -65,8 +67,8 @@ Each phase: objective → value → legal → detailed changes → acceptance �
 1. **New** `standards/20260523-INTEGRATION_LICENSE_STANDARD.md`:
    - Tier table: **Bundled/vendored** (MIT, Apache-2.0, BSD, CC0) · **Dependency** (adds MPL-2.0 — unmodified use only, never vendored; audit deps) · **Reference/link-only** (© articles — principles only, no paste; free-read) · **Excluded** (CC-BY-NC, GPL/LGPL baseline, paid books, required paid SaaS).
    - Rules: every URL added to `resources/` must carry a license tag (one of: `MIT` `Apache-2.0` `BSD` `CC0` `MPL-2.0-dep` `W3C` `© link-only` `SaaS` `🌐 browser`); untagged entries fail review.
-2. **Enforcement:** extend `scripts/framework-verify.sh` with a self-test: scan `resources/*.md` URLs; assert each tagged resource's license is in an allowed class for its tier; fail on `CC-BY-NC`/paid/GPL in §1–§6 (exclusions live in §7 only).
-3. Tag all current `resources/` entries (§1–§6 of `web-research-2026.md`).
+2. **Enforcement:** extend `scripts/framework-verify.sh` with a self-test in **two sub-steps**: (2a) **URL extraction** — scan `resources/*.md` and extract every external URL; (2b) **license assertion** — assert each tagged resource's license is in an allowed class for its tier; fail on `CC-BY-NC`/paid/GPL anywhere in §1–§9. Add a **self-test case**: inject a fake `CC-BY-NC`-tagged entry and assert the check rejects it (and accepts a compliant entry).
+3. Tag all **URL-bearing sections (§1–§9)** of `resources/web-research-2026.md` — including §7 exclusions/deprecations URLs (previously scoped §1–§6 only).
 
 **Acceptance:** `framework-verify.sh` PASS with the new self-test; all §1–§6 entries tagged; §7 exclusion table complete.
 
@@ -138,6 +140,7 @@ Each phase: objective → value → legal → detailed changes → acceptance �
    7. Voice & tone (link COPY_STANDARD §1)
    8. Motion (MOTION_STANDARD)
    9. Provenance & licenses (every asset's license — commercial-safe only)
+   - **Handoff-shape reference:** Open CoDesign's Decompose-to-UI-Kit bundle (`ui_kits/<slug>/` = index + components + `tokens.css` + manifest) is cited as the reference shape for §6 component binding → handoff.
 2. **`skills/ui-design-foundation/skill.md`** — `certify screen-spec-ready` accepts brand doc as optional input; `probe` dimension for brand clarity (dims D: brand/vision already covered — extend with brand-asset inventory).
 3. **`skills/ui-design-system/skill.md`** — `init` can seed CATALOG from the brand doc (§3, §6).
 4. **`APPROACH.md`** — design-system archetype: note optional brand doc.
@@ -162,7 +165,7 @@ Each phase: objective → value → legal → detailed changes → acceptance �
 2. **New `docs/guides/reference-image-intake.md`** runbook:
    - Prereqs: self-hosted screenshot-to-code backend (MIT) or BYOK keys; documented in `REPLACE:UI_*` placeholders.
    - Flow: submit image → receive HTML/Tailwind/React scaffold → drop into `.work.ui/tmp/` → **mandatory re-skin gate**: map every color to tokens (token-lint, no raw hex), UIS-06 visual-quality pass, UIS-04 contrast check, responsive check UIS-02 → promote to `screens/<slug>/` only when gates pass.
-   - Honesty rule: scaffold is a starting point, never a final artifact; asset extraction reuses real logos/images (screenshot-to-code pattern) but licenses must be verified (Phase 0).
+   - Honesty rule: scaffold is a starting point, never a final artifact; asset extraction reuses real logos/images (screenshot-to-code pattern) but licenses must be verified (Phase 0). Handoff bundle structure mirrors Open CoDesign's Decompose-to-UI-Kit (see Phase 3 reference).
 3. **`resources/web-research-2026.md`** §6 — already lists screenshot-to-code; add the runbook pointer.
 
 **Acceptance:** runbook smoke test produces a scaffold that passes token-lint + UIS-06; `framework-verify.sh` PASS.
@@ -203,7 +206,7 @@ Each phase: objective → value → legal → detailed changes → acceptance �
 **Legal:** Design2Code **MIT** (metrics as method; approximate implementations documented honestly); FT Visual Vocabulary **MIT**; Playwright **Apache-2.0**; all browser use is CI/static tier (policy-compliant — no agent-driven browser).
 
 **Changes:**
-1. **New `scripts/ui-eval.sh`** — given a screen route + optional reference image: Playwright screenshot → metrics: block-match (bounding-box IoU), text-match, position-match, color-histogram match (approximations of Design2Code; **CLIP not bundled** — documented as "approx" with honest limits); output JSON to `.work.ui/reports/ui-eval-<screen>.json`; verdict pass/flag + human-review list.
+1. **New `scripts/ui-eval.sh`** — given a screen route + optional reference image: Playwright screenshot → metrics: block-match (bounding-box IoU), text-match, position-match, color-histogram match — **approximate** metrics (NOT CLIP/semantic similarity; directional signal only, never a pass/fail gate; humans decide on flags); output JSON to `.work.ui/reports/ui-eval-<screen>.json`; verdict pass/flag + human-review list.
 2. **`.github/workflows/ui-eval.yml`** — nightly eval on `examples/` routes; fails on regression vs baseline (baseline stored in `.work.ui/reports/`); results posted to the workflow summary.
 3. **`skills/ui-plan-verify/skill.md`** — new read-only mode `eval - <screen>`; feeds the `@ui-component-build complete` gate as advisory (never the sole gate).
 4. **UIS-09 backstop:** chart-type rubric from FT Visual Vocabulary added to `concepts/data-visualization-quality/` (reject list: pie >3 segments, dual axes, truncated bar axes, radar misuse).
@@ -253,14 +256,15 @@ Each phase: objective → value → legal → detailed changes → acceptance �
    - `component add - <name>` — primitive map: FLET controls (`ft.Button`, `ft.TextField`, `ft.DataTable`, `ft.NavigationRail`, dialogs…) / Qt widgets (`QPushButton`, `QLineEdit`, `QTableWidget`, `QListWidget`, `QDialog`…), styled with tokens, no default chrome (SURFACE-AND-CONTROL-CRAFT applies).
    - `verify - <path>` — **static tier**: `python3 -m py_compile` + `ast` parse + token-lint on `.py` (no raw hex) + UIS-06/07/08 rubric prompts; visual verify via runbook (user runs the app; optional Qt `QT_QPA_PLATFORM=offscreen` screenshot in the user env).
    - `status` — reports active desktop stack + catalog bindings.
-2. **`ui-project-approach`** — new archetype `desktop-app` (Python) with chain: `@ui-bootstrap` → approach → `@ui-design-foundation` → `@ui-screen-spec` → `@ui-python-desktop scaffold/component` → verify.
-3. **`ui-director`** — new bucket `desktop` (signals: "desktop app", "PyQt", "FLET", "native window") → `ui-python-desktop`; registry row + reference §6 routing row + shortcut chain.
-4. **`skills/README.md` + `SKILL_DEPENDENCIES.md`** — register skill (18th), add to dependency matrix + command vocabulary (`stack`, `scaffold`, `component`, `verify`).
+2. **`ui-project-approach` + `APPROACH.md`** — new archetype `desktop-app` (Python) added to **both** the `APPROACH.md` §1 archetype table (row: `desktop-app` — native window, widgets, offline/data-heavy → chain via `@ui-python-desktop`) and `ui-project-approach/skill.md` classification; chain: `@ui-bootstrap` → approach → `@ui-design-foundation` → `@ui-screen-spec` → `@ui-python-desktop scaffold/component` → verify.
+3. **`ui-director`** — new bucket `desktop` (signals: "desktop app", "PyQt", "FLET", "native window") → `ui-python-desktop`. **All three routing tables updated, not just the bucket:** `skills/ui-director/skill.md` bucket table + shortcut chains; `skills/ui-director/reference.md` §6 Common user request routing table (new row: "Build a desktop app" → `desktop` → `@ui-python-desktop scaffold - <slug>`); `skills/ui-process-router/reference.md` bucket list (new `desktop` bucket row); `skills/SKILL_DEPENDENCIES.md` dependency matrix + redirect cheat sheet.
+4. **Exact registration rows** — `skills/README.md`: `| ui-python-desktop | ui-python-desktop/ | Design/build/verify Python desktop UIs (FLET, PySide6, PyQt6) | stack set · scaffold · component add · verify · status | Yes (code, HANDOFF_UI) | screen-spec-ready + tokens (Phase 2) |`. `SKILL_DEPENDENCIES.md`: dependency matrix row (`ui-python-desktop scaffold` → tokens doc + approved SPEC; `component add` → CATALOG binding), command vocabulary rows (`stack`, `scaffold`, `component`, `verify`), redirect cheat sheet row (`@ui-python-desktop scaffold - <slug>` → generates app skeleton).
+8. **`skills/ui-style-stack/skill.md`** — `status` cross-reports `UI_DESKTOP_STACK` when set (desktop stack ownership stays with `ui-python-desktop stack set`; CSS stack contract unchanged). **`skills/ui-design-system/skill.md`** — `init`/`add` accept the desktop primitive map (FLET controls / Qt widgets) when `UI_DESKTOP_STACK` is set.
 5. **`standards/20260523-DESIGN_TOKENS_STANDARD.md`** — desktop binding: tokens emitted as `tokens.py` constants / FLET `ThemeData` / Qt palette + QSS; **`scripts/token-lint.sh` extended to scan `.py`** (same no-raw-hex rule).
 6. **New `docs/guides/python-desktop-runbook.md`** — adopter-env steps for all three stacks: `pip install flet[all]` / `pip install PySide6` / `pip install PyQt6`; `flet run app.py` / `python app.py`; screenshot for visual verify; packaging (FLET built-in build; PyInstaller GPL+exception note for Qt); PyQt6 license note (dev free; commercial license for production/protected source) — all clearly marked as **user environment, not framework requirement**; no rule prevents these installs.
 7. **`resources/web-research-2026.md`** — new §10 "Python desktop" rows: FLET (Apache-2.0), PySide6 (LGPL-3.0), PyQt6 (GPL/commercial — license note; first-class stack, not an exclusion).
 
-**Acceptance:** `framework-verify.sh` PASS; `bootstrap-test.sh` PASS (skill ships); generated skeletons for **all three stacks** (FLET, PySide6, PyQt6) `py_compile` clean and pass token-lint **with only python3 stdlib available** (no pip install — proves the framework-zero-install constraint); `ui-director` routes "desktop app" → `ui-python-desktop` (17+1 routing check).
+**Acceptance:** `framework-verify.sh` PASS; `bootstrap-test.sh` PASS (skill ships); generated skeletons for **all three stacks** (FLET, PySide6, PyQt6) `py_compile` clean and pass token-lint **with only python3 stdlib available** (no pip install — proves the framework-zero-install constraint); `ui-director` routes "desktop app" → `ui-python-desktop`; **18/18 skills locatable** (verified by `framework-verify.sh` skill-count derivation + `skills/README.md` row count).
 
 **Risks:** Qt licensing nuance (LGPL relink obligation documented; PyQt GPL flagged before every use); platform-specific Qt runtime needs in user env (documented per-OS); FLET API churn (pin doc version; control map is small).
 

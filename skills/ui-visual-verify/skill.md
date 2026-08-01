@@ -15,6 +15,7 @@ description: >-
 |------|------|
 | `milestone` | End of UI milestone S{N} |
 | `uncommitted` | Dirty UI paths before commit |
+| `vision - <route>` | Rendered-UI assertions (opt-in §8.2 — requires explicit operator authorization) |
 | `status` | Read-only last report |
 
 ## Checks (milestone)
@@ -37,6 +38,13 @@ description: >-
 | BEFORE compare | `beforeScreenshot` in §13 but no visible improvement on cited rules (manual/vision) |
 
 7. **UIS-07** run when craft tier ≥ refined (`@ui-concept-run - UIS-07`)
+8. **Vision tier (opt-in):** after **explicit operator authorization** (§8.2 — state tool, route(s), actions; wait for confirmation), run `vision - <route>` against the assertion catalog in [`reference.md`](reference.md) (layout, color/contrast, state, behavior groups). Report pass/fail per assertion; honest verdicts incl. regressions introduced by a fix. Never auto-launch a browser.
+
+## Vision tier (rendered-UI assertions)
+
+Validates **what users actually see** (rendered pixels + live behavior), which DOM/static checks cannot. Catalog: [`reference.md`](reference.md) § Vision assertion catalog.
+
+**Gate:** browser control is opt-in-only — see browser policy ([§8.2](../../resources/web-research-2026.md#82-browser-control-authorization-skill-rule)). BYOK multimodal model (self-hostable Qwen-VL / UI-TARS via Ollama, or Qwen/Gemini/GLM API).
 
 ## Output
 

@@ -23,7 +23,7 @@ description: >-
 ## Protocol
 
 1. Parse user description (or `status` → read HANDOFF).
-2. Match **one primary** archetype from APPROACH §1 (`marketing-site`, `saas-product`, `admin-dashboard`, `mobile-app`, `design-system`, `hybrid`).
+2. Match **one primary** archetype from APPROACH §1 (`marketing-site`, `saas-product`, `admin-dashboard`, `mobile-app`, `design-system`, `desktop-app`, `hybrid`).
 3. Suggest **complexity** S/M/L (APPROACH §4).
 4. Output skill chain from APPROACH §2.
 5. List **UI-PATTERNS** sections to apply.

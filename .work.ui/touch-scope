@@ -5,14 +5,27 @@
     "README.md",
     "START_HERE.md",
     "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "APPROACH.md",
     "skills/",
     "resources/",
+    "standards/",
+    "concepts/",
+    "templates/",
+    "docs/",
+    ".github/",
+    "scripts/",
     ".work.ui/"
   ],
   "allowed_patterns": [
     "*.md",
     "*.json",
-    ".gitignore"
+    ".gitignore",
+    "*.sh",
+    "*.yml",
+    "*.yaml",
+    "*.css",
+    "*.py"
   ],
   "rules": [
     "Only touch files under allowed_paths",

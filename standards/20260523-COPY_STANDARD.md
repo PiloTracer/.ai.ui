@@ -84,3 +84,4 @@ Never show a blank screen or bare "No data" — see UIS-08 §empty-state.
 - `@ui-copy audit` at milestone to catch placeholder text, inconsistent terminology, or tone drift
 - Screen SPEC §5 is the source of truth for copy keys — components implement, not invent
 - Glossary: maintain key terms in `.work.ui/plans/foundation/` or HANDOFF_UI to prevent synonyms (e.g. "workspace" vs "project" vs "space")
+- Detailed rubrics (error formula, tone grading, inclusive/i18n, action-label dictionary + WCAG 3.2.4 consistency) live in `skills/ui-copy/reference.md` — the standard above is the binding core

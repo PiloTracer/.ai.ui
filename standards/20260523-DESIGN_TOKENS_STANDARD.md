@@ -17,6 +17,8 @@
 
 ## 2. Format
 
+**Canonical source (recommended):** DTCG JSON (`tokens.json`, W3C Design Tokens format — `$type`/`$value`, aliases, composites), validated by `bash .ai.ui/scripts/token-schema-verify.sh`. Platform output (CSS custom properties / TS theme / Style Dictionary) is **generated** from it — never hand-edit generated files. Repos keeping CSS as the source still emit the DTCG file for tooling and validate it.
+
 Document one canonical format for the repo:
 
 - CSS custom properties on `:root` / `[data-theme="dark"]`

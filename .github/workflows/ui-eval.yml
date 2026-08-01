@@ -1,0 +1,30 @@
+name: ui-eval (nightly, advisory)
+
+on:
+  schedule:
+    - cron: "17 2 * * *" # nightly
+  workflow_dispatch:
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Framework gate
+        run: bash scripts/framework-verify.sh
+      - name: Eval harness self-test
+        run: bash scripts/ui-eval.sh --self-test
+      - name: Eval JSON pair (synthetic descriptors)
+        run: |
+          cat > /tmp/cand.json <<'EOF'
+          {"histogram": [3, 5, 2], "text": ["Save"], "width": 400, "height": 300}
+          EOF
+          cat > /tmp/ref.json <<'EOF'
+          {"histogram": [3, 5, 2], "expected_text": ["Save"], "width": 400, "height": 300}
+          EOF
+          bash scripts/ui-eval.sh --json /tmp/cand.json /tmp/ref.json
+
+      # Adopter note: wire real routes here by screenshotting your app in CI
+      # (Playwright) and producing histogram descriptors per docs/guides. The
+      # framework itself requires no installation — this job only validates the
+      # harness on the framework repo.

@@ -58,11 +58,11 @@ Full playbook: [`examples/INDEX.md`](examples/INDEX.md)
 | [`resources/control-platforms.md`](resources/control-platforms.md) | OSS behavior platforms (MIT/Apache) |
 | [`resources/web-research-2026.md`](resources/web-research-2026.md) | Curated external references + agent apply rules (license §, static verify, browser opt-in §8.2) |
 | [`resources/README.md`](resources/README.md) | External gallery URLs + resource index |
-| **17 `ui-*` skills** | Bootstrap → foundation → spec → build → verify (+ plan audit + deploy + copy) |
+| **18 `ui-*` skills** | Bootstrap → foundation → spec → build → verify (+ plan audit + deploy + copy + python-desktop) |
 
 See [`APPROACH.md` §6](APPROACH.md#6-skills-we-explicitly-did-not-add) for skills we did not add (coverage via UI-PATTERNS).
 
-**Skills (17):** [`skills/README.md`](skills/README.md) · **Operator:** [`START_HERE.md`](START_HERE.md) · **Playbook:** [`examples/INDEX.md`](examples/INDEX.md)
+**Skills (18):** [`skills/README.md`](skills/README.md) · **Operator:** [`START_HERE.md`](START_HERE.md) · **Playbook:** [`examples/INDEX.md`](examples/INDEX.md)
 
 ---
 

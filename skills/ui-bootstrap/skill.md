@@ -119,6 +119,8 @@ If `.work/context/HANDOFF.md` exists and lacks `### UI layer`, append one stub p
 @session-control start          # when .ai/ present
 ```
 
+**Optional agent tooling:** see [`docs/guides/agent-mcp.md`](../../docs/guides/agent-mcp.md) for opt-in MCP servers (Storybook MCP MIT, Playwright MCP / Chrome DevTools MCP Apache-2.0) — nothing installed by the framework; browser tools opt-in only (§8.2).
+
 ---
 
 ## Completion checklist

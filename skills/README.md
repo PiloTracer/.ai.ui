@@ -42,6 +42,7 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | ui-project-approach | `ui-project-approach/` | Archetype + skill chain + pattern pointers (read [`APPROACH.md`](../APPROACH.md)) |
 | ui-style-stack | `ui-style-stack/` | Active stack: tailwind / css-modules / vanilla-css / styled-components |
 | ui-copy | `ui-copy/` | Plan, write, review, or audit UI copy — microcopy, labels, errors, empty states, confirmations, tooltips, onboarding |
+| ui-python-desktop | `ui-python-desktop/` | Design/scaffold/verify Python desktop UIs — FLET (Apache-2.0), PySide6 (LGPL-3.0), PyQt6 (GPL/commercial opt-in note) |
 | ui-director | `ui-director/` | Top-level orchestration: free-text request → skill chain; new skill gap detection |
 
 **Typical flow:** `@ui-bootstrap init` → `@ui-project-approach - <what you're building>` → `@ui-style-stack set - <stack>` → `ui-design-foundation greenfield` → `@ui-copy write - <screen>` → … → verify.

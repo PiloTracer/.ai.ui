@@ -20,6 +20,7 @@ Placeholder: `{SCREEN_SPEC_ROOT}/<slug>/YYYYMMDD-SCREEN-SPEC.md`
 | Mode | Action |
 |------|--------|
 | `intake - <free sentence>` | Classify a free-text UI request → route to the right executor |
+| `intake - <image path\|URL>` | Reference-image scaffold (optional, Phase 4) — see runbook |
 | `create - <slug \| free-text>` | New SPEC from template; derives slug if given a sentence; pattern extraction below |
 | `review - <path>` | Checklist against SCREEN_SPEC_STANDARD + craft gates |
 | `amend - <slug>` | Amendment file; do not edit Approved SPEC in place |
@@ -46,6 +47,10 @@ Override: `@ui-screen-spec intake - <sentence> ; force=<class>`.
 
 2. **ROUTE** — state the class + the single next command; only `local` proceeds into `create`.
 3. **RECORD** — append to `{UI_ITERATION_CARRIER}` under `## Intake queue` (seeded in the NEXT_UI template): `- <YYYY-MM-DD> · <class> · "<sentence>" → <next command>`. Underspecified + owner away → also `{UI_PLANS_ROOT}/UNKNOWNS.md`.
+
+## intake — reference image (optional, Phase 4)
+
+`@ui-screen-spec intake - <image path|URL>` — optional fast path for mockups/redesigns: classify the request (same 4 classes), then **scaffold → re-skin → gate** per [`docs/guides/reference-image-intake.md`](../../docs/guides/reference-image-intake.md). Never auto-commits scaffolds; output is a starting point that must pass token-lint + UIS-06 before promotion to `screens/<slug>/`. Requires the operator's own self-hosted screenshot-to-code backend or BYOK keys (MIT; user environment — not a framework requirement).
 
 ## create — pattern extraction
 
