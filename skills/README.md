@@ -8,7 +8,7 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 
 **Work tree:** `{WORK_UI_ROOT}` = **`<repo-root>/.work.ui/`** (sibling to `.ai.ui/` — same level as `.ai/` + `.work/`). Skills **must not** write project artifacts under `.ai.ui/`. See [`SKILL_DEPENDENCIES.md`](SKILL_DEPENDENCIES.md) § Work tree path resolution.
 
-**Session owner:** Agent OS `@session-control` only — see [`COHABITATION.md`](../COHABITATION.md).
+**Session owner:** Agent OS `@session-control` only for full-repo sessions; `.work.ui`-scoped session commit/close/push via `@ui-session` — see [`COHABITATION.md`](../COHABITATION.md).
 
 ---
 
@@ -27,9 +27,10 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | Skill id | Folder | Role |
 |----------|--------|------|
 | ui-bootstrap | `ui-bootstrap/` | Scaffold `.work.ui/`; create/merge `.cursorrules`; `DOCS_UI_STACK.md` |
-| deploy-basic | `deploy-basic/` | Thin-client bootstrap: `.cursorrules` + `.work.ui/` skeleton only; skills load from source at runtime |
-| deploy-files | `deploy-files/` | Deploy `.ai.ui` files into target project (clean file copy, respects .gitignore) |
-| deploy-repo | `deploy-repo/` | Full git-based deploy (clone or archive) |
+| ui-deploy-basic | `ui-deploy-basic/` | Thin-client bootstrap: `.cursorrules` + `.work.ui/` skeleton only; skills load from source at runtime |
+| ui-deploy-files | `ui-deploy-files/` | Deploy `.ai.ui` files into target project (clean file copy, respects .gitignore) |
+| ui-deploy-repo | `ui-deploy-repo/` | Full git-based deploy (clone or archive) |
+| ui-session | `ui-session/` | `.work.ui`-scoped session carrier: commit / close / push of `.work.ui/` changes in the target repo (combinations supported; commit includes untracked files/dirs) |
 | ui-design-foundation | `ui-design-foundation/` | Tokens, patterns, screen map; certifies **screen-spec-ready** |
 | ui-screen-spec | `ui-screen-spec/` | Author/review screen SPECs |
 | ui-component-build | `ui-component-build/` | UI iteration from `NEXT_UI.md` |

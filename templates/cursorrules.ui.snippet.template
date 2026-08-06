@@ -72,7 +72,7 @@ UI milestone work is not done until: UI lint/type/tests pass; `@ui-visual-verify
 | ui-concept-run | UIS-01…10 |
 | ui-process-router | UI Q&A (read-only) |
 
-**Sessions:** `@session-control` (`.ai/`) · **Backend:** `@code-implementation` (`.ai/`) · **UIS-06** (agent-assisted) + **UIS-07** (craft ≥ refined) + **UIS-08** (all screens) + **UIS-09** (analytical dashboards) before `ui-component-build complete`.
+**Sessions:** `@session-control` (`.ai/`, full repo) · `@ui-session` (`.work.ui`-scoped commit/close/push) · **Backend:** `@code-implementation` (`.ai/`) · **UIS-06** (agent-assisted) + **UIS-07** (craft ≥ refined) + **UIS-08** (all screens) + **UIS-09** (analytical dashboards) before `ui-component-build complete`.
 
 ### UI protected files (union with existing list; same-message permission only)
 

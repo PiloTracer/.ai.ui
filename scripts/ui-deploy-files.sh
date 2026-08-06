@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# deploy-files.sh — Deploy .ai.ui (UI Design OS) files into a target project
+# ui-deploy-files.sh — Deploy .ai.ui (UI Design OS) files into a target project
 #
 # Copies ONLY files git considers (tracked + untracked-not-ignored). Skill-level
 # excludes (.github/, .gitignore, .cursorrules, deploy scripts) are omitted;
-# deploy-repo covers the full-repo case.
+# ui-deploy-repo covers the full-repo case.
 #
 # Default = NO-OVERWRITE. Use --force for legacy overwrite, or --update for merge
 # candidates when source files differ from target copies.
 #
 # Usage:
-#   bash scripts/deploy-files.sh <target-path>              # no-overwrite
-#   bash scripts/deploy-files.sh <target-path> --force      # overwrite existing
-#   bash scripts/deploy-files.sh <target-path> --update     # no-overwrite + merge list
-#   AI_UI_ROOT=/path/.ai.ui bash scripts/deploy-files.sh <target-path>
+#   bash scripts/ui-deploy-files.sh <target-path>              # no-overwrite
+#   bash scripts/ui-deploy-files.sh <target-path> --force      # overwrite existing
+#   bash scripts/ui-deploy-files.sh <target-path> --update     # no-overwrite + merge list
+#   AI_UI_ROOT=/path/.ai.ui bash scripts/ui-deploy-files.sh <target-path>
 #
 set -euo pipefail
 
@@ -64,14 +64,14 @@ if [[ "$GIT_TOP" != "$AI_UI_ROOT" ]]; then
   exit 1
 fi
 
-echo "=== deploy-files → $DEST_DIR ==="
+echo "=== ui-deploy-files → $DEST_DIR ==="
 echo "  source: $AI_UI_ROOT"
 echo "  mode:   $MODE (no-overwrite by default)"
 if [[ -d "$DEST_DIR" ]]; then
   echo "  exists: $DEST_DIR — re-copying (no-overwrite; preserves existing target files)"
 fi
 
-SKILL_EXCLUDE_REGEX='^(\.github/|\.gitignore$|\.gitattributes$|\.cursorrules$|scripts/deploy-files\.sh$|scripts/deploy-basic\.sh$|scripts/deploy-repo\.sh$)'
+SKILL_EXCLUDE_REGEX='^(\.github/|\.gitignore$|\.gitattributes$|\.cursorrules$|scripts/ui-deploy-files\.sh$|scripts/ui-deploy-basic\.sh$|scripts/ui-deploy-repo\.sh$)'
 
 TMP_LIST="$(mktemp)"
 MERGE_CANDS="$(mktemp)"
@@ -128,9 +128,9 @@ if [[ "$RAW_TARGET" == "." || "$RAW_TARGET" == "$PWD" ]]; then
   REPO_ROOT="$REPO_ROOT" AI_UI_ROOT="$AI_UI_ROOT" \
     CURSORRULES_MODE="${CR_MODE:-status}" \
     bash "$AI_UI_ROOT/templates/bootstrap.sh" \
-    > /tmp/deploy-files-ui-bootstrap.$$.log 2>&1 || { cat /tmp/deploy-files-ui-bootstrap.$$.log; rm -f /tmp/deploy-files-ui-bootstrap.$$.log; exit 1; }
-  grep -E '(created:|skip )' /tmp/deploy-files-ui-bootstrap.$$.log | sed 's/^/  scaffold: /' || true
-  rm -f /tmp/deploy-files-ui-bootstrap.$$.log
+    > /tmp/ui-deploy-files-ui-bootstrap.$$.log 2>&1 || { cat /tmp/ui-deploy-files-ui-bootstrap.$$.log; rm -f /tmp/ui-deploy-files-ui-bootstrap.$$.log; exit 1; }
+  grep -E '(created:|skip )' /tmp/ui-deploy-files-ui-bootstrap.$$.log | sed 's/^/  scaffold: /' || true
+  rm -f /tmp/ui-deploy-files-ui-bootstrap.$$.log
   SCAFFOLD_DONE=1
 fi
 

@@ -1,29 +1,29 @@
 ---
-name: deploy-basic
+name: ui-deploy-basic
 description: >-
   Thin-client bootstrap of UI Design OS into a target project. Copies ONLY the
   minimal scaffold — .cursorrules (with AI_UI_SOURCE pointer to the source
   .ai.ui), .work.ui/ skeleton, DOCS_UI_STACK.md. UI framework assets (skills,
   standards, concepts, docs, scripts) are NOT copied; the agent resolves them
-  from the source AI_UI_SOURCE at runtime. Use deploy-basic (default),
-  deploy-basic update, deploy-basic status, or deploy-basic - <target-path>
+  from the source AI_UI_SOURCE at runtime. Use ui-deploy-basic (default),
+  ui-deploy-basic update, ui-deploy-basic status, or ui-deploy-basic - <target-path>
   (outbound from source). Never modifies the source UI Design OS.
-  Contrast with deploy-files (full fat-client copy of .ai.ui/).
+  Contrast with ui-deploy-files (full fat-client copy of .ai.ui/).
 ---
 
-# deploy-basic (UI Design OS)
+# ui-deploy-basic (UI Design OS)
 
 Thin-client deploy of the `.ai.ui` framework. The target project receives only the scaffold it owns (`.cursorrules`, `.work.ui/`, `DOCS_UI_STACK.md`); everything else (skills, standards, concepts, docs, scripts, templates) stays in the **source** `.ai.ui` and is loaded on demand via the `AI_UI_SOURCE` pointer written into `.cursorrules`.
 
-**Shell:** `bash <source>/.ai.ui/scripts/deploy-basic.sh <target-path> [mode]`
+**Shell:** `bash <source>/.ai.ui/scripts/ui-deploy-basic.sh <target-path> [mode]`
 
-**Canonical path:** `.ai.ui/skills/deploy-basic/skill.md` · **Shell:** `.ai.ui/scripts/deploy-basic.sh`
+**Canonical path:** `.ai.ui/skills/ui-deploy-basic/skill.md` · **Shell:** `.ai.ui/scripts/ui-deploy-basic.sh`
 
-**Source not modified.** deploy-basic only writes to the **target**. The source `.ai.ui` is read-only.
+**Source not modified.** ui-deploy-basic only writes to the **target**. The source `.ai.ui` is read-only.
 
-**Contrast with `deploy-files`:** `deploy-files` = **fat-client** (vendored full `.ai.ui/` into target, skills are local). `deploy-basic` = **thin-client** (skills remote in source). Choose:
-- `deploy-files` — you want skills/standards/concepts versioned inside the project, offline-editable, no external dependency.
-- `deploy-basic` — you want the project to track the live source UI Design OS, share one source of truth across many consumer repos, and accept new skills/standards automatically by updating the source (no per-project re-deploy).
+**Contrast with `ui-deploy-files`:** `ui-deploy-files` = **fat-client** (vendored full `.ai.ui/` into target, skills are local). `ui-deploy-basic` = **thin-client** (skills remote in source). Choose:
+- `ui-deploy-files` — you want skills/standards/concepts versioned inside the project, offline-editable, no external dependency.
+- `ui-deploy-basic` — you want the project to track the live source UI Design OS, share one source of truth across many consumer repos, and accept new skills/standards automatically by updating the source (no per-project re-deploy).
 
 ---
 
@@ -31,12 +31,12 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 
 | User says | Direction | Mode |
 |-----------|-----------|------|
-| `@deploy-basic - /path/to/target` | outbound (invoked from source .ai.ui) | thin bootstrap no-overwrite |
-| `@deploy-basic` (from target, post-bootstrap) | in-place | re-runs no-overwrite bootstrap + source-pointer sync |
-| `@deploy-basic update` (from target) | in-place | no-overwrite + re-sync source pointer + agent rules-aware merge of differing local-surface files |
-| `@deploy-basic status` | report | read-only: shows `.cursorrules` presence, `AI_UI_SOURCE` value + reachability, `.work.ui/` presence, whether local `.ai.ui/skills` exists (fat-client leak check) |
+| `@ui-deploy-basic - /path/to/target` | outbound (invoked from source .ai.ui) | thin bootstrap no-overwrite |
+| `@ui-deploy-basic` (from target, post-bootstrap) | in-place | re-runs no-overwrite bootstrap + source-pointer sync |
+| `@ui-deploy-basic update` (from target) | in-place | no-overwrite + re-sync source pointer + agent rules-aware merge of differing local-surface files |
+| `@ui-deploy-basic status` | report | read-only: shows `.cursorrules` presence, `AI_UI_SOURCE` value + reachability, `.work.ui/` presence, whether local `.ai.ui/skills` exists (fat-client leak check) |
 
-**Default:** `status` if no verb matches. **Aliases:** `bootstrap-thin`, `thin-ui` → bare `@deploy-basic`.
+**Default:** `status` if no verb matches. **Aliases:** `bootstrap-thin`, `thin-ui` → bare `@ui-deploy-basic`.
 
 **Target path is REQUIRED when invoked from the source UI Design OS dir (Scenario #2 / outbound).** The shell aborts with a usage message if no `<target-path>` is supplied; the agent must prompt the user for it rather than guessing. When invoked in-place (target is cwd), the path is implicit (`.`) and no argument is needed.
 
@@ -80,7 +80,7 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 
 ---
 
-## I2 — update-merge protocol (`@deploy-basic update` only)
+## I2 — update-merge protocol (`@ui-deploy-basic update` only)
 
 After I1 (no-overwrite) the script:
 
@@ -142,7 +142,7 @@ Reports:
 # Verify the source is reachable from the target's perspective:
 test -d "$(grep -oE 'AI_UI_SOURCE=[^ ]*' .cursorrules | head -1 | cut -d= -f2-)"
 
-# Fill remaining REPLACE tokens in .cursorrules (NOT AI_UI_SOURCE — deploy-basic set it):
+# Fill remaining REPLACE tokens in .cursorrules (NOT AI_UI_SOURCE — ui-deploy-basic set it):
 #   rg 'REPLACE:' .cursorrules
 
 # First skill invocation — loads from source:
@@ -155,7 +155,7 @@ test -d "$(grep -oE 'AI_UI_SOURCE=[^ ]*' .cursorrules | head -1 | cut -d= -f2-)"
 
 | When | Ask / do |
 |------|----------|
-| Invoked from target with no source pointer yet (greenfield, no `.cursorrules`) | The skill itself can't be loaded in thin-client mode before bootstrap. Tell the user to run the shell directly: `bash /abs/path/to/source/.ai.ui/scripts/deploy-basic.sh .` — chicken-and-egg escape. |
+| Invoked from target with no source pointer yet (greenfield, no `.cursorrules`) | The skill itself can't be loaded in thin-client mode before bootstrap. Tell the user to run the shell directly: `bash /abs/path/to/source/.ai.ui/scripts/ui-deploy-basic.sh .` — chicken-and-egg escape. |
 | Bootstrap target already has `.ai.ui/skills/` (fat-client) | Warn; ask: convert to thin (delete local `.ai.ui/`)?, keep mixed (skills resolve local-first per fat-client rule — unexpected)?, or abort? Do not silently leave a mixed state. |
 | `update` finds `.cursorrules` with no `AI_UI_SOURCE` line | Fat-client template detected → flag as merge candidate; agent appends the Source-resolution section with current source value. |
 | Source moved since last bootstrap | `update` re-syncs the pointer in-place; report old→new. If source unreachable, report `ui-design-os source unreachable` and stop. |
@@ -164,10 +164,10 @@ test -d "$(grep -oE 'AI_UI_SOURCE=[^ ]*' .cursorrules | head -1 | cut -d= -f2-)"
 
 ## Anti-patterns
 
-- Copying `skills/`/`standards/`/`concepts/` into the target (that defeats thin-client; use `@deploy-files` instead).
+- Copying `skills/`/`standards/`/`concepts/` into the target (that defeats thin-client; use `@ui-deploy-files` instead).
 - Wholesale-replacing `.cursorrules` or `.work.ui/HANDOFF_UI.md` on `update`.
 - Resetting `AI_UI_SOURCE` to `REPLACE_BASICUI_SOURCE` instead of the resolved path.
-- Running `@deploy-basic` and expecting skills to work offline — thin-client requires the source path to remain reachable.
+- Running `@ui-deploy-basic` and expecting skills to work offline — thin-client requires the source path to remain reachable.
 - Failing to verify `$AI_UI_SOURCE` is readable before claiming bootstrap complete.
-- Invoking `@deploy-basic -` from the source dir **without** a target path — the shell aborts; the agent must prompt for the target rather than guessing or defaulting to the source's own cwd.
-- Using `deploy-basic` to "upgrade" a fat-client repo without first removing the local `.ai.ui/` (creates a mixed state; skills resolve fat-client first).
+- Invoking `@ui-deploy-basic -` from the source dir **without** a target path — the shell aborts; the agent must prompt for the target rather than guessing or defaulting to the source's own cwd.
+- Using `ui-deploy-basic` to "upgrade" a fat-client repo without first removing the local `.ai.ui/` (creates a mixed state; skills resolve fat-client first).

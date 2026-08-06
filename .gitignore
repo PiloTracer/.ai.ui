@@ -9,6 +9,8 @@ node_modules/
 .next/
 dist/
 build/
+__pycache__/
+*.pyc
 
 # Host/tooling artifacts (agent configs, local scratch)
 reasonix.toml

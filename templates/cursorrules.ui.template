@@ -143,7 +143,7 @@ Sister frameworks live as siblings on disk. `.ai.ui/` is the self framework (thi
 
 This repo was bootstrapped in one of two modes. The agent MUST apply the matching resolution rule before reading any `.ai.ui/...` path. Read this section at the start of every conversation.
 
-**UI Design OS source (thin-client only — set by `@deploy-basic`):**
+**UI Design OS source (thin-client only — set by `@ui-deploy-basic`):**
 
 AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 
@@ -151,8 +151,8 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 
 | Mode | Bootstrapped via | Where framework assets live | `AI_UI_SOURCE` |
 |------|------------------|----------------------------|----------------|
-| **Fat-client** (vendored) | `@ui-bootstrap init` or `@deploy-files` | this repo's `.ai.ui/` | unset (token left as `REPLACE_BASICUI_SOURCE`) |
-| **Thin-client** (remote) | `@deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/mnt/work/Projects/.ai.ui`) |
+| **Fat-client** (vendored) | `@ui-bootstrap init` or `@ui-deploy-files` | this repo's `.ai.ui/` | unset (token left as `REPLACE_BASICUI_SOURCE`) |
+| **Thin-client** (remote) | `@ui-deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/mnt/work/Projects/.ai.ui`) |
 
 **Resolution rule (agents MUST apply before reading any `.ai.ui/...` reference):**
 
@@ -162,18 +162,20 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 4. `.work.ui/...` references and project app code (REPLACE:UI_APP_ROOT) resolve locally in this repo in both modes.
 5. **Thin-client + unreachable source:** if `$AI_UI_SOURCE` is set but the directory does not exist or `skills/README.md` is unreadable, **stop** and report `ui-design-os source unreachable: $AI_UI_SOURCE` — do **not** silently fall back to a local `.ai.ui/` (there isn't one) and do **not** guess a different path.
 
-**First bootstrap in thin-client mode** is a chicken-and-egg escape: before `@deploy-basic` runs, the target has no local skill to invoke. Bootstrap is initiated either (a) from the **source** repo — `@deploy-basic - /abs/path/to/target` — or (b) by invoking the shell directly from the target: `bash /abs/path/to/source/.ai.ui/scripts/deploy-basic.sh .` After that, the source pointer in `.cursorrules` lets the local agent load `@deploy-basic update` and every other UI skill from source.
+**First bootstrap in thin-client mode** is a chicken-and-egg escape: before `@ui-deploy-basic` runs, the target has no local skill to invoke. Bootstrap is initiated either (a) from the **source** repo — `@ui-deploy-basic - /abs/path/to/target` — or (b) by invoking the shell directly from the target: `bash /abs/path/to/source/.ai.ui/scripts/ui-deploy-basic.sh .` After that, the source pointer in `.cursorrules` lets the local agent load `@ui-deploy-basic update` and every other UI skill from source.
 
 ---
 
 ## UI Skills (`.ai.ui/skills/`)
 
-Invoke as `@<skill-id>` + mode. **Do not** reimplement these as unprefixed skills.
+Invoke as `@<skill-id>` + mode. **Do not** reimplement these as unprefixed skills. (Subset — full registry: `skills/README.md`.)
 
 | Skill | Purpose |
 |-------|---------|
 | ui-bootstrap | Scaffold `.work.ui/`; install or merge UI rules in `.cursorrules` |
-| deploy-basic | Thin-client bootstrap / `update`: re-sync `AI_UI_SOURCE` pointer + merge local scaffold surface; skills resolve from source at runtime (see § Source resolution) |
+| ui-deploy-basic | Thin-client bootstrap / `update`: re-sync `AI_UI_SOURCE` pointer + merge local scaffold surface; skills resolve from source at runtime (see § Source resolution) |
+| ui-deploy-files | Fat-client: copy `.ai.ui/` files into target project (no-overwrite, respects `.gitignore`) |
+| ui-deploy-repo | Full git-based deploy of `.ai.ui/` (clone or archive) |
 | ui-design-foundation | Tokens, screen map; certify screen-spec-ready |
 | ui-screen-spec | Screen SPECs under `.work.ui/screens/` |
 | ui-component-build | UI iteration from `NEXT_UI.md` |
@@ -181,9 +183,10 @@ Invoke as `@<skill-id>` + mode. **Do not** reimplement these as unprefixed skill
 | ui-accessibility-audit | WCAG audits |
 | ui-design-system | Primitives + catalog |
 | ui-concept-run | UIS-01…10 prompts |
+| ui-session | `.work.ui`-scoped session carrier: commit / close / push of `.work.ui/` changes only (any combination) |
 | ui-process-router | UI process Q&A (read-only) |
 
-**Session bookends:** `@session-control` from `.ai/` when present.
+**Session bookends:** `@session-control` from `.ai/` when present (full repo). For `.work.ui`-scoped session commit / close / push only, use `@ui-session`.
 
 **Backend / API / DB:** `@code-implementation`, `@db-migration`, `@feature-spec` from `.ai/` — not duplicated here.
 
@@ -273,7 +276,7 @@ Creating or editing files in declared task scope is allowed. Prefer reversible e
 
 ### Git
 - Commit/push only per **Data loss & destructive operations** above.
-- Session commits: use `@session-control close commit` (Agent OS) when adopted — still requires explicit commit intent in the same message.
+- Session commits: use `@session-control close commit` (Agent OS) when adopted — still requires explicit commit intent in the same message. `.work.ui`-scoped only: `@ui-session commit` (same-message intent required).
 
 ### No Attribution
 - No "Generated by", "Created by AI", or agent signatures in source or SPEC files.

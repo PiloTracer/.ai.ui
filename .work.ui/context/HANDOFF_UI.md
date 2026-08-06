@@ -6,11 +6,11 @@
 
 **Open:** closed
 
-**Updated:** 2026-07-31
+**Updated:** 2026-08-06
 
-**Closed:** 2026-07-31 (improvement-plan audit + gap corrections)
+**Closed:** 2026-08-06 (skill-name standardization batch verified + released as v0.6.0)
 
-**UI layer state:** **Framework development.** `@ui-director` now has an explicit free-text intake contract and is wired into `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, and `context/README.md` as the default free-text entry point. Cross-framework requests route through `@x-director`. Existing demo foundation (docs 01–04 + `design-system/tokens.css` + `PROBE_LEDGER.md`) remains in place.
+**UI layer state:** **Framework development.** Skill names standardized: `deploy-basic`/`deploy-files`/`deploy-repo` renamed to `ui-deploy-basic`/`ui-deploy-files`/`ui-deploy-repo` (folders, `name:` frontmatter, `@` handles, shell scripts `scripts/ui-deploy-*.sh`, and every reference in registries/templates/docs/verifiers). New **`ui-session`** skill added (19th) — `.work.ui`-scoped session carrier with machine-enforced scope guard (`scripts/ui-session.sh`): any combination of `commit`/`close`/`push`, `commit` includes untracked files/dirs, never stages outside `.work.ui/`. `framework-verify.sh` extended with ui-session self-test.
 
 **2026-07-31 — web-research integration batch (committed on explicit owner request):** `resources/web-research-2026.md` curated catalog (6 verified clusters) wired into 5 skills + `ui-component-build` verify policy + `ui-process-router` `research` bucket + director index; **license policy** (commercial-safe; MPL-2.0 unmodified-dep exception) + **browser-control policy** (static-first; §8.2 opt-in authorization) + **URL-verify rule** (§8.1) encoded; **skill debloat** (−118/+51: `ui-copy` → COPY_STANDARD pointer; director reference single-source pointers); **director routing completeness** — `deploy-basic` routable, 17/17 skills locatable (verified). Audit: `.work.ui/reports/20260731-web-research-integration-report.md`. `bash scripts/framework-verify.sh` PASS.
 

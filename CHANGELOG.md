@@ -2,8 +2,11 @@
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-08-06
+
 ### Added
 
+- **`ui-session` skill (19th) — `.work.ui`-scoped session carrier.** Any combination of `commit` / `close` / `push` verbs for the **target repo's `.work.ui/` working directory only** (never app code, `.ai/`, `.work/`, or `.cursorrules`). `commit` stages all `.work.ui/` changes including **new untracked files and dirs**; `close` marks the session closed in `HANDOFF_UI.md`; `push` pushes the current branch. Machine-enforced scope guard in `scripts/ui-session.sh` (pre-commit staged-path check; refuses paths outside `.work.ui/`) with a behavioral `--self-test` wired into `framework-verify.sh`.
 - **`resources/web-research-2026.md` — curated external-resource catalog with agent apply rules.** Six verified clusters (tokens/color, accessibility, visual QA, design systems, UX writing, agent integration) + **license policy** (commercial-safe: MIT/Apache-2.0/BSD/CC0; MPL-2.0 for unmodified tool deps) + **browser-control policy** (static-first default; Playwright/DevTools MCP and live navigation opt-in with explicit operator authorization, §8.2) + **URL-verify skill rule** (§8.1). Non-commercial/paid/SaaS-required resources documented as exclusions (§7).
 - **`20260731-web-research-integration-report.md`** (`.work.ui/reports/`) — audit + integration verification: skill→§ map, license audit fixes, deployment readiness.
 - **Implementation batch (Phases 0–8 of the framework improvement plan)** — see `.work.ui/reports/20260731-framework-improvement-plan.md`:
@@ -20,6 +23,7 @@
 
 ### Changed
 
+- **Skill-name standardization — `ui-` prefix for all deploy utilities.** `deploy-basic` → `ui-deploy-basic`, `deploy-files` → `ui-deploy-files`, `deploy-repo` → `ui-deploy-repo` (folders `skills/ui-deploy-*/`, `name:` frontmatter, `@` handles, shell backends `scripts/ui-deploy-*.sh`). Every reference updated throughout: `skills/README.md`, `SKILL_DEPENDENCIES.md`, `ui-director` (skill + reference), `ui-process-router` reference, `templates/cursorrules.ui.template`, `.quick/deploy-to-project.md`, `framework-verify.sh` (check list + smoke tests), `bootstrap.sh`, `COHABITATION.md`, `START_HERE.md`, `PROCESS_ROUTER.md`, `context/README.md`. Session routing now distinguishes full-repo `@session-control` from `.work.ui`-scoped `@ui-session`. Historical records (dated `HANDOFF_UI`/report/CHANGELOG entries) left intact.
 - **Skills wired to the research catalog** — `ui-design-foundation` (§1 tokens), `ui-accessibility-audit` (§2 + static/CI/browser tooling tiers), `ui-visual-verify` (§3+§6 + verification tiers), `ui-design-system` (§4), `ui-copy` (§5); `ui-component-build` static-first verify policy; `ui-process-router` `research` bucket; `ui-director` + reference index the catalog; `README.md` / `START_HERE.md` / `skills/README.md` link it.
 - **Skill debloat (−118/+51)** — `ui-copy` universal rules deduped to `COPY_STANDARD` pointer (kept only rules the standard lacks; tooltip length conflict fixed to standard); `ui-director/reference.md` verbatim copies → single-source pointers; repeated license/URL-verify boilerplate → §8.1/§8.2 pointers; stale `uncommitted` mode row in `SKILL_DEPENDENCIES.md` fixed.
 - **Director routing completeness** — `deploy-basic` (thin-client) now routable from free text via the `deploy` bucket + shortcut chains + reference routing table; verified **18/18** registered skills locatable (`framework-verify.sh` skill-count derivation).

@@ -1,23 +1,23 @@
 ---
-name: deploy-repo
+name: ui-deploy-repo
 description: >-
   Full git-based deploy of UI Design OS into a target directory. Two modes:
   clone (git clone with full history via origin remote) or archive (git archive
   extract including .github, .gitignore, .cursorrules). Use clone for a full git
   mirror; use archive when no remote is available or when updating an existing
-  target. deploy-repo clone - <path>, deploy-repo archive - <path>,
-  deploy-repo status.
+  target. ui-deploy-repo clone - <path>, ui-deploy-repo archive - <path>,
+  ui-deploy-repo status.
 ---
 
-# deploy-repo
+# ui-deploy-repo
 
-**Shell:** `bash .ai.ui/scripts/deploy-repo.sh [--status [path] | <clone|archive> <target-path>]`
+**Shell:** `bash .ai.ui/scripts/ui-deploy-repo.sh [--status [path] | <clone|archive> <target-path>]`
 
 Deploys the entire `.ai.ui` UI Design OS repository (including `.git/`, `.github/`, `.gitignore`, and root `.cursorrules`) into a target directory. Two modes cover both git-mirror and snapshot deployments.
 
-**Canonical path:** `.ai.ui/skills/deploy-repo/skill.md` · **Shell:** `.ai.ui/scripts/deploy-repo.sh`
+**Canonical path:** `.ai.ui/skills/ui-deploy-repo/skill.md` · **Shell:** `.ai.ui/scripts/ui-deploy-repo.sh`
 
-**Contrast with `deploy-files`:** `deploy-repo` includes VCS artifacts. Use `@deploy-files copy` when you only need the `.ai.ui/` directory without git history or `.github/`.
+**Contrast with `ui-deploy-files`:** `ui-deploy-repo` includes VCS artifacts. Use `@ui-deploy-files copy` when you only need the `.ai.ui/` directory without git history or `.github/`.
 
 ---
 
@@ -25,12 +25,12 @@ Deploys the entire `.ai.ui` UI Design OS repository (including `.git/`, `.github
 
 | User says | Mode |
 |-----------|------|
-| `@deploy-repo` **clone - /path/to/repo** | Full `git clone` from origin remote to target path |
-| `@deploy-repo` **archive - /path/to/repo** | `git archive HEAD \| tar xf` — full tree, no `.git` |
-| `@deploy-repo` **status** | Report source remote, HEAD, optional target deploy state |
-| `@deploy-repo` **status** - /path | Same with target path inspection |
+| `@ui-deploy-repo` **clone - /path/to/repo** | Full `git clone` from origin remote to target path |
+| `@ui-deploy-repo` **archive - /path/to/repo** | `git archive HEAD \| tar xf` — full tree, no `.git` |
+| `@ui-deploy-repo` **status** | Report source remote, HEAD, optional target deploy state |
+| `@ui-deploy-repo` **status** - /path | Same with target path inspection |
 
-**Shell (read-only):** `bash scripts/deploy-repo.sh --status [target-path]`
+**Shell (read-only):** `bash scripts/ui-deploy-repo.sh --status [target-path]`
 
 **Default:** `status` if no verb matches.
 
@@ -49,7 +49,7 @@ Deploys the entire `.ai.ui` UI Design OS repository (including `.git/`, `.github
 
 ## I1 — Clone mode
 
-1. `bash .ai.ui/scripts/deploy-repo.sh clone "<resolved-path>"`
+1. `bash .ai.ui/scripts/ui-deploy-repo.sh clone "<resolved-path>"`
 2. Requires git remote `origin` on source repo.
 3. Target must not exist or must be empty.
 4. Full `git clone` preserves all branches and tags.
@@ -60,7 +60,7 @@ Deploys the entire `.ai.ui` UI Design OS repository (including `.git/`, `.github
 
 ## I2 — Archive mode
 
-1. `bash .ai.ui/scripts/deploy-repo.sh archive "<resolved-path>"`
+1. `bash .ai.ui/scripts/ui-deploy-repo.sh archive "<resolved-path>"`
 2. Uses `git archive HEAD` — no remote required.
 3. Includes `.github/`, `.gitignore`, `.cursorrules` (everything except `.git` directory).
 4. Idempotent — re-runs safely overwrite files.

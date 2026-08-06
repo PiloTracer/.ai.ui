@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# deploy-basic.sh — Thin-client bootstrap of UI Design OS into a target project.
+# ui-deploy-basic.sh — Thin-client bootstrap of UI Design OS into a target project.
 #
 # Copies ONLY the minimal scaffold into the target:
 #   - .cursorrules (from templates/cursorrules.ui.template, with AI_UI_SOURCE
@@ -19,15 +19,15 @@
 #
 # Source resolution: AI_UI_ROOT is derived from this script's location, so the
 # script can be invoked from a TARGET using an external source .ai.ui:
-#   bash /mnt/work/Projects/.ai.ui/scripts/deploy-basic.sh /path/to/target-project
+#   bash /mnt/work/Projects/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target-project
 # Override the source with AI_UI_ROOT=/abs/path/.ai.ui if needed.
 #
 # Usage:
-#   bash scripts/deploy-basic.sh <target-path>              # no-overwrite (skip existing)
-#   bash scripts/deploy-basic.sh --status [target-path]   # read-only report
-#   bash scripts/deploy-basic.sh <target-path> --update    # no-overwrite + merge candidate list
-#   bash scripts/deploy-basic.sh <target-path> --force     # overwrite local scaffold (legacy)
-#   AI_UI_ROOT=/path/.ai.ui bash scripts/deploy-basic.sh <target-path>
+#   bash scripts/ui-deploy-basic.sh <target-path>              # no-overwrite (skip existing)
+#   bash scripts/ui-deploy-basic.sh --status [target-path]   # read-only report
+#   bash scripts/ui-deploy-basic.sh <target-path> --update    # no-overwrite + merge candidate list
+#   bash scripts/ui-deploy-basic.sh <target-path> --force     # overwrite local scaffold (legacy)
+#   AI_UI_ROOT=/path/.ai.ui bash scripts/ui-deploy-basic.sh <target-path>
 #
 set -euo pipefail
 
@@ -42,7 +42,7 @@ if [[ "${1:-}" == "--status" ]]; then
   fi
   CURS_DEST="${DEST_ROOT}/.cursorrules"
 
-  echo "=== deploy-basic status → $DEST_ROOT ==="
+  echo "=== ui-deploy-basic status → $DEST_ROOT ==="
 
   if [[ -f "$CURS_DEST" ]]; then
     echo "  .cursorrules: present"
@@ -127,7 +127,7 @@ WORK_UI_FILES=(
 )
 
 
-echo "=== deploy-basic (UI Design OS) → $DEST_ROOT (thin-client bootstrap) ==="
+echo "=== ui-deploy-basic (UI Design OS) → $DEST_ROOT (thin-client bootstrap) ==="
 echo "  source: $AI_UI_ROOT"
 echo "  mode:   $MODE (no-overwrite by default)"
 
@@ -163,8 +163,8 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 
 | Mode | Bootstrapped via | Where framework assets live | `AI_UI_SOURCE` |
 |------|------------------|----------------------------|----------------|
-| **Fat-client** (vendored) | `@ui-bootstrap init` or `@deploy-files` | this repo's `.ai.ui/` | unset (token left as `REPLACE_BASICUI_SOURCE`) |
-| **Thin-client** (remote) | `@deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/mnt/work/Projects/.ai.ui`) |
+| **Fat-client** (vendored) | `@ui-bootstrap init` or `@ui-deploy-files` | this repo's `.ai.ui/` | unset (token left as `REPLACE_BASICUI_SOURCE`) |
+| **Thin-client** (remote) | `@ui-deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/mnt/work/Projects/.ai.ui`) |
 
 **Resolution rule (agents MUST apply before reading any `.ai.ui/...` reference):**
 
@@ -174,7 +174,7 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 4. `.work.ui/...` references and project app code resolve locally in this repo in both modes.
 5. **Thin-client + unreachable source:** if `$AI_UI_SOURCE` is set but the directory does not exist or `skills/README.md` is unreadable, **stop** and report `ui-design-os source unreachable: $AI_UI_SOURCE` — do **not** silently fall back to a local `.ai.ui/` (there isn't one) and do **not** guess a different path.
 
-**First bootstrap in thin-client mode** is a chicken-and-egg escape: before `@deploy-basic` runs, the target has no local skill to invoke. Bootstrap is initiated either (a) from the **source** repo — `@deploy-basic - /abs/path/to/target` — or (b) by invoking the shell directly from the target: `bash /abs/path/to/source/.ai.ui/scripts/deploy-basic.sh .` After that, the source pointer in `.cursorrules` lets the local agent load `@deploy-basic update` and every other UI skill from source.
+**First bootstrap in thin-client mode** is a chicken-and-egg escape: before `@ui-deploy-basic` runs, the target has no local skill to invoke. Bootstrap is initiated either (a) from the **source** repo — `@ui-deploy-basic - /abs/path/to/target` — or (b) by invoking the shell directly from the target: `bash /abs/path/to/source/.ai.ui/scripts/ui-deploy-basic.sh .` After that, the source pointer in `.cursorrules` lets the local agent load `@ui-deploy-basic update` and every other UI skill from source.
 
 SRCEOF
   fi
@@ -235,9 +235,9 @@ fi
 # Step 2: .work.ui/ skeleton + DOCS_UI_STACK.md via bootstrap.sh (no-overwrite),
 # pointing at the source .ai.ui templates.
 BOOTSTRAP_SKIP_CURSERRULES=1 REPO_ROOT="$DEST_ROOT" AI_UI_ROOT="$AI_UI_ROOT" bash "$AI_UI_ROOT/templates/bootstrap.sh" \
-  > /tmp/deploy-basic-ui-bootstrap.$$.log 2>&1 || { cat /tmp/deploy-basic-ui-bootstrap.$$.log; rm -f /tmp/deploy-basic-ui-bootstrap.$$.log; exit 1; }
-grep -E '(created:|skip )' /tmp/deploy-basic-ui-bootstrap.$$.log | sed 's/^/  work.ui: /' || true
-rm -f /tmp/deploy-basic-ui-bootstrap.$$.log
+  > /tmp/ui-deploy-basic-ui-bootstrap.$$.log 2>&1 || { cat /tmp/ui-deploy-basic-ui-bootstrap.$$.log; rm -f /tmp/ui-deploy-basic-ui-bootstrap.$$.log; exit 1; }
+grep -E '(created:|skip )' /tmp/ui-deploy-basic-ui-bootstrap.$$.log | sed 's/^/  work.ui: /' || true
+rm -f /tmp/ui-deploy-basic-ui-bootstrap.$$.log
 
 # Step 3: --update — list existing-but-differing local-surface files as merge candidates.
 if [[ "$MODE" == "update" ]]; then
@@ -269,7 +269,7 @@ if [[ "$MODE" == "update" ]]; then
   fi
   echo ""
   echo "  (agent performs rules-aware merge — append new sections, preserve target"
-  echo "   customizations + REPLACE tokens + AI_UI_SOURCE. See skill deploy-basic § update-merge.)"
+  echo "   customizations + REPLACE tokens + AI_UI_SOURCE. See skill ui-deploy-basic § update-merge.)"
 fi
 
 echo ""
@@ -280,7 +280,7 @@ echo "  .work.ui/: $([ -d "${DEST_ROOT}/.work.ui" ] && echo present || echo MISS
 echo "  skills (local): $([ -d "${DEST_ROOT}/.ai.ui/skills" ] && echo "present — fat-client (unexpected for basic)" || echo 'absent — thin-client (skills load from source)')"
 echo ""
 echo "Next steps in target project:"
-echo "  1. Edit ${DEST_ROOT}/.cursorrules — fill every REPLACE: token EXCEPT AI_UI_SOURCE (deploy-basic set it)"
+echo "  1. Edit ${DEST_ROOT}/.cursorrules — fill every REPLACE: token EXCEPT AI_UI_SOURCE (ui-deploy-basic set it)"
 echo "  2. Verify source is reachable:  test -d \"\$(grep -oE 'AI_UI_SOURCE=[^ ]*' $CURS_DEST | cut -d= -f2-)\""
 echo "  3. Run @session-control start  (if Agent OS .ai/ present)"
 echo "  4. First UI skill: @ui-design-foundation greenfield (loaded from \$AI_UI_SOURCE/skills/)"

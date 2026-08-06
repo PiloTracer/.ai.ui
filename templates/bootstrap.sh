@@ -11,7 +11,7 @@ fi
 TPL="${AI_UI_ROOT}/templates/work.ui"
 CURSORRULES_MODE="${1:-${CURSORRULES_MODE:-}}"
 
-# Honor explicit REPO_ROOT env override (set by deploy-basic when targeting an external project).
+# Honor explicit REPO_ROOT env override (set by ui-deploy-basic when targeting an external project).
 if [[ -n "${REPO_ROOT:-}" ]]; then
   REPO_ROOT="$(cd "$REPO_ROOT" && pwd)"
 elif [[ -d "${AI_UI_ROOT}/.git" ]]; then

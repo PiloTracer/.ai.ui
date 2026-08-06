@@ -1,7 +1,7 @@
 {
-  "description": "Touch scope — 2026-07-31 improvement-plan audit closure: cross-area gap corrections + demo reports + desktop fixtures.",
+  "description": "Touch scope — 2026-08-01 skill-name standardization batch: rename deploy-basic/files/repo → ui-deploy-* (folders + scripts + all references), add ui-session skill (scoped to .work.ui), update registries/templates/docs.",
   "blast_radius_approved": true,
-  "blast_radius_note": "Session close commit — audit corrections span skills/scripts/standards/.work.ui by design; operator authorized commit+push.",
+  "blast_radius_note": "Operator-authorized cross-area rename (skills/scripts/templates/docs/.work.ui by design) + new skill registration; run framework-verify after.",
   "allowed_paths": [
     ".gitignore",
     "README.md",
@@ -9,6 +9,10 @@
     "CHANGELOG.md",
     "CONTRIBUTING.md",
     "APPROACH.md",
+    "COHABITATION.md",
+    "PROCESS_ROUTER.md",
+    "context/README.md",
+    ".quick/",
     "skills/",
     "resources/",
     "standards/",
@@ -27,7 +31,8 @@
     "*.yml",
     "*.yaml",
     "*.css",
-    "*.py"
+    "*.py",
+    "*.template"
   ],
   "rules": [
     "Only touch files under allowed_paths",

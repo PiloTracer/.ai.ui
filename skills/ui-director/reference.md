@@ -6,7 +6,7 @@ Full skill registry, dependency map, and routing tables for the `@ui-director` o
 
 ## 1. Complete skill registry (all `ui-*` skills)
 
-All 17 registered skills except `ui-director` itself (14 `ui-*` + 3 deploy utilities listed below). Source of truth: `skills/README.md` (**18 total** including `ui-director`).
+All 18 registered skills except `ui-director` itself (15 `ui-*` + 3 `ui-deploy-*` utilities listed below). Source of truth: `skills/README.md` (**19 total** including `ui-director`).
 
 | `@` handle | Folder | Role | Modes | Writes? | Depends on |
 |------------|--------|------|-------|---------|------------|
@@ -24,9 +24,10 @@ All 17 registered skills except `ui-director` itself (14 `ui-*` + 3 deploy utili
 | `ui-concept-run` | `ui-concept-run/` | Run UIS-01…10 prompts | `list`, `run - UIS-NN`, `status` | Varies (attachments) | Trigger table in `concepts/README.md` |
 | `ui-plan-verify` | `ui-plan-verify/` | Read-only audit: verifiers, probe coverage, traceability | `audit`, `probe-coverage`, `traceability` | Read-only (report) | — |
 | `ui-process-router` | `ui-process-router/` | Read-only UI process Q&A | `- <question>`, `help` | Read-only | — |
-| `deploy-files` | `deploy-files/` | Deploy `.ai.ui` files to target project | `copy - <path>`, `status` | Yes (target `.ai.ui/`) | Source git repo |
-| `deploy-basic` | `deploy-basic/` | Thin-client bootstrap (cursorrules + .work.ui/ only; skills load from source) | `- <target-path>`, `status` | Yes (target `.cursorrules`, `.work.ui/`) | Source `.ai.ui/` path or git remote |
-| `deploy-repo` | `deploy-repo/` | Full git-based deploy (clone/archive) | `clone - <path>`, `archive - <path>`, `status` | Yes (target repo) | Source git remote (for clone) |
+| `ui-deploy-files` | `ui-deploy-files/` | Deploy `.ai.ui` files to target project | `copy - <path>`, `status` | Yes (target `.ai.ui/`) | Source git repo |
+| `ui-deploy-basic` | `ui-deploy-basic/` | Thin-client bootstrap (cursorrules + .work.ui/ only; skills load from source) | `- <target-path>`, `status` | Yes (target `.cursorrules`, `.work.ui/`) | Source `.ai.ui/` path or git remote |
+| `ui-deploy-repo` | `ui-deploy-repo/` | Full git-based deploy (clone/archive) | `clone - <path>`, `archive - <path>`, `status` | Yes (target repo) | Source git remote (for clone) |
+| `ui-session` | `ui-session/` | `.work.ui`-scoped session carrier | `commit`, `close`, `push` (any combination), `status` | Yes (`.work.ui/` only) | Target repo with `.work.ui/`; explicit commit/push intent |
 
 ---
 
@@ -94,11 +95,13 @@ Before `@ui-component-build complete`, ensure these all pass:
 | "Run UIS-06" | `concept` | `@ui-concept-run - UIS-06` |
 | "Check if we're ready to close the milestone" | `audit` | `@ui-plan-verify audit` |
 | "How do I create a screen spec?" | `router` | `@ui-process-router - how do I create a screen spec?` |
-| "Deploy to /path/to/project" | `deploy` | `@deploy-files copy - /path/to/project` |
-| "Thin-client deploy (just cursorrules + .work.ui/)" | `deploy` | `@deploy-basic - /path/to/project` |
+| "Deploy to /path/to/project" | `deploy` | `@ui-deploy-files copy - /path/to/project` |
+| "Thin-client deploy (just cursorrules + .work.ui/)" | `deploy` | `@ui-deploy-basic - /path/to/project` |
 | "Build a desktop app" | `desktop` | `@ui-python-desktop stack set - pyside6` → `scaffold - <slug>` |
 | "Start a session" | `session-control` | Redirect: `@session-control start` (Agent OS) |
-| "Commit my changes" | `session-control` | Redirect: `@session-control close` (Agent OS) |
+| "Commit my .work.ui changes" | `session` | `@ui-session commit` (scoped to `.work.ui/`; includes untracked) |
+| "Close the UI session / push .work.ui" | `session` | `@ui-session close` / `@ui-session push` (any combination) |
+| "Commit the whole repo" | `session-control` | Redirect: `@session-control close` (Agent OS) |
 | "Create a migration" | `backend` | Redirect: `@db-migration` (Agent OS) |
 
 ---

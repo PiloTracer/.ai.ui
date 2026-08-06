@@ -15,7 +15,7 @@
 ## 0. Three things to know
 
 1. **UI truth lives in `.work.ui/`** — `HANDOFF_UI.md`, `NEXT_UI.md`, screen SPECs under `screens/`.
-2. **Sessions still belong to Agent OS** — `@session-control start` / `close` from `.ai/`; UI skills do not commit unless your user rules say otherwise.
+2. **Sessions still belong to Agent OS** — `@session-control start` / `close` from `.ai/`; UI skills do not commit unless your user rules say otherwise (`@ui-session` is the `.work.ui`-scoped exception).
 3. **Skills orchestrate UI work. Standards bind tokens and components. UIS concepts gate visual quality and craft.**
 
 ---
@@ -60,6 +60,7 @@ Follow [`examples/INDEX.md`](examples/INDEX.md) playbook. **S0 primitives before
 | Where is UI work? | `.work.ui/context/HANDOFF_UI.md` + `.work.ui/plans/NEXT_UI.md` |
 | Free-text UI request / don't know skill | `@ui-director - <describe what you want>` · `@x-director - <describe what you want>` (cross-framework) |
 | Full repo session (Agent OS) | `@session-control status` + `.work/context/HANDOFF.md` |
+| `.work.ui`-scoped session commit / close / push | `@ui-session commit` / `close` / `push` (any combination; `.work.ui/` only) |
 | UI iteration snapshot | `@ui-component-build status` |
 | Design foundation done? | `@ui-design-foundation status` |
 
