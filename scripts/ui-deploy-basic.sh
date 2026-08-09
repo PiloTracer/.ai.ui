@@ -13,9 +13,20 @@
 # the agent resolves them from the source .ai.ui at runtime (thin-client mode).
 #
 # Default = NO-OVERWRITE: existing target files are preserved by construction.
-# --update: no-overwrite + re-syncs the source pointer + lists existing-but-
-# differing local-surface files as merge candidates for agent rules-aware merge.
-# --force: idempotent overwrite of the local scaffold surface only.
+# update: no-overwrite + re-syncs the source pointer + appends the Source-
+#   resolution section when missing + lists existing-but-differing local-surface
+#   files as merge candidates for agent rules-aware merge.
+# force: idempotent overwrite of the local scaffold surface only.
+# verify: strict audit of the target's .cursorrules wiring (via
+#   scripts/cursorrules-verify.sh); verify --fix also fills machine-fixable
+#   gaps (sister framework paths, missing Source-resolution section).
+#
+# Flag equivalence: verbs work WITH or WITHOUT the "--" prefix, in any
+# position relative to the target path — these are identical:
+#   bash scripts/ui-deploy-basic.sh /path/to/target update
+#   bash scripts/ui-deploy-basic.sh /path/to/target --update
+#   bash scripts/ui-deploy-basic.sh --update /path/to/target
+# The agent-syntax separator "-" between verb and path is ignored.
 #
 # Source resolution: AI_UI_ROOT is derived from this script's location, so the
 # script can be invoked from a TARGET using an external source .ai.ui:
@@ -24,72 +35,31 @@
 #
 # Usage:
 #   bash scripts/ui-deploy-basic.sh <target-path>              # no-overwrite (skip existing)
-#   bash scripts/ui-deploy-basic.sh --status [target-path]   # read-only report
-#   bash scripts/ui-deploy-basic.sh <target-path> --update    # no-overwrite + merge candidate list
-#   bash scripts/ui-deploy-basic.sh <target-path> --force     # overwrite local scaffold (legacy)
+#   bash scripts/ui-deploy-basic.sh <target-path> status       # read-only report (always exit 0)
+#   bash scripts/ui-deploy-basic.sh <target-path> verify [--fix] # strict .cursorrules audit
+#   bash scripts/ui-deploy-basic.sh <target-path> update       # no-overwrite + self-heal + merge list
+#   bash scripts/ui-deploy-basic.sh <target-path> force        # overwrite local scaffold (legacy)
 #   AI_UI_ROOT=/path/.ai.ui bash scripts/ui-deploy-basic.sh <target-path>
 #
 set -euo pipefail
 
-# ── Status mode (read-only) ───────────────────────────────────────────
-if [[ "${1:-}" == "--status" ]]; then
-  shift
-  RAW_TARGET="${1:-.}"
-  if [[ "$RAW_TARGET" == "." || "$RAW_TARGET" == "$PWD" ]]; then
-    DEST_ROOT="$(pwd)"
-  else
-    DEST_ROOT="$(cd "$RAW_TARGET" && pwd)"
-  fi
-  CURS_DEST="${DEST_ROOT}/.cursorrules"
-
-  echo "=== ui-deploy-basic status → $DEST_ROOT ==="
-
-  if [[ -f "$CURS_DEST" ]]; then
-    echo "  .cursorrules: present"
-    src="$(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" 2>/dev/null | head -1 | cut -d= -f2- || true)"
-    if [[ -n "$src" && "$src" != "REPLACE_BASICUI_SOURCE" ]]; then
-      if [[ -d "$src" ]]; then
-        echo "  AI_UI_SOURCE: $src (reachable)"
-      else
-        echo "  AI_UI_SOURCE: $src (UNREACHABLE)"
-      fi
-    elif grep -q 'AI_UI_SOURCE=' "$CURS_DEST"; then
-      echo "  AI_UI_SOURCE: <unset token>"
-    else
-      echo "  AI_UI_SOURCE: missing (fat-client template?)"
-    fi
-    replace_count="$(grep -c 'REPLACE:' "$CURS_DEST" 2>/dev/null || true)"
-    replace_count="${replace_count:-0}"
-    echo "  REPLACE: tokens in .cursorrules: $replace_count"
-  else
-    echo "  .cursorrules: MISSING"
-  fi
-
-  if [[ -d "${DEST_ROOT}/.work.ui/context" ]]; then
-    echo "  .work.ui/: present"
-  else
-    echo "  .work.ui/: missing"
-  fi
-
-  if [[ -d "${DEST_ROOT}/.ai.ui/skills" ]]; then
-    echo "  local .ai.ui/skills/: present (WARN — fat-client leak / mixed state)"
-  else
-    echo "  local .ai.ui/skills/: absent (thin-client ok)"
-  fi
-  exit 0
-fi
-
-RAW_TARGET="${1:?Usage: $0 [--status] <target-path> [--force|--update]}"
-shift || true
-MODE="skip"
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --force)  MODE="force" ;;
-    --update) MODE="update" ;;
-    *) echo "ERROR: unknown flag: $1" >&2; exit 1 ;;
+# ── Argument parsing (verb == --verb, any position; "-" ignored) ──────
+MODE=""
+FIX=0
+RAW_TARGET=""
+for a in "$@"; do
+  case "$a" in
+    status|--status) MODE="status" ;;
+    verify|--verify) MODE="verify" ;;
+    update|--update) MODE="update" ;;
+    force|--force)   MODE="force" ;;
+    --fix)           FIX=1 ;;
+    -)               ;;  # agent-syntax separator
+    --*)             echo "ERROR: unknown flag: $a" >&2; exit 1 ;;
+    *)               if [[ -z "$RAW_TARGET" ]]; then RAW_TARGET="$a"; else echo "ERROR: unexpected argument: $a" >&2; exit 1; fi ;;
   esac
-  shift
 done
+MODE="${MODE:-skip}"
 
 # Source .ai.ui root: explicit override wins, else derive from script location.
 if [[ -n "${AI_UI_ROOT:-}" ]]; then
@@ -97,16 +67,38 @@ if [[ -n "${AI_UI_ROOT:-}" ]]; then
 else
   AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
+VERIFY="${AI_UI_ROOT}/scripts/cursorrules-verify.sh"
 
 # Target = repo root of the consumer (the dir that will hold .cursorrules + .work.ui/).
+RAW_TARGET="${RAW_TARGET:-.}"
 if [[ "$RAW_TARGET" == "." || "$RAW_TARGET" == "$PWD" ]]; then
   DEST_ROOT="$(pwd)"
 else
+  if [[ ! -d "$RAW_TARGET" ]]; then
+    echo "ERROR: target directory does not exist: $RAW_TARGET" >&2
+    exit 1
+  fi
   DEST_ROOT="$(cd "$RAW_TARGET" && pwd)"
 fi
 
-if [[ ! -d "$DEST_ROOT" ]]; then
-  echo "ERROR: target directory does not exist: $DEST_ROOT" >&2
+# ── status / verify (read-only; verify --fix is the only mutation) ────
+if [[ "$MODE" == "status" || "$MODE" == "verify" ]]; then
+  echo "=== ui-deploy-basic ${MODE} → ${DEST_ROOT} ==="
+  if [[ "$MODE" == "status" ]]; then
+    bash "$VERIFY" "$DEST_ROOT" --report
+  elif [[ "$FIX" -eq 1 ]]; then
+    bash "$VERIFY" "$DEST_ROOT" --fix
+  else
+    bash "$VERIFY" "$DEST_ROOT"
+  fi
+  exit $?
+fi
+
+# ── Write modes below this point ──────────────────────────────────────
+
+# Never deploy the source framework into itself.
+if [[ "$DEST_ROOT" == "$AI_UI_ROOT" ]]; then
+  echo "ERROR: target resolves to the source framework itself ($DEST_ROOT) — refusing to deploy into the source." >&2
   exit 1
 fi
 
@@ -134,12 +126,14 @@ echo "  mode:   $MODE (no-overwrite by default)"
 if [[ -d "${DEST_ROOT}/.ai.ui/skills" ]]; then
   echo "  WARN: target has local .ai.ui/skills/ directory (fat-client leak)"
   if [[ "$MODE" != "force" ]]; then
-    echo "  BLOCKED: use --force to confirm thin-client on a fat-client target,"
+    echo "  BLOCKED: use force to confirm thin-client on a fat-client target,"
     echo "    or remove the local .ai.ui/ directory first."
     exit 1
   fi
-  echo "  --force: proceeding (mixed state accepted by operator)"
+  echo "  force: proceeding (mixed state accepted by operator)"
 fi
+
+AI_UI_ROOT_ESC="${AI_UI_ROOT//\//\\/}"
 
 # Build the substituted .cursorrules content (AI_UI_SOURCE → absolute source path).
 # Also appends the source-resolution section if the template doesn't already have it.
@@ -147,7 +141,6 @@ subst_cursorules() {
   local tmp
   tmp="$(mktemp)"
   # Substitute AI_UI_SOURCE token
-  AI_UI_ROOT_ESC="${AI_UI_ROOT//\//\\/}"
   perl -pe "s/AI_UI_SOURCE=REPLACE_BASICUI_SOURCE/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/" "$TPL_CURS" > "$tmp"
   # Append source-resolution section if not already present
   if ! grep -q '## Source resolution' "$tmp" 2>/dev/null; then
@@ -198,7 +191,7 @@ if [[ -f "$CURS_DEST" ]]; then
   existing_source="$(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" | head -1 | cut -d= -f2- || true)"
 fi
 
-# Step 1: .cursorrules (no-overwrite by default; --force overwrites).
+# Step 1: .cursorrules (no-overwrite by default; force overwrites).
 if [[ "$MODE" == "force" ]]; then
   write_cursorules force
 else
@@ -209,27 +202,30 @@ else
   fi
 fi
 
-# Re-sync the source pointer when --update AND the existing .cursorrules still
-# carries REPLACE_BASICUI_SOURCE or a stale path.
-if [[ "$MODE" == "update" ]] && [[ "$existing_source" != "$AI_UI_ROOT" ]]; then
-  if [[ -f "$CURS_DEST" ]] && grep -q 'AI_UI_SOURCE=' "$CURS_DEST"; then
-    AI_UI_ROOT_ESC="${AI_UI_ROOT//\//\\/}"
-    if [[ -n "$existing_source" ]]; then
-      perl -i -pe "s{AI_UI_SOURCE=\Q${existing_source}\E}{AI_UI_SOURCE=${AI_UI_ROOT_ESC}}" "$CURS_DEST" 2>/dev/null || \
-        perl -i -pe "s/AI_UI_SOURCE=[^\n]*/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/" "$CURS_DEST"
-      echo "  cursorules: re-synced AI_UI_SOURCE → $AI_UI_ROOT (was: ${existing_source})"
-    else
-      # Line exists but empty — replace it
-      perl -i -pe "s/AI_UI_SOURCE=[^\n]*/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/" "$CURS_DEST"
-      echo "  cursorules: set AI_UI_SOURCE → $AI_UI_ROOT"
-    fi
-  fi
+# update self-heal #1: append the Source-resolution section when the existing
+# .cursorrules lacks it entirely (e.g. fat-client template or Agent OS base).
+if [[ "$MODE" == "update" ]] && [[ -f "$CURS_DEST" ]] && ! grep -q '^## Source resolution' "$CURS_DEST"; then
+  {
+    echo ""
+    awk '/^## Source resolution/{f=1} f&&/^---$/{exit} f' "$TPL_CURS" \
+      | perl -pe "s/AI_UI_SOURCE=REPLACE_BASICUI_SOURCE/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/"
+  } >> "$CURS_DEST"
+  echo "  cursorules: appended Source-resolution section (thin-client wiring, AI_UI_SOURCE=$AI_UI_ROOT)"
 fi
-# If --update AND existing .cursorrules came from a fat-client template (no
-# AI_UI_SOURCE line at all), flag it.
-if [[ "$MODE" == "update" ]] && [[ -f "$CURS_DEST" ]] && ! grep -q 'AI_UI_SOURCE=' "$CURS_DEST"; then
-  echo "  cursorules: MERGE CANDIDATE — existing .cursorrules lacks the Source-resolution section"
-  echo "    (agent merges the section from the current template; preserves target REPLACE tokens)"
+
+# update self-heal #2: re-sync the source pointer when the existing .cursorrules
+# still carries REPLACE_BASICUI_SOURCE or a stale path.
+existing_source="$(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" 2>/dev/null | head -1 | cut -d= -f2- || true)"
+if [[ "$MODE" == "update" ]] && [[ -f "$CURS_DEST" ]] && grep -q 'AI_UI_SOURCE=' "$CURS_DEST" && [[ "$existing_source" != "$AI_UI_ROOT" ]]; then
+  if [[ -n "$existing_source" ]]; then
+    perl -i -pe "s{AI_UI_SOURCE=\Q${existing_source}\E}{AI_UI_SOURCE=${AI_UI_ROOT_ESC}}" "$CURS_DEST" 2>/dev/null || \
+      perl -i -pe "s/AI_UI_SOURCE=[^\n]*/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/" "$CURS_DEST"
+    echo "  cursorules: re-synced AI_UI_SOURCE → $AI_UI_ROOT (was: ${existing_source})"
+  else
+    # Line exists but empty — replace it
+    perl -i -pe "s/AI_UI_SOURCE=[^\n]*/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/" "$CURS_DEST"
+    echo "  cursorules: set AI_UI_SOURCE → $AI_UI_ROOT"
+  fi
 fi
 
 # Step 2: .work.ui/ skeleton + DOCS_UI_STACK.md via bootstrap.sh (no-overwrite),
@@ -239,7 +235,7 @@ BOOTSTRAP_SKIP_CURSERRULES=1 REPO_ROOT="$DEST_ROOT" AI_UI_ROOT="$AI_UI_ROOT" bas
 grep -E '(created:|skip )' /tmp/ui-deploy-basic-ui-bootstrap.$$.log | sed 's/^/  work.ui: /' || true
 rm -f /tmp/ui-deploy-basic-ui-bootstrap.$$.log
 
-# Step 3: --update — list existing-but-differing local-surface files as merge candidates.
+# Step 3: update — list existing-but-differing local-surface files as merge candidates.
 if [[ "$MODE" == "update" ]]; then
   echo ""
   echo "=== update merge candidates ==="
@@ -278,9 +274,14 @@ echo "  .cursorrules: $([ -f "$CURS_DEST" ] && echo present || echo MISSING)"
 echo "  AI_UI_SOURCE: $(grep -oE 'AI_UI_SOURCE=[^ ]*' "$CURS_DEST" 2>/dev/null | head -1 | cut -d= -f2- || echo '<unset — fat-client>')"
 echo "  .work.ui/: $([ -d "${DEST_ROOT}/.work.ui" ] && echo present || echo MISSING)"
 echo "  skills (local): $([ -d "${DEST_ROOT}/.ai.ui/skills" ] && echo "present — fat-client (unexpected for basic)" || echo 'absent — thin-client (skills load from source)')"
+
+# Post-deploy wiring audit (read-only report — strict form: ui-deploy-basic verify).
+echo ""
+bash "$VERIFY" "$DEST_ROOT" --report || true
+
 echo ""
 echo "Next steps in target project:"
 echo "  1. Edit ${DEST_ROOT}/.cursorrules — fill every REPLACE: token EXCEPT AI_UI_SOURCE (ui-deploy-basic set it)"
-echo "  2. Verify source is reachable:  test -d \"\$(grep -oE 'AI_UI_SOURCE=[^ ]*' $CURS_DEST | cut -d= -f2-)\""
+echo "  2. Strict wiring audit:  bash $VERIFY $DEST_ROOT   (add --fix to auto-fill)"
 echo "  3. Run @session-control start  (if Agent OS .ai/ present)"
 echo "  4. First UI skill: @ui-design-foundation greenfield (loaded from \$AI_UI_SOURCE/skills/)"

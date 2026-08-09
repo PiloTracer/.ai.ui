@@ -10,18 +10,49 @@
 # does not exist yet. "archive" is the fallback when there's no remote or the
 # target exists and needs a partial update.
 #
+# Flag equivalence: verbs work WITH or WITHOUT the "--" prefix — these are
+# identical:
+#   bash scripts/ui-deploy-repo.sh clone   /absolute/path/to/target
+#   bash scripts/ui-deploy-repo.sh --clone /absolute/path/to/target
+# The agent-syntax separator "-" between verb and path is ignored.
+#
+# status / verify audit the target's wiring without deploying anything:
+#   status — read-only report of source + optional target state (always exit 0)
+#   verify — strict .cursorrules + asset audit of a deployed target
+#            (via scripts/cursorrules-verify.sh); verify --fix fills
+#            machine-fixable gaps (sister paths, missing Source-resolution).
+#
 # Usage:
-#   bash scripts/ui-deploy-repo.sh --status [target-path]
+#   bash scripts/ui-deploy-repo.sh status [target-path]
+#   bash scripts/ui-deploy-repo.sh verify <target-path> [--fix]
 #   bash scripts/ui-deploy-repo.sh clone    /absolute/path/to/target
 #   bash scripts/ui-deploy-repo.sh archive  /absolute/path/to/target
 #
 set -euo pipefail
 
 AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VERIFY="${AI_UI_ROOT}/scripts/cursorrules-verify.sh"
 
-if [[ "${1:-}" == "--status" || "${1:-}" == "status" ]]; then
-  shift || true
-  TARGET="${1:-}"
+# ── Argument parsing (verb == --verb, any position; "-" ignored) ──────
+MODE=""
+FIX=0
+RAW_TARGET=""
+for a in "$@"; do
+  case "$a" in
+    status|--status)   MODE="status" ;;
+    verify|--verify)   MODE="verify" ;;
+    clone|--clone)     MODE="clone" ;;
+    archive|--archive) MODE="archive" ;;
+    --fix)             FIX=1 ;;
+    -)                 ;;  # agent-syntax separator
+    --*)               echo "ERROR: unknown flag: $a" >&2; exit 1 ;;
+    *)                 if [[ -z "$RAW_TARGET" ]]; then RAW_TARGET="$a"; else echo "ERROR: unexpected argument: $a" >&2; exit 1; fi ;;
+  esac
+done
+
+# ── status (read-only) ────────────────────────────────────────────────
+if [[ "$MODE" == "status" ]]; then
+  TARGET="$RAW_TARGET"
   echo "=== ui-deploy-repo status (UI Design OS) ==="
   echo "  source: $AI_UI_ROOT"
   REMOTE="$(cd "$AI_UI_ROOT" && git remote get-url origin 2>/dev/null || true)"
@@ -39,12 +70,34 @@ if [[ "${1:-}" == "--status" || "${1:-}" == "status" ]]; then
     [[ -f "$T/.cursorrules" ]] && echo "  .cursorrules: present" || echo "  .cursorrules: missing"
     [[ -d "$T/.github" ]] && echo "  .github/: present" || echo "  .github/: missing"
     [[ -d "$T/skills" ]] && echo "  skills/: present" || echo "  skills/: missing"
+    echo ""
+    bash "$VERIFY" "$T" --report || true
   fi
   exit 0
 fi
 
-MODE="${1:?Usage: $0 --status [path] | <clone|archive> <target-path>}"
-RAW_TARGET="${2:?Usage: $0 <clone|archive> <target-path>}"
+# ── verify (strict .cursorrules audit of a deployed target) ───────────
+if [[ "$MODE" == "verify" ]]; then
+  TARGET="${RAW_TARGET:-.}"
+  if [[ ! -d "$TARGET" ]]; then
+    echo "ERROR: target directory does not exist: $TARGET" >&2
+    exit 1
+  fi
+  echo "=== ui-deploy-repo verify → $(cd "$TARGET" && pwd) ==="
+  if [[ "$FIX" -eq 1 ]]; then
+    bash "$VERIFY" "$TARGET" --fix
+  else
+    bash "$VERIFY" "$TARGET"
+  fi
+  exit $?
+fi
+
+if [[ -z "$MODE" ]]; then
+  echo "Usage: $0 [status [path] | verify <path> [--fix] | <clone|archive> <target-path>]" >&2
+  exit 1
+fi
+
+RAW_TARGET="${RAW_TARGET:?Usage: $0 <clone|archive> <target-path>}"
 
 # ── Resolve target ──────────────────────────────────────────────────
 # Always use as-is (unlike ui-deploy-files, this is a full repo deploy)
@@ -87,10 +140,6 @@ if [[ "$MODE" == "clone" ]]; then
 fi
 
 # ── Mode: archive ───────────────────────────────────────────────────
-if [[ "$MODE" != "archive" ]]; then
-  echo "ERROR: unknown mode '$MODE'. Use 'clone' or 'archive'." >&2
-  exit 1
-fi
 
 # --- Coexistence safety scan ---
 CONFLICT_FILES=""
@@ -138,6 +187,9 @@ git archive --format=tar HEAD | tar xf - -C "$DEST_DIR"
 echo ""
 echo "=== Done: repo archive deployed to $DEST_DIR ==="
 echo "Includes: .github/, .gitignore, .cursorrules (full tree, no .git history)"
+echo ""
+# Post-deploy wiring audit (read-only report — strict form: ui-deploy-repo verify).
+bash "$VERIFY" "$DEST_DIR" --report || true
 echo ""
 echo "Next steps in target project:"
 echo "  1. Review overwritten files (.cursorrules, .github/ may need merge)"

@@ -24,9 +24,9 @@ All 18 registered skills except `ui-director` itself (15 `ui-*` + 3 `ui-deploy-*
 | `ui-concept-run` | `ui-concept-run/` | Run UIS-01…10 prompts | `list`, `run - UIS-NN`, `status` | Varies (attachments) | Trigger table in `concepts/README.md` |
 | `ui-plan-verify` | `ui-plan-verify/` | Read-only audit: verifiers, probe coverage, traceability | `audit`, `probe-coverage`, `traceability` | Read-only (report) | — |
 | `ui-process-router` | `ui-process-router/` | Read-only UI process Q&A | `- <question>`, `help` | Read-only | — |
-| `ui-deploy-files` | `ui-deploy-files/` | Deploy `.ai.ui` files to target project | `copy - <path>`, `status` | Yes (target `.ai.ui/`) | Source git repo |
-| `ui-deploy-basic` | `ui-deploy-basic/` | Thin-client bootstrap (cursorrules + .work.ui/ only; skills load from source) | `- <target-path>`, `status` | Yes (target `.cursorrules`, `.work.ui/`) | Source `.ai.ui/` path or git remote |
-| `ui-deploy-repo` | `ui-deploy-repo/` | Full git-based deploy (clone/archive) | `clone - <path>`, `archive - <path>`, `status` | Yes (target repo) | Source git remote (for clone) |
+| `ui-deploy-files` | `ui-deploy-files/` | Deploy `.ai.ui` files to target project | `copy - <path>`, `update`, `status`, `verify [--fix]` | Yes (target `.ai.ui/`) | Source git repo |
+| `ui-deploy-basic` | `ui-deploy-basic/` | Thin-client bootstrap (cursorrules + .work.ui/ only; skills load from source) | `- <target-path>`, `update`, `status`, `verify [--fix]` | Yes (target `.cursorrules`, `.work.ui/`) | Source `.ai.ui/` path or git remote |
+| `ui-deploy-repo` | `ui-deploy-repo/` | Full git-based deploy (clone/archive) | `clone - <path>`, `archive - <path>`, `status`, `verify [--fix]` | Yes (target repo) | Source git remote (for clone) |
 | `ui-session` | `ui-session/` | `.work.ui`-scoped session carrier | `commit`, `close`, `push` (any combination), `status` | Yes (`.work.ui/` only) | Target repo with `.work.ui/`; explicit commit/push intent |
 
 ---

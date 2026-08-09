@@ -4,6 +4,14 @@ Two modes: **fat-client** (`ui-deploy-files` — vendored `.ai.ui/` in target) a
 
 **No local `opencode.json`.** Register UI skills via parent Agent OS (`.ai/opencode.json`) when co-installed.
 
+**Flag equivalence:** verbs work with or without `--` (`update` == `--update`, `status` == `--status`, `clone` == `--clone`), in any position relative to the target path.
+
+**Wiring audit:** every deploy ends with a `.cursorrules` audit. Strict form (exit 1 on blocking gap; `--fix` auto-fills sister paths + missing Source-resolution):
+
+```bash
+bash /path/to/.ai.ui/scripts/cursorrules-verify.sh /path/to/target [--fix]
+```
+
 ## Thin-client — share one source across many repos
 
 ```bash
@@ -13,12 +21,13 @@ bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target
 # From target:
 bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh .
 
-# Read-only status:
-bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh --status /path/to/target
+# Read-only status / strict verify:
+bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target status
+bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target verify --fix
 ```
 
 ```text
-@ui-deploy-basic update    # re-sync AI_UI_SOURCE + merge candidates
+@ui-deploy-basic update    # re-sync AI_UI_SOURCE + append Source-resolution if missing + merge candidates
 ```
 
 ## Fat-client — full vendored .ai.ui (works offline)

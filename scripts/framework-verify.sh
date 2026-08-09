@@ -25,6 +25,7 @@ for p in \
   concepts/README.md \
   templates/bootstrap.sh templates/cursorrules.ui.template templates/cursorrules.ui.snippet.template \
   templates/DOCS_UI_STACK.md.template scripts/cursorrules-ui.sh \
+  scripts/cursorrules-verify.sh \
   scripts/ui-deploy-basic.sh scripts/ui-deploy-files.sh scripts/ui-deploy-repo.sh \
   scripts/ui-session.sh \
   scripts/token-lint.sh scripts/bootstrap-test.sh \
@@ -430,11 +431,18 @@ bash "${ROOT}/scripts/ui-deploy-files.sh" . >/dev/null
 popd >/dev/null
 [[ $FAIL -eq 0 ]] && echo "ok: ui-deploy-files in-place creates .ai.ui/ + .work.ui/ + .cursorrules"
 
+# Flag equivalence + wiring audit verbs (bare verb == --verb, any position).
+selftest "ui-deploy-files bare update == --update" 0 "${ROOT}/scripts/ui-deploy-files.sh" "${DF_SMOKE}" update
+selftest "ui-deploy-files --update"                0 "${ROOT}/scripts/ui-deploy-files.sh" --update "${DF_SMOKE}"
+selftest "ui-deploy-files bare status"             0 "${ROOT}/scripts/ui-deploy-files.sh" "${DF_SMOKE}" status
+selftest "ui-deploy-files verify (fat-client)"     0 "${ROOT}/scripts/ui-deploy-files.sh" verify "${DF_SMOKE}"
+
 echo ""
-echo "==> ui-deploy-repo --status"
-bash "${ROOT}/scripts/ui-deploy-repo.sh" --status >/dev/null
-bash "${ROOT}/scripts/ui-deploy-repo.sh" --status "${DF_SMOKE}" >/dev/null
-[[ $FAIL -eq 0 ]] && echo "ok: ui-deploy-repo --status reports source + target"
+echo "==> ui-deploy-repo status / verify"
+selftest "ui-deploy-repo bare status"          0 "${ROOT}/scripts/ui-deploy-repo.sh" status
+selftest "ui-deploy-repo --status with target" 0 "${ROOT}/scripts/ui-deploy-repo.sh" --status "${DF_SMOKE}"
+selftest "ui-deploy-repo verify (fat-client)"  0 "${ROOT}/scripts/ui-deploy-repo.sh" verify "${DF_SMOKE}"
+[[ $FAIL -eq 0 ]] && echo "ok: ui-deploy-repo status + verify report source + target"
 
 rm -rf "${DF_SMOKE}"
 
@@ -449,7 +457,66 @@ if [[ ! -f "${DB_SMOKE}/.cursorrules" ]] || ! grep -q 'AI_UI_SOURCE=' "${DB_SMOK
 else
   echo "ok: ui-deploy-basic creates thin-client .cursorrules + .work.ui/"
 fi
+
+# Flag equivalence (the user's contract: '<path> update' === '<path> --update').
+selftest "ui-deploy-basic bare update == --update" 0 "${ROOT}/scripts/ui-deploy-basic.sh" "${DB_SMOKE}" update
+selftest "ui-deploy-basic --update same target"    0 "${ROOT}/scripts/ui-deploy-basic.sh" --update "${DB_SMOKE}"
+selftest "ui-deploy-basic bare status"             0 "${ROOT}/scripts/ui-deploy-basic.sh" "${DB_SMOKE}" status
+selftest "ui-deploy-basic strict verify on deploy" 0 "${ROOT}/scripts/ui-deploy-basic.sh" verify "${DB_SMOKE}"
+
+# update self-heal: existing .cursorrules without Source-resolution section gets
+# it appended (thin-client wiring), target content preserved.
+HEAL_SMOKE="$(mktemp -d)"
+printf '# Agent OS base rules\ncustom target content\n' > "${HEAL_SMOKE}/.cursorrules"
+bash "${ROOT}/scripts/ui-deploy-basic.sh" "${HEAL_SMOKE}" update >/dev/null
+if grep -q '^## Source resolution' "${HEAL_SMOKE}/.cursorrules" \
+   && grep -q 'custom target content' "${HEAL_SMOKE}/.cursorrules" \
+   && grep -qE "AI_UI_SOURCE=${ROOT}" "${HEAL_SMOKE}/.cursorrules"; then
+  echo "ok: ui-deploy-basic update self-heals missing Source-resolution section"
+else
+  echo "FAIL: ui-deploy-basic update did not self-heal Source-resolution section"; FAIL=1
+fi
+selftest "cursorrules-verify passes post-heal" 0 "${ROOT}/scripts/cursorrules-verify.sh" "${HEAL_SMOKE}"
+rm -rf "${HEAL_SMOKE}"
 rm -rf "${DB_SMOKE}"
+
+# --- cursorrules-verify unit proofs ---
+echo ""
+echo "==> cursorrules-verify strict / --fix"
+# Unreachable AI_UI_SOURCE must FAIL strict verify.
+CV_SMOKE="$(mktemp -d)"
+perl -pe 's{AI_UI_SOURCE=REPLACE_BASICUI_SOURCE}{AI_UI_SOURCE=/nonexistent-ui-source-xyz}' \
+  "${ROOT}/templates/cursorrules.ui.template" > "${CV_SMOKE}/.cursorrules"
+selftest "cursorrules-verify rejects unreachable AI_UI_SOURCE" 1 "${ROOT}/scripts/cursorrules-verify.sh" "${CV_SMOKE}"
+selftest "cursorrules-verify --report never fails"             0 "${ROOT}/scripts/cursorrules-verify.sh" "${CV_SMOKE}" --report
+rm -rf "${CV_SMOKE}"
+
+# --fix must pin sister framework paths discovered next to the source, and
+# append a missing Source-resolution section from the mode-appropriate template.
+FF="$(mktemp -d)"
+mkdir -p "${FF}/src/skills" "${FF}/src/templates" "${FF}/.ai/skills" "${FF}/target"
+echo "# skills registry" > "${FF}/src/skills/README.md"
+echo "# skills registry" > "${FF}/.ai/skills/README.md"
+cp "${ROOT}/templates/cursorrules.ui.template" "${FF}/src/templates/cursorrules.ui.template"
+perl -pe "s{AI_UI_SOURCE=REPLACE_BASICUI_SOURCE}{AI_UI_SOURCE=${FF}/src}" \
+  "${ROOT}/templates/cursorrules.ui.template" > "${FF}/target/.cursorrules"
+# strip the Source-resolution section to prove --fix re-appends it (the section
+# holds the AI_UI_SOURCE line, so re-add the pointer outside it)
+awk '/^## Source resolution/{f=1} f&&/^---$/{f=0;next} !f' "${FF}/target/.cursorrules" > "${FF}/target/.cursorrules.stripped"
+mv "${FF}/target/.cursorrules.stripped" "${FF}/target/.cursorrules"
+printf '\nAI_UI_SOURCE=%s/src\n' "${FF}" >> "${FF}/target/.cursorrules"
+selftest "cursorrules-verify fails thin target w/o section" 1 "${ROOT}/scripts/cursorrules-verify.sh" "${FF}/target"
+selftest "cursorrules-verify --fix repairs thin target"     0 "${ROOT}/scripts/cursorrules-verify.sh" "${FF}/target" --fix
+if grep -q 'REPLACE:AGENT_OS_PATH' "${FF}/target/.cursorrules" \
+   || ! grep -qF "| ${FF}/.ai " "${FF}/target/.cursorrules" \
+   || ! grep -q '^## Source resolution' "${FF}/target/.cursorrules"; then
+  echo "FAIL: cursorrules-verify --fix did not pin sister path / append section"; FAIL=1
+else
+  echo "ok: cursorrules-verify --fix pins sister paths + appends Source-resolution"
+fi
+rm -rf "${FF}"
+# framework-root self-check: this repo must pass its own verifier.
+selftest "cursorrules-verify passes on framework root" 0 "${ROOT}/scripts/cursorrules-verify.sh" "${ROOT}"
 
 # Lean invariant + count self-report. Example PNGs are gitignored (manifests are
 # the agent source of truth), so this repo must track 0 binary images; an

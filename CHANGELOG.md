@@ -2,6 +2,20 @@
 
 ## [Unreleased]
 
+### Added
+
+- **`scripts/cursorrules-verify.sh` — shared `.cursorrules` wiring auditor for all deploy skills.** Verifies a deployed target end-to-end: `.cursorrules` presence + UI rules, client mode (thin `AI_UI_SOURCE` / fat vendored `.ai.ui/` / framework-root), framework assets resolvable (`skills/README.md`), Source-resolution section present, sister framework paths (Frameworks registry `REPLACE:AGENT_OS_PATH` / `REPLACE:AI_BIZ_PATH` / `REPLACE:AI_SOC_PATH`) pinned or auto-discoverable from disk (`.ai`, `.ai.biz`, `.ai.soc` next to the framework), and `.work.ui/` presence. Strict exit codes (1 on blocking gap), `--report` (always 0), and `--fix` (pins sister paths from on-disk discovery; appends the Source-resolution section extracted from the mode-appropriate template). Wired as `verify [--fix]` / `status` into `ui-deploy-basic`, `ui-deploy-files`, and `ui-deploy-repo`, and runs as a report at the end of every deploy so each one closes with evidence of the target's wiring state.
+- **Deploy flag equivalence (hard rule).** Verbs now work **with or without** the `--` prefix, in any position relative to the target path, across all three deploy shells: `<path> update` ≡ `<path> --update` ≡ `--update <path>`; same for `status`, `verify`, `force`, `clone`, `archive`; the agent-syntax `-` separator is ignored. Proven byte-identical output in clean-room self-tests.
+- **`ui-deploy-basic update` self-heals thin-client wiring.** An existing target `.cursorrules` lacking the Source-resolution section (e.g. Agent OS base rules) now gets it appended automatically with the current `AI_UI_SOURCE` — previously only flagged as an agent merge candidate. Target content is preserved (append-only).
+- **Self-deploy guards.** `ui-deploy-basic` refuses a target that resolves to the source framework itself; `ui-deploy-files` refuses a destination inside the source tree.
+- **`ui-deploy-files` gains `status` + `verify`** (the skill documented `status`; the shell never implemented it), and bare invocation now defaults to in-place bootstrap per the skill doc.
+- **Self-tests in `framework-verify.sh`:** flag-equivalence runs for all three deploy shells, strict-verify pass on fresh thin/fat deploys, rejection of unreachable `AI_UI_SOURCE`, `--fix` sister-pinning + section-append proof on a synthetic framework fixture, update self-heal proof, and a framework-root self-audit.
+
+### Changed
+
+- Skill docs `ui-deploy-basic` / `ui-deploy-files` / `ui-deploy-repo`: parse tables document flag equivalence, the `verify [--fix]` verb, the self-heal behavior, and the self-deploy guards; completion checklists gained wiring-audit rows.
+- `skills/SKILL_DEPENDENCIES.md`, `skills/ui-director/reference.md`, `.quick/deploy-to-project.md`: deploy verb lists and quick-reference updated with `status` / `verify [--fix]` and the equivalence rule.
+
 ## [0.6.0] - 2026-08-06
 
 ### Added

@@ -47,9 +47,9 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | Skill / mode | Depends on | Gate |
 |--------------|------------|------|
 | **ui-bootstrap** `init` | `.ai.ui/` present; must not overwrite `.work/` or base `.cursorrules` | - |
-| **ui-deploy-basic** `- <target>` | Source `.ai.ui/` path or git remote; target dir must exist | - |
-| **ui-deploy-files** `copy` | Source git repo with `.ai.ui/` as root; target parent dir must exist | - |
-| **ui-deploy-repo** `clone` / `archive` | Source git repo; origin remote required for clone mode | - |
+| **ui-deploy-basic** `- <target>` / `update` / `verify [--fix]` | Source `.ai.ui/` path or git remote; target dir must exist; `verify` backend `scripts/cursorrules-verify.sh` | - |
+| **ui-deploy-files** `copy` / `update` / `verify [--fix]` | Source git repo with `.ai.ui/` as root; target parent dir must exist | - |
+| **ui-deploy-repo** `clone` / `archive` / `verify [--fix]` | Source git repo; origin remote required for clone mode | - |
 | **ui-session** `commit` / `close` / `push` | Target repo with `.work.ui/`; git identity configured; explicit `commit`/`push` intent in the same message | **Required** (never stages paths outside `.work.ui/`) |
 | **ui-design-foundation** `greenfield` | `{HANDOFF_UI}`; UI standards paths in `.cursorrules` snippet | Recommended: `@ui-bootstrap init` |
 | **ui-design-foundation** `probe` | None; interrogates + fills foundation gaps. Engine: [`probe-protocol.md`](probe-protocol.md). Ledger `{UI_PLANS_ROOT}/foundation/PROBE_LEDGER.md` | Recommended before `certify` when understanding is thin |

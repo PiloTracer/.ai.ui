@@ -5,28 +5,48 @@
 # excludes (.github/, .gitignore, .cursorrules, deploy scripts) are omitted;
 # ui-deploy-repo covers the full-repo case.
 #
-# Default = NO-OVERWRITE. Use --force for legacy overwrite, or --update for merge
+# Default = NO-OVERWRITE. Use force for legacy overwrite, or update for merge
 # candidates when source files differ from target copies.
+#
+# Flag equivalence: verbs work WITH or WITHOUT the "--" prefix, in any
+# position relative to the target path — these are identical:
+#   bash scripts/ui-deploy-files.sh /path/to/target update
+#   bash scripts/ui-deploy-files.sh /path/to/target --update
+# The agent-syntax separator "-" between verb and path is ignored.
+#
+# status / verify audit the target's wiring without copying anything:
+#   status — read-only report (always exit 0)
+#   verify — strict .cursorrules + asset audit (exit 1 on blocking gap);
+#            verify --fix also fills machine-fixable gaps (sister paths,
+#            missing Source-resolution section).
 #
 # Usage:
 #   bash scripts/ui-deploy-files.sh <target-path>              # no-overwrite
-#   bash scripts/ui-deploy-files.sh <target-path> --force      # overwrite existing
-#   bash scripts/ui-deploy-files.sh <target-path> --update     # no-overwrite + merge list
+#   bash scripts/ui-deploy-files.sh <target-path> force        # overwrite existing
+#   bash scripts/ui-deploy-files.sh <target-path> update       # no-overwrite + merge list
+#   bash scripts/ui-deploy-files.sh <target-path> status       # read-only report
+#   bash scripts/ui-deploy-files.sh <target-path> verify [--fix] # strict audit
 #   AI_UI_ROOT=/path/.ai.ui bash scripts/ui-deploy-files.sh <target-path>
 #
 set -euo pipefail
 
-RAW_TARGET="${1:?Usage: $0 <target-path> [--force|--update]}"
-shift || true
+# ── Argument parsing (verb == --verb, any position; "-" ignored) ──────
 MODE="skip"
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --force)   MODE="force" ;;
-    --update)  MODE="update" ;;
-    *) echo "ERROR: unknown flag: $1" >&2; exit 1 ;;
+FIX=0
+RAW_TARGET=""
+for a in "$@"; do
+  case "$a" in
+    status|--status) MODE="status" ;;
+    verify|--verify) MODE="verify" ;;
+    update|--update) MODE="update" ;;
+    force|--force)   MODE="force" ;;
+    --fix)           FIX=1 ;;
+    -)               ;;  # agent-syntax separator
+    --*)             echo "ERROR: unknown flag: $1" >&2; exit 1 ;;
+    *)               if [[ -z "$RAW_TARGET" ]]; then RAW_TARGET="$a"; else echo "ERROR: unexpected argument: $a" >&2; exit 1; fi ;;
   esac
-  shift
 done
+RAW_TARGET="${RAW_TARGET:-.}"
 
 if [[ -n "${AI_UI_ROOT:-}" ]]; then
   AI_UI_ROOT="$(cd "$AI_UI_ROOT" && pwd)"
@@ -35,11 +55,46 @@ elif [[ -n "${AI_SOURCE:-}" ]]; then
 else
   AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
+VERIFY="${AI_UI_ROOT}/scripts/cursorrules-verify.sh"
+
+# ── status / verify (read-only; verify --fix is the only mutation) ────
+if [[ "$MODE" == "status" || "$MODE" == "verify" ]]; then
+  RT="$RAW_TARGET"
+  [[ "$RT" == *.ai.ui ]] && RT="$(dirname "$RT")"
+  if [[ ! -d "$RT" ]]; then
+    echo "ERROR: target directory does not exist: $RT" >&2
+    exit 1
+  fi
+  REPO="$(cd "$RT" && pwd)"
+  echo "=== ui-deploy-files ${MODE} → ${REPO} ==="
+  if [[ -d "${REPO}/.ai.ui/skills" ]]; then
+    echo "  .ai.ui/: present ($(find "${REPO}/.ai.ui" -type f | wc -l | tr -d ' ') files)"
+  else
+    echo "  .ai.ui/: missing (run ui-deploy-files copy first)"
+  fi
+  if [[ "$MODE" == "status" ]]; then
+    bash "$VERIFY" "$REPO" --report
+  elif [[ "$FIX" -eq 1 ]]; then
+    bash "$VERIFY" "$REPO" --fix
+  else
+    bash "$VERIFY" "$REPO"
+  fi
+  exit $?
+fi
+
+# ── Copy modes below this point ───────────────────────────────────────
 
 if [[ "$RAW_TARGET" == *.ai.ui ]]; then
   DEST_DIR="$RAW_TARGET"
 else
   DEST_DIR="${RAW_TARGET}/.ai.ui"
+fi
+
+# Never deploy the source framework into itself.
+DEST_CHECK="$(cd "$(dirname "$DEST_DIR")" && pwd)/$(basename "$DEST_DIR")"
+if [[ "$DEST_CHECK" == "$AI_UI_ROOT" || "$DEST_CHECK" == "$AI_UI_ROOT"/* ]]; then
+  echo "ERROR: destination $DEST_CHECK is inside the source framework ($AI_UI_ROOT) — refusing." >&2
+  exit 1
 fi
 
 PARENT="$(dirname "$DEST_DIR")"
@@ -139,10 +194,15 @@ echo "=== Done: files deployed to $DEST_DIR ==="
 echo ""
 if [[ -n "${SCAFFOLD_DONE:-}" ]]; then
   echo "  Scaffold created (.work.ui/, .cursorrules or merge hint, DOCS_UI_STACK.md)"
+  echo ""
+  # Post-deploy wiring audit (read-only report — strict form: ui-deploy-files verify).
+  bash "$VERIFY" "$REPO_ROOT" --report || true
+  echo ""
   echo "  Next: fill REPLACE:UI_* tokens in .cursorrules"
 else
   echo "Next steps in target project:"
   echo "  1. Run @ui-bootstrap init merge-cursorrules (or create-cursorrules)"
   echo "  2. Run @ui-project-approach - <describe project>"
+  echo "  3. Strict wiring audit: bash $VERIFY <target-repo>"
 fi
-echo "  3. Run @ui-design-foundation greenfield"
+echo "  4. Run @ui-design-foundation greenfield"
