@@ -518,6 +518,24 @@ rm -rf "${FF}"
 # framework-root self-check: this repo must pass its own verifier.
 selftest "cursorrules-verify passes on framework root" 0 "${ROOT}/scripts/cursorrules-verify.sh" "${ROOT}"
 
+# *source via VAR* registry cells (Agent OS thin-client convention) must resolve.
+VTC="$(mktemp -d)"
+mkdir -p "${VTC}/.ai/skills" "${VTC}/src/skills" "${VTC}/src/templates" "${VTC}/target/.work.ui/context"
+echo "# skills registry" > "${VTC}/.ai/skills/README.md"
+echo "# skills registry" > "${VTC}/src/skills/README.md"
+cp "${ROOT}/templates/cursorrules.ui.template" "${VTC}/src/templates/cursorrules.ui.template"
+perl -pe "s{AI_UI_SOURCE=REPLACE_BASICUI_SOURCE}{AI_UI_SOURCE=${VTC}/src}" \
+  "${ROOT}/templates/cursorrules.ui.template" > "${VTC}/target/.cursorrules"
+cat >> "${VTC}/target/.cursorrules" <<EOF
+
+| Framework | Director | Path | Bootstrap artifact |
+|-----------|----------|------|--------------------|
+| \`.ai\` (Agent OS) | \`@ai-director\` | *source via AGENT_OS_SOURCE* | \`skills/README.md\` |
+AGENT_OS_SOURCE=${VTC}/.ai
+EOF
+selftest "cursorrules-verify resolves *source via VAR* cell" 0 "${ROOT}/scripts/cursorrules-verify.sh" "${VTC}/target"
+rm -rf "${VTC}"
+
 # Lean invariant + count self-report. Example PNGs are gitignored (manifests are
 # the agent source of truth), so this repo must track 0 binary images; an
 # accidental commit is caught here instead of silently bloating the tree. The

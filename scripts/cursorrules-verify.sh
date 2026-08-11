@@ -178,6 +178,17 @@ for pair in .ai:AGENT_OS_PATH .ai.biz:AI_BIZ_PATH .ai.soc:AI_SOC_PATH; do
         [[ "$val" != /* ]] && resolved="${BASE}/${val}"
         if [[ -d "$resolved" && -f "${resolved}/skills/README.md" ]]; then
           ok "${sf}: configured path resolvable (${val})"
+        elif [[ "$val" =~ ^\*sourcevia([A-Za-z_][A-Za-z0-9_]*)\*$ ]]; then
+          var="${BASH_REMATCH[1]}"
+          varval="$(grep -E "^${var}=[^[:space:]]*" "$RULES" 2>/dev/null | head -1 | cut -d= -f2- || true)"
+          if [[ -z "$varval" ]]; then
+            varval="$(grep -E "^\| *\`?${var}\`? *\|" "$RULES" 2>/dev/null | head -1 | awk -F'|' '{print $3}' | sed 's/[[:space:]`]//g' || true)"
+          fi
+          if [[ -n "$varval" && -d "$varval" && -f "${varval}/skills/README.md" ]]; then
+            ok "${sf}: '${val}' resolves via ${var}=${varval}"
+          else
+            bad "${sf}: '*source via ${var}*' resolves to '${varval}' which is not a framework dir with skills/README.md"
+          fi
         else
           bad "${sf}: configured path '${val}' does not resolve to a framework dir with skills/README.md (base: ${BASE})"
         fi

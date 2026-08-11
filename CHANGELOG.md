@@ -16,6 +16,10 @@
 - Skill docs `ui-deploy-basic` / `ui-deploy-files` / `ui-deploy-repo`: parse tables document flag equivalence, the `verify [--fix]` verb, the self-heal behavior, and the self-deploy guards; completion checklists gained wiring-audit rows.
 - `skills/SKILL_DEPENDENCIES.md`, `skills/ui-director/reference.md`, `.quick/deploy-to-project.md`: deploy verb lists and quick-reference updated with `status` / `verify [--fix]` and the equivalence rule.
 
+### Fixed
+
+- **`scripts/cursorrules-verify.sh` resolves `*source via <VAR>*` registry cells.** Agent OS thin-client targets express sister framework paths as `*source via AGENT_OS_SOURCE*` (a variable reference, not a literal path); the verifier flagged these as unconfigured even when the variable resolved to a valid framework dir. It now resolves the referenced variable from the Source-resolution section (assignment or table form) and passes when the result is a framework dir with `skills/README.md`. Proven by a new self-test in `framework-verify.sh`.
+
 ## [0.6.0] - 2026-08-06
 
 ### Added
