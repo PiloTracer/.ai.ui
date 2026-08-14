@@ -12,7 +12,7 @@
 
 | Path | Contents |
 |------|----------|
-| `.work.ui/context/` | `HANDOFF_UI.md` — UI design state (updated by `ui-*` skills; session bookends via `@session-control` full repo, or `@ui-session` for `.work.ui`-scoped commit/close/push) |
+| `.work.ui/context/` | `HANDOFF_UI.md` — UI design state (updated by `ui-*` skills; session bookends via `@session-control` full repo, or `@ui-session` for `.work.ui`-scoped session verbs: start / status / context / add / commit / close / push) |
 | `.work.ui/plans/` | Foundation docs 01–04, optional UI roadmap (`full/`), registries, `NEXT_UI.md` |
 | `.work.ui/screens/<slug>/` | Screen SPECs (`YYYYMMDD-SCREEN-SPEC.md`) per SCREEN_SPEC_STANDARD |
 | `.work.ui/design-system/` | `CATALOG.md` — primitives registry (`@ui-design-system`) |

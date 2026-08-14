@@ -27,7 +27,7 @@ All 18 registered skills except `ui-director` itself (15 `ui-*` + 3 `ui-deploy-*
 | `ui-deploy-files` | `ui-deploy-files/` | Deploy `.ai.ui` files to target project | `copy - <path>`, `update`, `status`, `verify [--fix]` | Yes (target `.ai.ui/`) | Source git repo |
 | `ui-deploy-basic` | `ui-deploy-basic/` | Thin-client bootstrap (cursorrules + .work.ui/ only; skills load from source) | `- <target-path>`, `update`, `status`, `verify [--fix]` | Yes (target `.cursorrules`, `.work.ui/`) | Source `.ai.ui/` path or git remote |
 | `ui-deploy-repo` | `ui-deploy-repo/` | Full git-based deploy (clone/archive) | `clone - <path>`, `archive - <path>`, `status`, `verify [--fix]` | Yes (target repo) | Source git remote (for clone) |
-| `ui-session` | `ui-session/` | `.work.ui`-scoped session carrier | `commit`, `close`, `push` (any combination), `status` | Yes (`.work.ui/` only) | Target repo with `.work.ui/`; explicit commit/push intent |
+| `ui-session` | `ui-session/` | Session carrier (target: `.work.ui/`; framework repo: whole tree) | `start`, `status`, `context`, `add`, `commit`, `close`, `push` (any combination), `scoped` | Yes (target: `.work.ui/` only) | Target repo with `.work.ui/`; explicit commit/push intent |
 
 ---
 
@@ -101,6 +101,7 @@ Before `@ui-component-build complete`, ensure these all pass:
 | "Start a session" | `session-control` | Redirect: `@session-control start` (Agent OS) |
 | "Commit my .work.ui changes" | `session` | `@ui-session commit` (scoped to `.work.ui/`; includes untracked) |
 | "Close the UI session / push .work.ui" | `session` | `@ui-session close` / `@ui-session push` (any combination) |
+| "Open the UI session / UI session status" | `session` | `@ui-session start` / `status` / `context` / `add` |
 | "Commit the whole repo" | `session-control` | Redirect: `@session-control close` (Agent OS) |
 | "Create a migration" | `backend` | Redirect: `@db-migration` (Agent OS) |
 

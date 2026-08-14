@@ -50,7 +50,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | **ui-deploy-basic** `- <target>` / `update` / `verify [--fix]` | Source `.ai.ui/` path or git remote; target dir must exist; `verify` backend `scripts/cursorrules-verify.sh` | - |
 | **ui-deploy-files** `copy` / `update` / `verify [--fix]` | Source git repo with `.ai.ui/` as root; target parent dir must exist | - |
 | **ui-deploy-repo** `clone` / `archive` / `verify [--fix]` | Source git repo; origin remote required for clone mode | - |
-| **ui-session** `commit` / `close` / `push` | Target repo with `.work.ui/`; git identity configured; explicit `commit`/`push` intent in the same message | **Required** (never stages paths outside `.work.ui/`) |
+| **ui-session** `start` / `status` / `context` / `add` / `commit` / `close` / `push` | Target repo with `.work.ui/` (framework source repo: whole-tree mode auto-detected); git identity configured; explicit `commit`/`push` intent in the same message | **Required** (target repos: never stages paths outside `.work.ui/`) |
 | **ui-design-foundation** `greenfield` | `{HANDOFF_UI}`; UI standards paths in `.cursorrules` snippet | Recommended: `@ui-bootstrap init` |
 | **ui-design-foundation** `probe` | None; interrogates + fills foundation gaps. Engine: [`probe-protocol.md`](probe-protocol.md). Ledger `{UI_PLANS_ROOT}/foundation/PROBE_LEDGER.md` | Recommended before `certify` when understanding is thin |
 | **ui-design-foundation** `certify screen-spec-ready` | **ui-foundation-complete: yes** | **Required** |
@@ -97,7 +97,7 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | Audit readiness (verifiers + coverage + orphans) | `@ui-plan-verify audit` |
 | External UX/a11y/token/copy references | read `resources/web-research-2026.md` (route via `@ui-process-router`) |
 | UI session close / commit (full repo) | `@session-control close` (Agent OS) |
-| `.work.ui`-scoped session commit / close / push | `@ui-session commit` / `close` / `push` (any combination) |
+| `.work.ui`-scoped session verbs | `@ui-session start` / `status` / `context` / `add` / `commit` / `close` / `push` (any combination) |
 | Backend migration | `@db-migration` (Agent OS) — not a ui-* skill |
 
 ---
@@ -111,7 +111,7 @@ One verb set across `ui-*` skills. New verbs go here first, then into the matrix
 | `init` | ui-bootstrap | yes | Scaffold `.work.ui/` + cursorrules |
 | `copy` | ui-deploy-files | yes | Deploy `.ai.ui` files into target project |
 | `clone` / `archive` | ui-deploy-repo | yes | Full git-based deploy of `.ai.ui` repo |
-| `commit` / `close` / `push` | ui-session | yes (`.work.ui` only) | `.work.ui`-scoped session carrier; any combination; `commit` includes untracked files/dirs |
+| `commit` / `close` / `push` / `add` / `start` | ui-session | yes (`.work.ui` only; whole tree in framework repo) | Session carrier; any combination; `commit` includes untracked files/dirs; `scoped` = bookends only; `status`/`context` read-only |
 | `set` | ui-style-stack | yes (HANDOFF_UI) | Record active style stack |
 | `greenfield` | ui-design-foundation | yes | Create foundation docs 01–04 |
 | `probe` | ui-design-foundation, ui-component-build | yes (docs + ledger) | Interrogate until coverage target; sub-modes `- status`, `- until ready` |

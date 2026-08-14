@@ -60,7 +60,7 @@ Follow [`examples/INDEX.md`](examples/INDEX.md) playbook. **S0 primitives before
 | Where is UI work? | `.work.ui/context/HANDOFF_UI.md` + `.work.ui/plans/NEXT_UI.md` |
 | Free-text UI request / don't know skill | `@ui-director - <describe what you want>` · `@x-director - <describe what you want>` (cross-framework) |
 | Full repo session (Agent OS) | `@session-control status` + `.work/context/HANDOFF.md` |
-| `.work.ui`-scoped session commit / close / push | `@ui-session commit` / `close` / `push` (any combination; `.work.ui/` only) |
+| `.work.ui`-scoped session verbs | `@ui-session start` / `status` / `context` / `add` / `commit` / `close` / `push` (any combination; `.work.ui/` only in target repos) |
 | UI iteration snapshot | `@ui-component-build status` |
 | Design foundation done? | `@ui-design-foundation status` |
 

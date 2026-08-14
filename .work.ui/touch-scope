@@ -1,7 +1,7 @@
 {
-  "description": "Touch scope — 2026-08-01 skill-name standardization batch: rename deploy-basic/files/repo → ui-deploy-* (folders + scripts + all references), add ui-session skill (scoped to .work.ui), update registries/templates/docs.",
+  "description": "Touch scope — 2026-08-14 ui-session parity batch: bring ui-session to session-control feature parity (start/context/add verbs, scoped modifier, aliases, secrets scan, UIS-ref commit-message discipline) — skill.md rewrite, new reference.md, scripts/ui-session.sh extension, registry/docs/template reference sweep.",
   "blast_radius_approved": true,
-  "blast_radius_note": "Operator-authorized cross-area rename (skills/scripts/templates/docs/.work.ui by design) + new skill registration; run framework-verify after.",
+  "blast_radius_note": "Operator-authorized cross-area change (one skill + its shell + reference sweep across skills/scripts/templates/docs/.work.ui by design); run framework-verify after.",
   "allowed_paths": [
     ".gitignore",
     "README.md",

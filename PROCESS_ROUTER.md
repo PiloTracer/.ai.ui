@@ -38,7 +38,7 @@ UI question → @ui-process-router - <question> → "Run @ui-screen-spec create 
 | Tokens, screens, Storybook, a11y, design foundation | `@ui-process-router` |
 | Free-text UI request / don't know the skill | `@ui-director - <describe what you want>` · `@x-director - <describe what you want>` (cross-framework) |
 | Migrations, master plan, MOD concepts, session close | `@process-router` (`.ai/`) |
-| `.work.ui`-scoped session commit / close / push | `@ui-session` (`.ai.ui/` — never stages outside `.work.ui/`) |
+| `.work.ui`-scoped session start / add / commit / close / push | `@ui-session` (`.ai.ui/` — target repos: never stages outside `.work.ui/`) |
 | "Where am I?" full repo | `@session-control status` + both HANDOFF files |
 
 ---

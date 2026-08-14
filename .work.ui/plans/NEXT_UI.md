@@ -2,7 +2,7 @@
 
 > **Demo skeleton.** In an adopter repo, **`@ui-component-build`** owns `## Current UI iteration`; **`ui-*` skills** and session close update **Recommended next**.
 
-**Updated:** YYYY-MM-DD
+**Updated:** 2026-08-14
 
 ---
 
@@ -11,6 +11,7 @@
 | Item | Artifact |
 |------|----------|
 | UI Design OS bootstrap | `.work.ui/` skeleton |
+| 2026-08-14 — `ui-session` session-control parity + dual-scope model | `skills/ui-session/skill.md` + new `reference.md`; `scripts/ui-session.sh` (verbs start/status/context/add/commit/close/push, `scoped`, aliases, secrets scan, ref-prefixed default message; framework repo = whole tree, target repos = `.work.ui/` only); reference sweep across registries/docs/templates; gates PASS (touch-scope, blast-radius, framework-verify, gate-verify) |
 
 ---
 

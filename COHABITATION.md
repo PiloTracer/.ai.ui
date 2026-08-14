@@ -26,7 +26,7 @@
 | Action | Use |
 |--------|-----|
 | Open / close day, commit policy, secrets scan on close | `@session-control` (`.ai/`) |
-| `.work.ui`-scoped session commit / close / push (UI files only) | `@ui-session` (`.ai.ui/` — never stages paths outside `.work.ui/`) |
+| `.work.ui`-scoped session start / status / context / add / commit / close / push (UI files only) | `@ui-session` (`.ai.ui/` — never stages paths outside `.work.ui/` in target repos) |
 | UI-specific status snapshot | `@ui-process-router` or read `.work.ui/context/HANDOFF_UI.md` |
 | UI iteration progress | `@ui-component-build status` + `NEXT_UI.md` |
 

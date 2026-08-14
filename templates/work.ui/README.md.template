@@ -12,4 +12,4 @@ See navigation: permanent README content is in the framework demo [`.work.ui/REA
 | `screens/<slug>/` | Screen SPECs |
 | `design-system/CATALOG.md` | Primitives registry |
 
-Session bookends: `@session-control` (`.ai/`, full repo) · `@ui-session` (`.work.ui`-scoped commit/close/push).
+Session bookends: `@session-control` (`.ai/`, full repo) · `@ui-session` (`.work.ui`-scoped start / status / context / add / commit / close / push).
