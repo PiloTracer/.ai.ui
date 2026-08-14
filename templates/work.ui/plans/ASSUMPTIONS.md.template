@@ -2,7 +2,7 @@
 
 > Created by bootstrap; maintained by **`ui-*` skills**.
 
-**Updated:** YYYY-MM-DD
+**Status:** Draft · **Updated:** YYYY-MM-DD · **Needs:** REPLACE:<decision, review, or nothing>
 
 Label every entry: **Confirmed** | **Inference** | **Unverified** | **Rejected**
 
@@ -15,3 +15,7 @@ Label every entry: **Confirmed** | **Inference** | **Unverified** | **Rejected**
 | ID | Assumption | Reason |
 |----|------------|--------|
 | - | (none) | |
+
+## Next action
+
+`@ui-design-foundation probe` — confirm or reject Unverified entries

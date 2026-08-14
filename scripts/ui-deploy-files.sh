@@ -126,7 +126,7 @@ if [[ -d "$DEST_DIR" ]]; then
   echo "  exists: $DEST_DIR — re-copying (no-overwrite; preserves existing target files)"
 fi
 
-SKILL_EXCLUDE_REGEX='^(\.github/|\.gitignore$|\.gitattributes$|\.cursorrules$|scripts/ui-deploy-files\.sh$|scripts/ui-deploy-basic\.sh$|scripts/ui-deploy-repo\.sh$)'
+SKILL_EXCLUDE_REGEX='^(\.github/|\.gitignore$|\.gitattributes$|\.cursorrules$|agent\.os\.framework\.md$|scripts/ui-deploy-files\.sh$|scripts/ui-deploy-basic\.sh$|scripts/ui-deploy-repo\.sh$)'
 
 TMP_LIST="$(mktemp)"
 MERGE_CANDS="$(mktemp)"

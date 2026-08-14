@@ -298,6 +298,10 @@ Creating or editing files in declared task scope is allowed. Prefer reversible e
 ### On failure
 - Paste exact errors; fix; re-run gate. Do not mark task `done` on failure.
 
+### Operator handoff (communication)
+
+Close every task response per `.ai.ui/skills/SKILL_DEPENDENCIES.md` § Operator handoff contract: approvals under `**Needs your approval:**` with `path:L<n>` cites; questions numbered under `**Needs your answer:**` (never mixed with decisions); exactly one `**Next step:**` command; Form A single line when nothing is needed; empty sections omitted.
+
 ---
 
 ## External Documentation

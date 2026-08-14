@@ -22,6 +22,9 @@ Updates `{HANDOFF_UI}` (`.work.ui/context/HANDOFF_UI.md`) with **UI foundation s
 
 Also update when changed: `.work.ui/plans/ASSUMPTIONS.md`, `RISK_REGISTRY.md`, `UNKNOWNS.md`.
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+- **Document clarity:** generated documents follow [`SKILL_DEPENDENCIES.md` § Document clarity contract](../SKILL_DEPENDENCIES.md#document-clarity-contract) — Status/Needs header; separate Decisions / Open questions lists; exactly one `## Next action`; no leftover scaffolding.
+
 ## Before greenfield
 
 Recommend: `@ui-project-approach - <description>` · `@ui-style-stack set - <stack>` · pick **2–4 example ids** from `examples/INDEX.md`.

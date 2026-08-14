@@ -9,6 +9,9 @@ description: >-
 
 **Standard:** `REPLACE:UI_ACCESSIBILITY_FILE` (ACCESSIBILITY_STANDARD template)
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+- **Document clarity:** generated documents follow [`SKILL_DEPENDENCIES.md` § Document clarity contract](../SKILL_DEPENDENCIES.md#document-clarity-contract) — Status/Needs header; separate Decisions / Open questions lists; exactly one `## Next action`; no leftover scaffolding.
+
 ## Modes
 
 | Mode | Action |
@@ -35,3 +38,5 @@ Curated references: [`resources/web-research-2026.md`](../../resources/web-resea
 - **serious** → pass with gaps only if HANDOFF_UI documents waiver + owner
 
 Pair with UIS-04 when color tokens changed in same milestone.
+
+Close per the Operator handoff contract (Form A if nothing is needed; Form B with **Needs your approval:** / **Needs your answer:** / **Next step:** otherwise).

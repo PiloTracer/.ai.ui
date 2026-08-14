@@ -2,7 +2,7 @@
 
 > **Path:** `<repo-root>/.work.ui/plans/NEXT_UI.md` · **`@ui-component-build`** owns `## Current UI iteration`.
 
-**Updated:** YYYY-MM-DD
+**Status:** Draft · **Updated:** YYYY-MM-DD · **Needs:** REPLACE:<decision, review, or nothing>
 
 ---
 
@@ -53,3 +53,9 @@
 
 | ID | Description | Completed |
 |----|-------------|-----------|
+
+---
+
+## Next action
+
+`@ui-design-foundation greenfield` — foundation 01–04 (priority 0 in Recommended next)

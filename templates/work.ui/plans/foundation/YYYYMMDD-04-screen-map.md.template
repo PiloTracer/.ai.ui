@@ -1,6 +1,6 @@
 # REPLACE:PROJECT_NAME — Screen map
 
-**Doc:** UI foundation **04** · **Created:** YYYY-MM-DD
+**Doc:** UI foundation **04** · **Created:** YYYY-MM-DD · **Status:** Draft · **Needs:** REPLACE:<decision, review, or nothing>
 
 ## Screens
 
@@ -17,3 +17,7 @@
 ## Dependencies
 
 - Backend APIs: link `.work/features/` SPECs — do not duplicate contracts here
+
+## Next action
+
+`@ui-design-foundation certify screen-spec-ready`

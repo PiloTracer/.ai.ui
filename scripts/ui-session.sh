@@ -250,7 +250,10 @@ NEXT_UI="${WORK_UI}/plans/NEXT_UI.md"
 # ── Scope mode: framework source repo vs adopter target repo ───────────────
 # Framework mode: this repo IS the UI Design OS source → whole-tree scope.
 # Target mode:    an adopter project (framework under .ai.ui/) → .work.ui/ only.
-if [[ -f "${REPO_ROOT}/COHABITATION.md" \
+# Primary signal: the agent.os.framework.md source marker; the 3-file heuristic
+# is the fallback for checkouts predating the marker.
+if [[ -f "${REPO_ROOT}/agent.os.framework.md" ]] \
+   || [[ -f "${REPO_ROOT}/COHABITATION.md" \
    && -f "${REPO_ROOT}/skills/ui-session/skill.md" \
    && -f "${REPO_ROOT}/templates/bootstrap.sh" ]]; then
   MODE="framework"

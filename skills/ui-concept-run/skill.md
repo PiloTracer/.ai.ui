@@ -26,5 +26,6 @@ description: >-
 - **UIS-09 required** for analytical dashboard screens at milestone verify
 - **UIS-10 required** for marketing-site / hybrid marketing shell at milestone verify
 - Do not write into `.ai/concepts/`
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
 
 Trigger table: [`.ai.ui/concepts/README.md`](../../concepts/README.md)

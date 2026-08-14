@@ -145,3 +145,33 @@ One verb set across `ui-*` skills. New verbs go here first, then into the matrix
 **Detected:** …
 **Run first:** `@…`
 ```
+
+---
+
+## Operator handoff contract
+
+Every `ui-*` skill response closes so the operator never has to ask "what do you need from me?" (Source protocol: `.work.ui/prompts/improve-clarity-of-responses.md`.)
+
+- **Terse output:** report only what changed and what is needed next. No restating the task, no filler transitions, no unrequested rationale.
+- **Approvals** go under `**Needs your approval:**` — numbered, one decision per item, each citing `path/to/file.md:L<n>`. Never make the operator hunt for what changed.
+- **Questions** go under `**Needs your answer:**` — numbered, self-contained, in their own list. Decisions and questions are never mixed.
+- **Next step:** exactly one `**Next step:**` command, in the exact syntax to run/type. One per response — present only the immediate action.
+- **Form A (nothing needed):** a single line, e.g. `Next: nothing - work complete`. Never render an empty Approval / Answer / Next-step section — omit it.
+- **Report sections do not replace the close:** "Follow-ups" / "Remaining" / "Recommended next" inside a report template are content; anything operator-required must also appear in the labeled closing sections above.
+
+Every `skills/<id>/skill.md` must reference this contract, and every operator-facing report template in a skill must close with Form A or Form B. Enforced by `scripts/framework-verify.sh`.
+
+---
+
+## Document clarity contract
+
+Every document a `ui-*` skill generates (foundation docs, SPECs, plans, CATALOG, copy plans/audits, reports) must make it obvious what it is, what state it is in, and what the reader must do next. (Source protocol: `.work.ui/prompts/improve-clarity-of-documentation.md`.)
+
+- **Header (≤4 lines):** what this is (one sentence); **Status** — `Draft` | `In review` | `Approved` | `Superseded` (+ date); **Needs** — the decision, review, or nothing.
+- **Brevity:** summary first; every section informs a decision or an action; no boilerplate.
+- **Exact references:** claims cite `path/to/file.md:L<n>`; quantitative claims tagged `measured` | `estimated` | `assumption` | `unknown`.
+- **Decisions needed** and **Open questions** are separate numbered lists — never mixed, never buried in prose; each decision cites what is being decided.
+- **Next action:** exactly one `## Next action` section with one action in exact syntax — or one line `Next action: none — <reason>`.
+- **No leftover scaffolding:** `REPLACE:*` / instructional comments must be stripped or filled before a document is presented as complete.
+
+Doc-generating skills (must reference this contract from `skill.md`): `ui-design-foundation`, `ui-screen-spec`, `ui-component-build`, `ui-copy`, `ui-design-system`, `ui-visual-verify`, `ui-accessibility-audit`. Enforced by `scripts/framework-verify.sh`; doc templates under `templates/work.ui/` carry the Status/Needs header and `## Next action`.

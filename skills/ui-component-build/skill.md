@@ -16,6 +16,9 @@ Mirror of Agent OS `code-implementation` **for UI scope only**.
 
 **Does not:** run `@session-control`, modify `{ITERATION_CARRIER}` (`NEXT.md`), or certify `implementation-ready` for backend.
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+- **Document clarity:** generated documents follow [`SKILL_DEPENDENCIES.md` § Document clarity contract](../SKILL_DEPENDENCIES.md#document-clarity-contract) — Status/Needs header; separate Decisions / Open questions lists; exactly one `## Next action`; no leftover scaffolding.
+
 ## Modes
 
 | Mode | Action |

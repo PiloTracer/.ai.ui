@@ -2,6 +2,8 @@
 
 > **Path:** `<repo-root>/.work.ui/context/HANDOFF_UI.md` · Maintained by **`ui-*` skills**. Session bookends: **`@session-control`** when `.ai/` is present (full repo); `.work.ui`-scoped session verbs (start / status / context / add / commit / close / push) via **`@ui-session`**.
 
+**Status:** Draft · **Needs:** REPLACE:<decision, review, or nothing>
+
 ## Session status
 
 **Open:** -
@@ -84,3 +86,9 @@
 ## Cross-link (Agent OS)
 
 Keep **### UI layer** in `.work/context/HANDOFF.md` in sync when milestones close.
+
+---
+
+## Next action
+
+`@ui-session start` — open the next UI session

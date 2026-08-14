@@ -21,6 +21,8 @@ Deploys the entire `.ai.ui` UI Design OS repository (including `.git/`, `.github
 
 **Contrast with `ui-deploy-files`:** `ui-deploy-repo` includes VCS artifacts. Use `@ui-deploy-files copy` when you only need the `.ai.ui/` directory without git history or `.github/`.
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+
 ---
 
 ## Parse invocation

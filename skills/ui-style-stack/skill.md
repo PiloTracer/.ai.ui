@@ -16,6 +16,7 @@ description: >-
 - `ui-component-build` must follow active stack doc when emitting styles.
 - Do not add dependencies (Tailwind, styled-components) without user approval (protected files).
 - Desktop stacks (FLET/Qt) are **not** CSS stacks — recorded separately as `UI_DESKTOP_STACK` by `@ui-python-desktop stack set`; this skill only *reports* them.
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
 
 ## Modes
 

@@ -71,6 +71,49 @@ for name in $FORBIDDEN; do
   fi
 done
 
+# Clarity contracts (see skills/SKILL_DEPENDENCIES.md): both sections present,
+# Operator handoff referenced from every skill.md, Document clarity referenced
+# from every doc-generating skill (adopted 2026-08-14).
+DOC_GENERATING="ui-design-foundation ui-screen-spec ui-component-build ui-copy ui-design-system ui-visual-verify ui-accessibility-audit"
+scan_contracts() { # <skills_dir> <deps_md> — exit 0 = pass
+  local skills_dir="$1" deps="$2" ok=1 d id sec
+  for sec in "Operator handoff contract" "Document clarity contract"; do
+    if ! grep -qE "^## ${sec}$" "$deps"; then
+      echo "CONTRACT: ${deps} missing ## ${sec}"; ok=0
+    fi
+  done
+  while IFS= read -r d; do
+    id="$(basename "$d")"
+    if ! grep -q 'Operator handoff contract' "${d}/skill.md"; then
+      echo "CONTRACT: skills/${id}/skill.md missing Operator handoff contract reference"; ok=0
+    fi
+  done < <(find "$skills_dir" -mindepth 1 -maxdepth 1 -type d ! -name '.*' | sort)
+  for id in $DOC_GENERATING; do
+    [[ -f "${skills_dir}/${id}/skill.md" ]] || continue
+    if ! grep -q 'Document clarity contract' "${skills_dir}/${id}/skill.md"; then
+      echo "CONTRACT: skills/${id}/skill.md (doc-generating) missing Document clarity contract reference"; ok=0
+    fi
+  done
+  [[ "$ok" -eq 1 ]]
+}
+if scan_contracts "${ROOT}/skills" "${ROOT}/skills/SKILL_DEPENDENCIES.md"; then
+  echo "ok: clarity contracts (2 sections + ${SKILL_COUNT} handoff refs + doc-generating clarity refs)"
+else
+  FAIL=1
+fi
+
+# Framework source marker wiring: present, protected, never deployed, and used
+# for framework-mode detection (agent.os.framework.md § Detection/Protected/Never deployed).
+check "agent.os.framework.md"
+check "standards/PROTECTED_SURFACES.json"
+if grep -qF 'agent\.os\.framework\.md' "${ROOT}/scripts/ui-deploy-files.sh" \
+   && grep -qF 'agent.os.framework.md' "${ROOT}/standards/PROTECTED_SURFACES.json" \
+   && grep -qF 'agent.os.framework.md' "${ROOT}/scripts/ui-session.sh"; then
+  echo "ok: framework marker wired (deploy exclusion + protected surfaces + session detection)"
+else
+  echo "MARKER: agent.os.framework.md not fully wired (deploy-files exclusion / PROTECTED_SURFACES.json / ui-session detection)"; FAIL=1
+fi
+
 # UIS concepts present (UIS-01 through UIS-10)
 for id in visual-hierarchy responsive-layout motion-design color-contrast interaction-patterns ai-visual-quality surface-control-craft intuitive-ux data-visualization-quality creative-direction; do
   check "concepts/${id}/prompt.md"
@@ -159,6 +202,33 @@ selftest "readiness-verify accepts honest"   0 "${ROOT}/scripts/readiness-verify
 selftest "readiness-verify rejects uncited"  1 "${ROOT}/scripts/readiness-verify.sh"   "${tmpd}/uncited.md"
 selftest "traceability-verify accepts scheduled" 0 "${ROOT}/scripts/traceability-verify.sh" "${tmpd}/sm-ok.md"
 selftest "traceability-verify rejects orphan"    1 "${ROOT}/scripts/traceability-verify.sh" "${tmpd}/sm-orphan.md"
+
+# clarity-contract self-tests: scan_contracts must not silently rot (cf. honesty rules).
+cc_selftest() { # desc expected_exit base_dir (holds skills/ + skills/SKILL_DEPENDENCIES.md)
+  local desc="$1" exp="$2" base="$3" got
+  if scan_contracts "${base}/skills" "${base}/skills/SKILL_DEPENDENCIES.md" >/dev/null 2>&1; then got=0; else got=1; fi
+  if [[ "$got" -eq "$exp" ]]; then
+    echo "ok: selftest ${desc}"
+  else
+    echo "SELFTEST FAIL: ${desc} (expected exit ${exp}, got ${got})"; FAIL=1
+  fi
+}
+mkdir -p "${tmpd}/cc-ok/skills/ui-foo" "${tmpd}/cc-ok/skills/ui-design-foundation" \
+         "${tmpd}/cc-bad/skills/ui-foo" "${tmpd}/cc-badoc/skills/ui-design-foundation" \
+         "${tmpd}/cc-nodeps/skills/ui-foo"
+printf '## Operator handoff contract\nx\n## Document clarity contract\nx\n' > "${tmpd}/cc-ok/skills/SKILL_DEPENDENCIES.md"
+printf -- '- Operator handoff contract\n' > "${tmpd}/cc-ok/skills/ui-foo/skill.md"
+printf -- '- Operator handoff contract\n- Document clarity contract\n' > "${tmpd}/cc-ok/skills/ui-design-foundation/skill.md"
+cp "${tmpd}/cc-ok/skills/SKILL_DEPENDENCIES.md" "${tmpd}/cc-bad/skills/SKILL_DEPENDENCIES.md"
+printf '# no refs\n' > "${tmpd}/cc-bad/skills/ui-foo/skill.md"
+cp "${tmpd}/cc-ok/skills/SKILL_DEPENDENCIES.md" "${tmpd}/cc-badoc/skills/SKILL_DEPENDENCIES.md"
+printf -- '- Operator handoff contract\n' > "${tmpd}/cc-badoc/skills/ui-design-foundation/skill.md"
+printf '# no contracts\n' > "${tmpd}/cc-nodeps/skills/SKILL_DEPENDENCIES.md"
+printf -- '- Operator handoff contract\n' > "${tmpd}/cc-nodeps/skills/ui-foo/skill.md"
+cc_selftest "contract scan accepts referenced skills"   0 "${tmpd}/cc-ok"
+cc_selftest "contract scan rejects missing reference"   1 "${tmpd}/cc-bad"
+cc_selftest "contract scan rejects doc-gen missing clarity ref" 1 "${tmpd}/cc-badoc"
+cc_selftest "contract scan rejects missing section"     1 "${tmpd}/cc-nodeps"
 
 # token-lint self-tests: the design-token gate must reject raw hex in component
 # source and accept token usage (cf. DESIGN_TOKENS_STANDARD - no magic hex).

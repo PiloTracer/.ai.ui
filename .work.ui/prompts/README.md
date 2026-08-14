@@ -1,7 +1,10 @@
-# UI prompts (`.work.ui/prompts/`)
+# Project prompts (`.work/prompts/`)
 
-> **Optional.** Design questionnaires, workshop notes, archived decision prompts.
+> **Navigation only.** This README is the same in every adopter repo. `decision_*_*.md` files are written by **`@plan-foundation`** (P2 questionnaires) and archived after the corresponding ADR is decided. `initial.md` is user scratch only and is not touched by any skill unless you explicitly name it.
 
-**User scratch** files here are **not read by `ui-*` skills** unless the user explicitly names the path in the same message.
+| File | Purpose | Read by skills? |
+|------|---------|-----------------|
+| `decision_*_*.md` | Archived owner questionnaires (ADR input) | On demand |
+| `initial.md` | **User scratch only** | **No** - unless user explicitly names this path |
 
-Binding specs and plans live in `.work.ui/screens/` and `.work.ui/plans/` — not in this folder.
+Skills read **foundation doc 01** (`*-01-*-initial-scope.md`) for canonical product intent, not `initial.md`.

@@ -12,6 +12,8 @@ description: >-
 
 **Hard rules:** Default **read-only**. Do not duplicate Agent OS planning skills.
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+
 ## Modes
 
 | Mode | Action |
@@ -58,3 +60,5 @@ Record in `{HANDOFF_UI}` § Repository UI state:
 ### Do not run
 - (Agent OS skills that would duplicate)
 ```
+
+Close per the Operator handoff contract (Form A if nothing is needed; Form B with **Needs your approval:** / **Needs your answer:** / **Next step:** otherwise).

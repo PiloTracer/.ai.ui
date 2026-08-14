@@ -1,8 +1,10 @@
 {
-  "description": "Touch scope — 2026-08-14 ui-session parity batch: bring ui-session to session-control feature parity (start/context/add verbs, scoped modifier, aliases, secrets scan, UIS-ref commit-message discipline) — skill.md rewrite, new reference.md, scripts/ui-session.sh extension, registry/docs/template reference sweep.",
+  "description": "Touch scope — 2026-08-14 adopt-framework-improvements: add Operator handoff contract + Document clarity contract to skills/SKILL_DEPENDENCIES.md, reference them from all skills/*/skill.md, sync .cursorrules + cursorrules templates, update templates/work.ui doc templates (Status/Needs header + Next action), wire contract checks into scripts/framework-verify.sh, audit report to .work.ui/reports/. Plus operator-directed follow-ups: hook exec modes, agent.os.framework.md marker wiring + standards/PROTECTED_SURFACES.json.",
   "blast_radius_approved": true,
-  "blast_radius_note": "Operator-authorized cross-area change (one skill + its shell + reference sweep across skills/scripts/templates/docs/.work.ui by design); run framework-verify after.",
+  "blast_radius_note": "Operator-authorized cross-area change (contracts sweep across skills/templates/scripts/.cursorrules/.work.ui by design, per .work.ui/prompts/adopt-framework-improvements.md); run framework-verify after.",
   "allowed_paths": [
+    ".cursorrules",
+    "agent.os.framework.md",
     ".gitignore",
     "README.md",
     "START_HERE.md",
@@ -20,13 +22,16 @@
     "templates/",
     "docs/",
     ".github/",
+    "hooks/",
     "scripts/",
     ".work.ui/"
   ],
   "allowed_patterns": [
     "*.md",
     "*.json",
+    ".cursorrules",
     ".gitignore",
+    "hooks/*",
     "*.sh",
     "*.yml",
     "*.yaml",

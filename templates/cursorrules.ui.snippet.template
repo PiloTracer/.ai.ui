@@ -26,6 +26,10 @@ Unless requested in the **same message**, MUST NOT: `git commit` / `git push` / 
 
 UI milestone work is not done until: UI lint/type/tests pass; `@ui-visual-verify` + `@ui-accessibility-audit` pass or are waived in `{HANDOFF_UI}`; agent-assisted UI has `@ui-concept-run - UIS-06` unless **`human-only`** in the same message.
 
+### UI operator handoff (communication)
+
+Close every UI task response per `.ai.ui/skills/SKILL_DEPENDENCIES.md` § Operator handoff contract: approvals under `**Needs your approval:**` with `path:L<n>` cites; questions numbered under `**Needs your answer:**` (never mixed); exactly one `**Next step:**`; Form A single line when nothing is needed; empty sections omitted.
+
 ### UI context files
 
 | File | Purpose |

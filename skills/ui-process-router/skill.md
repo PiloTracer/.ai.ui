@@ -9,6 +9,8 @@ description: >-
 
 **Hard rules:** No file writes. Link canonical sources; ≤3 sentences in answer.
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+
 ## Modes
 
 | User says | Mode |

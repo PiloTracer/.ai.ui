@@ -1,6 +1,6 @@
 # REPLACE:PROJECT_NAME — Pattern inventory
 
-**Doc:** UI foundation **03** · **Created:** YYYY-MM-DD
+**Doc:** UI foundation **03** · **Created:** YYYY-MM-DD · **Status:** Draft · **Needs:** REPLACE:<decision, review, or nothing>
 
 ## Existing (in repo today)
 
@@ -18,3 +18,7 @@
 ## Catalog
 
 Detailed rows: `.work.ui/design-system/CATALOG.md` (maintained by `@ui-design-system`)
+
+## Next action
+
+`@ui-design-foundation greenfield` — continue with foundation doc 04 (screen map)

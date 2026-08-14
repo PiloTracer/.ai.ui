@@ -1,6 +1,7 @@
 # REPLACE:SCREEN_NAME — Screen SPEC
 
 **Status:** Draft  
+**Needs:** REPLACE:<decision, review, or nothing>  
 **Slug:** example-slug  
 **Path:** `.work.ui/screens/example-slug/YYYYMMDD-SCREEN-SPEC.md`
 
@@ -137,3 +138,9 @@ Categorical palette + semantic + axis + tooltip from token file §5.
 - [ ] Keyboard navigation for interactive charts
 - [ ] Color + pattern encoding — not color-only
 - [ ] `prefers-reduced-motion` respected for chart animations
+
+---
+
+## Next action
+
+`@ui-screen-spec review - .work.ui/screens/example-slug/YYYYMMDD-SCREEN-SPEC.md`

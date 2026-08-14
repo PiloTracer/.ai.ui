@@ -1,6 +1,6 @@
 # REPLACE:PROJECT_NAME — UI vision and principles
 
-**Doc:** UI foundation **01** · **Created:** YYYY-MM-DD · **Path:** `.work.ui/plans/foundation/`
+**Doc:** UI foundation **01** · **Created:** YYYY-MM-DD · **Path:** `.work.ui/plans/foundation/` · **Status:** Draft · **Needs:** REPLACE:<decision, review, or nothing>
 
 ## Project classification
 
@@ -37,3 +37,7 @@
 
 - Domain scope: `.work/plans/foundation/*-01-*` (Agent OS) when present
 - Inputs: `.ai.ui/inputs/brand/` (reference only)
+
+## Next action
+
+`@ui-design-foundation greenfield` — continue with foundation doc 02 (design tokens)

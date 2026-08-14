@@ -24,6 +24,8 @@ description: >-
 | `pyside6` | LGPL-3.0-only ✓ | Official Qt for Python; commercial + proprietary use without source disclosure (unmodified, dynamic linking); `pip install PySide6` |
 | `pyqt` | GPL-3.0-only OR commercial ⚠ | Riverbank. **License note (not a gate):** free in development; for production or when protecting source, acquire Riverbank's commercial license or release under GPL. API-compatible with PySide6 (import-line swap). `pip install PyQt6` |
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+
 ## Modes
 
 | Mode | Action |

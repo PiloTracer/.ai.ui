@@ -40,6 +40,7 @@ Session carrier with **session-control verb parity**: **start / status / context
 - **Commit subject:** `UIS-123: description` when a task ref is known, else `type: description` (`feat`/`fix`/`refactor`/`docs`/`chore`) — per repo `.cursorrules` §Git. Never invent a ref; never commit with a bare untyped subject.
 - Never paste secrets from `.env`, `credentials/`, or tokens into chat or HANDOFF_UI. Secrets-pattern paths are never staged (script-enforced).
 - Every write mode ends with a **Completion checklist** — each item `pass` | `fail` | `skip` with evidence.
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
 
 ### Path resolution (mandatory before any Read)
 
@@ -244,7 +245,7 @@ Close report template and checklist: [reference.md § Close protocol (detailed)]
 
 ## Scope model (hard rule)
 
-**Target mode (adopter repo): every git write op is restricted to `<repo-root>/.work.ui/`.** **Framework mode (this source repo): `add` / `commit` / `push` cover the whole repo tree.** The shell detects the mode from the repo root (framework markers: `COHABITATION.md` + `skills/ui-session/skill.md` + `templates/bootstrap.sh`) and enforces it mechanically:
+**Target mode (adopter repo): every git write op is restricted to `<repo-root>/.work.ui/`.** **Framework mode (this source repo): `add` / `commit` / `push` cover the whole repo tree.** The shell detects the mode from the repo root (framework markers: `agent.os.framework.md`, falling back to `COHABITATION.md` + `skills/ui-session/skill.md` + `templates/bootstrap.sh`) and enforces it mechanically:
 
 1. Stage scope — target: `git add -A -- .work.ui`; framework: `git add -A`. Either mode, `scoped`: only `.work.ui/context/HANDOFF_UI.md` + `.work.ui/plans/NEXT_UI.md`.
 2. Pre-commit check (target mode): if any **already-staged** path lies outside `.work.ui/` (e.g. staged by another tool), `ui-session` **refuses** and lists the offending paths.

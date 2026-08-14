@@ -27,6 +27,8 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 - `ui-deploy-files` — you want skills/standards/concepts versioned inside the project, offline-editable, no external dependency.
 - `ui-deploy-basic` — you want the project to track the live source UI Design OS, share one source of truth across many consumer repos, and accept new skills/standards automatically by updating the source (no per-project re-deploy).
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+
 ---
 
 ## Parse invocation

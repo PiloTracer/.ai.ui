@@ -1,6 +1,6 @@
 # REPLACE:PROJECT_NAME — UI probe ledger
 
-**Scope:** foundation | roadmap  · **Updated:** YYYY-MM-DD · **Iterations:** 0 · **Coverage:** 0% (target 85%)
+**Status:** Draft · **Scope:** foundation | roadmap  · **Updated:** YYYY-MM-DD · **Iterations:** 0 · **Coverage:** 0% (target 85%) · **Needs:** REPLACE:<decision, review, or nothing>
 
 > Persisted state for `@ui-design-foundation probe` / `@ui-component-build probe`. Engine: `.ai.ui/skills/probe-protocol.md`.
 > Set **confirmed/high** only with a cited source or a same-session owner answer; an inference is **partial/med** at best.
@@ -28,3 +28,7 @@ Status: `confirmed` | `partial` | `unknown` · Conf: `high` | `med` | `low` · �
 | Iter | Date | Coverage | Dimensions touched | Notes |
 |------|------|----------|--------------------|-------|
 | 1 | YYYY-MM-DD | 0% | — | initial assessment |
+
+## Next action
+
+`@ui-design-foundation probe` — raise Coverage toward the 85% target

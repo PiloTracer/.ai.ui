@@ -19,6 +19,8 @@ description: >-
 5. Never duplicate Agent OS skills (`@session-control`, `@code-implementation`, `@plan-master`, `@project-bootstrap`, `@db-migration`, etc.) — redirect the user.
 6. Never write artifacts under `.ai.ui/` — project work goes to `.work.ui/`.
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+
 ## Modes
 
 | Mode | Action |

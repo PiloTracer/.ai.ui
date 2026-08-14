@@ -2,6 +2,8 @@
 
 > Optional brand-grade extension. Copy to `.work.ui/plans/foundation/YYYYMMDD-03-design-system.brand.md` when the project needs on-brand, non-generic UI (craft tier ≥ refined or `design-system` archetype). Sections map to tokens + CATALOG so agent output obeys the brand. Handoff-shape reference: Open CoDesign Decompose-to-UI-Kit (`ui_kits/<slug>/` = index + components + tokens + manifest).
 
+**Status:** Draft · **Needs:** REPLACE:<decision, review, or nothing>
+
 ## 1. Brand essence & positioning
 
 - **One line:** `REPLACE:UI_BRAND_ONE_LINER`
@@ -44,3 +46,7 @@
 ## 9. Provenance & licenses
 
 - Every asset/font/icon listed with license + source URL; anything failing the license policy is excluded, not "forgotten"
+
+## Next action
+
+`@ui-design-system init` — bind brand tokens to CATALOG primitives

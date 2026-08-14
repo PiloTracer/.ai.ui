@@ -12,6 +12,8 @@ Read-only audit that **surfaces** UI readiness gaps and routes them — the skil
 
 **Reads:** `{UI_PLANS_ROOT}/**/PROBE_LEDGER.md`, `{UI_PLANS_ROOT}/foundation/*-04-screen-map.md`, `{HANDOFF_UI}`, `{UI_ITERATION_CARRIER}`.
 
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
+
 ## Modes
 
 | Mode | Action |
@@ -47,6 +49,8 @@ bash scripts/token-lint.sh --tokens REPLACE:UI_TOKENS_FILE REPLACE:UI_APP_ROOT
 **Orphan screens:** <slug…|none>
 **Route:** <gap → @command> …
 ```
+
+Close per the Operator handoff contract (Form A if nothing is needed; Form B with **Needs your approval:** / **Needs your answer:** / **Next step:** otherwise).
 
 ## Hard rules
 

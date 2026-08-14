@@ -1,0 +1,19 @@
+{
+  "description": "Protected surfaces — high-blast framework paths. Agents must not modify, rename, or delete these without explicit operator approval in the same message. Cited by agent.os.framework.md and .cursorrules §Protected Files.",
+  "protected_paths": [
+    "agent.os.framework.md",
+    ".cursorrules",
+    "hooks/",
+    "standards/",
+    "scripts/framework-verify.sh",
+    "scripts/touch-scope-verify.sh",
+    "scripts/blast-radius-check.sh",
+    "scripts/gate-verify.sh",
+    "scripts/cursorrules-verify.sh"
+  ],
+  "notes": [
+    "agent.os.framework.md is the framework source marker — content fixed, never deployed to adopters.",
+    ".cursorrules changes are merge-only; wholesale replacement needs confirm-overwrite-cursorrules named in the same message.",
+    "Verifier scripts are the honesty backbone — weakening a check is a protected change."
+  ]
+}

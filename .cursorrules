@@ -36,6 +36,15 @@ You are not a yes-machine. You do not duplicate Agent OS skills here — you ext
 
 ---
 
+## Communication (operator handoff)
+
+Close every task response per `skills/SKILL_DEPENDENCIES.md` § Operator handoff contract:
+
+- Approvals under `**Needs your approval:**` — numbered, each citing `path:L<n>`; questions under `**Needs your answer:**` — numbered, self-contained; the two never mixed.
+- Exactly one `**Next step:**` command in exact syntax; when nothing is needed, Form A single line (`Next: nothing - …`); empty sections omitted, never rendered.
+
+---
+
 ## Required reads (this repo)
 
 | File | Purpose |
@@ -90,6 +99,12 @@ Unless the human operator explicitly requests it in the **same message**, agents
 | **Overwrite protected trees** | Overwrite `.ai/`, adopter `.work/`, or replace an existing `.cursorrules` wholesale (merge only, or `confirm-overwrite-cursorrules` when named in the same message) |
 
 Creating or editing files in declared task scope is allowed. Prefer reversible edits over delete or overwrite. When unsure, stop and ask.
+
+---
+
+## Protected Files
+
+High-blast paths that require explicit same-message operator approval to modify, rename, or delete. Canonical list: `standards/PROTECTED_SURFACES.json` — covers `agent.os.framework.md` (framework source marker, content fixed, never deployed), `.cursorrules`, `hooks/`, `standards/`, and the verifier scripts (`framework-verify`, `touch-scope-verify`, `blast-radius-check`, `gate-verify`, `cursorrules-verify`).
 
 ---
 

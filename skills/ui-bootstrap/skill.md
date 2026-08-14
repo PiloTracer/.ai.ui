@@ -16,6 +16,7 @@ description: >-
 - **Never** register unprefixed skills or modify Agent OS trees.
 - **May create** `.cursorrules` when missing (from `cursorrules.ui.template`).
 - **May merge** `cursorrules.ui.snippet.template` when `.cursorrules` exists but lacks `UI_DESIGN_OS_BEGIN` — only after user approves (`merge-cursorrules`, `init merge-cursorrules`, or `overwrite-missing` flow below).
+- **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
 
 **Shell:** `bash .ai.ui/templates/bootstrap.sh` · **Cursorrules:** `bash .ai.ui/scripts/cursorrules-ui.sh <mode>`
 
