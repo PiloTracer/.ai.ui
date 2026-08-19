@@ -107,7 +107,7 @@ Read `{HANDOFF_UI}` and `{UI_ITERATION_CARRIER}` for context. Classify the reque
 | `copy` | "write UI copy", "microcopy", "button labels", "error messages", "empty states", "copy review", "copy audit", "set UI voice" | `ui-copy` |
 | `concept` | "run UIS prompt", "check visual hierarchy", "motion design", "intuitive UX", "data viz quality", "surface craft" | `ui-concept-run` |
 | `audit` | "audit everything", "run verifiers", "check readiness", "traceability" | `ui-plan-verify` |
-| `deploy` | "deploy framework to another project", "copy to repo", "clone to path", "thin-client bootstrap", "lightweight setup (skills load from source)" | `ui-deploy-basic` (thin client) / `ui-deploy-files` / `ui-deploy-repo` |
+| `deploy` | "deploy framework to another project", "copy to repo", "thin-client bootstrap", "lightweight setup (skills load from source)" | `ui-deploy-basic` (thin client) / `ui-deploy-files` |
 | `session` | "commit .work.ui changes", "close UI session", "push .work.ui", "save my UI work", "open UI session", "stage my UI work" | `ui-session` (session carrier: start / status / context / add / commit / close / push; any combination; target repos: `.work.ui/` only) |
 | `desktop` | "desktop app", "native window", "PyQt", "FLET", "Qt app", "python GUI" | `ui-python-desktop stack set - <flet\|pyside6\|pyqt>` → `scaffold` |
 | `router` | "how do I...?", "where is...?", "what skill...?" | `ui-process-router` |
@@ -153,7 +153,7 @@ Map the classified bucket to the correct skill chain. Respect the dependency gra
 | "Check all the UI text is consistent" | `@ui-copy audit - .work.ui/screens/` |
 | "Set the voice for our UI copy" | `@ui-copy tone - <description>` |
 | "How do I add a new screen?" | `@ui-process-router - how do I add a new screen?` |
-| "Deploy UI Design OS to my other project" | `@ui-deploy-files copy - <path>` or `@ui-deploy-repo clone - <path>`; thin client (cursorrules + `.work.ui/` only) → `@ui-deploy-basic - <path>` |
+| "Deploy UI Design OS to my other project" | `@ui-deploy-files copy - <path>`; thin client (cursorrules + `.work.ui/` only) → `@ui-deploy-basic - <path>` |
 | "Commit my .work.ui changes" / "close the UI session" | `@ui-session commit` / `close` / `push` (any combination; target repos: `.work.ui/` only) — also `start` / `status` / `context` / `add` |
 | "Build a Python desktop app" | `@ui-python-desktop stack set - pyside6` (or flet/pyqt) → `@ui-python-desktop scaffold - <slug>` → `verify` |
 

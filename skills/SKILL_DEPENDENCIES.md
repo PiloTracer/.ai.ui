@@ -49,7 +49,6 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | **ui-bootstrap** `init` | `.ai.ui/` present; must not overwrite `.work/` or base `.cursorrules` | - |
 | **ui-deploy-basic** `- <target>` / `update` / `verify [--fix]` | Source `.ai.ui/` path or git remote; target dir must exist; `verify` backend `scripts/cursorrules-verify.sh` | - |
 | **ui-deploy-files** `copy` / `update` / `verify [--fix]` | Source git repo with `.ai.ui/` as root; target parent dir must exist | - |
-| **ui-deploy-repo** `clone` / `archive` / `verify [--fix]` | Source git repo; origin remote required for clone mode | - |
 | **ui-session** `start` / `status` / `context` / `add` / `commit` / `close` / `push` | Target repo with `.work.ui/` (framework source repo: whole-tree mode auto-detected); git identity configured; explicit `commit`/`push` intent in the same message | **Required** (target repos: never stages paths outside `.work.ui/`) |
 | **ui-design-foundation** `greenfield` | `{HANDOFF_UI}`; UI standards paths in `.cursorrules` snippet | Recommended: `@ui-bootstrap init` |
 | **ui-design-foundation** `probe` | None; interrogates + fills foundation gaps. Engine: [`probe-protocol.md`](probe-protocol.md). Ledger `{UI_PLANS_ROOT}/foundation/PROBE_LEDGER.md` | Recommended before `certify` when understanding is thin |
@@ -85,8 +84,6 @@ ui-foundation-complete  →  screen-spec-ready  →  ui-implementation-ready
 | `@ui-director - <request>` | Orchestrates across all skills (route by [`ui-director/reference.md`](ui-director/reference.md)) |
 | `@ui-deploy-basic - /path` | `bash scripts/ui-deploy-basic.sh /path` |
 | `@ui-deploy-files copy - /path` | `bash scripts/ui-deploy-files.sh /path` |
-| `@ui-deploy-repo clone - /path` | `bash scripts/ui-deploy-repo.sh clone /path` |
-| `@ui-deploy-repo archive - /path` | `bash scripts/ui-deploy-repo.sh archive /path` |
 | `@ui-python-desktop scaffold - <slug>` | Generates Python desktop skeleton (FLET/PySide6/PyQt6) from tokens + SPEC |
 | `@ui-screen-spec create` | `@ui-design-foundation certify screen-spec-ready` |
 | `@ui-component-build start` | `@ui-component-build plan - S{N}` |
@@ -110,7 +107,6 @@ One verb set across `ui-*` skills. New verbs go here first, then into the matrix
 |------|--------|---------|---------|
 | `init` | ui-bootstrap | yes | Scaffold `.work.ui/` + cursorrules |
 | `copy` | ui-deploy-files | yes | Deploy `.ai.ui` files into target project |
-| `clone` / `archive` | ui-deploy-repo | yes | Full git-based deploy of `.ai.ui` repo |
 | `commit` / `close` / `push` / `add` / `start` | ui-session | yes (`.work.ui` only; whole tree in framework repo) | Session carrier; any combination; `commit` includes untracked files/dirs; `scoped` = bookends only; `status`/`context` read-only |
 | `set` | ui-style-stack | yes (HANDOFF_UI) | Record active style stack |
 | `greenfield` | ui-design-foundation | yes | Create foundation docs 01–04 |

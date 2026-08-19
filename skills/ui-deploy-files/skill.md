@@ -33,8 +33,6 @@ Two-direction deploy of the `.ai.ui` framework into a target project so the proj
 
 **No local `opencode.json`.** When co-installed with Agent OS, register skills via parent `.ai/opencode.json`.
 
-**Contrast with `ui-deploy-repo`:** `ui-deploy-files` copies only the `.ai.ui/` directory (no VCS artifacts). Use `@ui-deploy-repo clone` when you need the full repo including `.git` and `.github/`.
-
 - **Operator handoff:** close every response per [`SKILL_DEPENDENCIES.md` § Operator handoff contract](../SKILL_DEPENDENCIES.md#operator-handoff-contract) — terse output; `**Needs your approval:**` with `path:L<n>` cites; `**Needs your answer:**`; one `**Next step:**`; Form A when nothing is needed; omit empty sections.
 
 ---
@@ -88,7 +86,7 @@ When invoked from a **target** project (cwd has no `.ai.ui/scripts/ui-deploy-fil
 
 1. `bash <source>/.ai.ui/scripts/ui-deploy-files.sh "<resolved-target>"` (default) — or `force` / `update`.
 2. **File set:** `git ls-files --cached --others --exclude-standard` from the source repo root.
-3. **Skill-level omissions:** `.github/`, `.gitignore`, `.gitattributes`, `.cursorrules`, `agent.os.framework.md` (framework source marker — never deployed), `scripts/ui-deploy-files.sh`, `scripts/ui-deploy-basic.sh`, `scripts/ui-deploy-repo.sh`.
+3. **Skill-level omissions:** `.github/`, `.gitignore`, `.gitattributes`, `.cursorrules`, `agent.os.framework.md` (framework source marker — never deployed), `scripts/ui-deploy-files.sh`, `scripts/ui-deploy-basic.sh`.
 4. **No-overwrite default:** `rsync --ignore-existing` skips any file already present in the target. `force` drops that flag (legacy overwrite; still no `--delete`). `update` keeps no-overwrite and emits the **merge candidate list** for § I3.
 
 ---

@@ -2,8 +2,7 @@
 # ui-deploy-files.sh — Deploy .ai.ui (UI Design OS) files into a target project
 #
 # Copies ONLY files git considers (tracked + untracked-not-ignored). Skill-level
-# excludes (.github/, .gitignore, .cursorrules, deploy scripts) are omitted;
-# ui-deploy-repo covers the full-repo case.
+# excludes (.github/, .gitignore, .cursorrules, deploy scripts) are omitted.
 #
 # Default = NO-OVERWRITE. Use force for legacy overwrite, or update for merge
 # candidates when source files differ from target copies.
@@ -126,7 +125,7 @@ if [[ -d "$DEST_DIR" ]]; then
   echo "  exists: $DEST_DIR — re-copying (no-overwrite; preserves existing target files)"
 fi
 
-SKILL_EXCLUDE_REGEX='^(\.github/|\.gitignore$|\.gitattributes$|\.cursorrules$|agent\.os\.framework\.md$|scripts/ui-deploy-files\.sh$|scripts/ui-deploy-basic\.sh$|scripts/ui-deploy-repo\.sh$)'
+SKILL_EXCLUDE_REGEX='^(\.github/|\.gitignore$|\.gitattributes$|\.cursorrules$|agent\.os\.framework\.md$|scripts/ui-deploy-files\.sh$|scripts/ui-deploy-basic\.sh$)'
 
 TMP_LIST="$(mktemp)"
 MERGE_CANDS="$(mktemp)"

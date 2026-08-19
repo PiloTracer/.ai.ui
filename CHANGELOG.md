@@ -2,6 +2,10 @@
 
 ## [0.6.1] - 2026-08-19
 
+### Removed
+
+- **`ui-deploy-repo` skill removed.** `skills/ui-deploy-repo/` and `scripts/ui-deploy-repo.sh` deleted; every reference swept — registries (`skills/README.md`, `SKILL_DEPENDENCIES.md` matrix/redirects/vocabulary, `ui-director` skill + reference), `ui-deploy-files` skill.md + shell exclude regex, `framework-verify.sh` (existence check + smoke selftests), `cursorrules-verify.sh` header, `templates/cursorrules.ui.template`, `.quick/deploy-to-project.md`. Deploy family is now `ui-deploy-basic` + `ui-deploy-files` only — consistent with Agent OS (`deploy-repo` removed 2026-08-14) and the parent orchestrator (`pilo.ai.logicbison`: deploy-basic + deploy-files).
+
 ### Added
 
 - **Frameworks registry (Layer 1) + six-slot sister discovery in deploy/verify.** `.cursorrules` now ships the cross-framework registry (self `.ai.ui`, `.ai` Agent OS, `.ai.biz`, `.ai.soc`, `.ai.cto`, `.ai.flutter`, `.ai.mlt`) with family-aware path resolution (`pilo.ai.<fw>.logicbison` then legacy `.ai.<fw>`, degraded `[degraded: <framework> not installed]` routing). `scripts/sister-discovery.sh` vendored from `pilo.ai.logicbison` (shared lib). `templates/cursorrules.ui.template` registry extended to 7 rows + family-aware resolution.

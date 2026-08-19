@@ -31,7 +31,7 @@
 #
 # Source resolution: AI_UI_ROOT is derived from this script's location, so the
 # script can be invoked from a TARGET using an external source .ai.ui:
-#   bash /mnt/work/Projects/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target-project
+#   bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target-project
 # Override the source with AI_UI_ROOT=/abs/path/.ai.ui if needed.
 #
 # Usage:
@@ -199,7 +199,7 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 | Mode | Bootstrapped via | Where framework assets live | `AI_UI_SOURCE` |
 |------|------------------|----------------------------|----------------|
 | **Fat-client** (vendored) | `@ui-bootstrap init` or `@ui-deploy-files` | this repo's `.ai.ui/` | unset (token left as `REPLACE_BASICUI_SOURCE`) |
-| **Thin-client** (remote) | `@ui-deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/mnt/work/Projects/.ai.ui`) |
+| **Thin-client** (remote) | `@ui-deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/path/to/.ai.ui`) |
 
 **Resolution rule (agents MUST apply before reading any `.ai.ui/...` reference):**
 

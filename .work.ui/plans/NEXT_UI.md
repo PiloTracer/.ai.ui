@@ -10,6 +10,7 @@
 
 | Item | Artifact |
 |------|----------|
+| 2026-08-19 — ui-deploy-repo removed (consistency, operator-directed) | deleted `skills/ui-deploy-repo/` + `scripts/ui-deploy-repo.sh`; reference sweep (registries, verifier self-tests, cursorrules template, `.quick/`); deploy family = basic + files (parity with Agent OS / `pilo.ai.logicbison`); gates PASS (touch-scope, blast-radius, framework-verify 18 skills, gate-verify) |
 | UI Design OS bootstrap | `.work.ui/` skeleton |
 | 2026-08-19 — Frameworks registry + six-slot sister discovery, released as v0.6.1 | `.cursorrules` Layer-1 registry; `templates/cursorrules.ui.template` (7 rows, family-aware); `scripts/sister-discovery.sh`; `ui-deploy-basic` deploy-time fill; `cursorrules-verify.sh` six-slot audit + `--fix`; `docs/homogenization/ui.md`; gates PASS (touch-scope, blast-radius, framework-verify, gate-verify). By design: child never resolves the parent orchestrator (`.ai` legacy-only). |
 | 2026-08-13 — `ui-session` session-control parity + dual-scope model | `skills/ui-session/skill.md` + new `reference.md`; `scripts/ui-session.sh` (verbs start/status/context/add/commit/close/push, `scoped`, aliases, secrets scan, ref-prefixed default message; framework repo = whole tree, target repos = `.work.ui/` only); reference sweep across registries/docs/templates; gates PASS (touch-scope, blast-radius, framework-verify, gate-verify) |

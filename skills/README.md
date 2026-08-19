@@ -29,7 +29,6 @@ Portable, tool-agnostic UI workflows. Each skill is a folder with `skill.md` (+ 
 | ui-bootstrap | `ui-bootstrap/` | Scaffold `.work.ui/`; create/merge `.cursorrules`; `DOCS_UI_STACK.md` |
 | ui-deploy-basic | `ui-deploy-basic/` | Thin-client bootstrap: `.cursorrules` + `.work.ui/` skeleton only; skills load from source at runtime |
 | ui-deploy-files | `ui-deploy-files/` | Deploy `.ai.ui` files into target project (clean file copy, respects .gitignore) |
-| ui-deploy-repo | `ui-deploy-repo/` | Full git-based deploy (clone or archive) |
 | ui-session | `ui-session/` | Session carrier (session-control parity): start / status / context / add / commit / close / push, any combination — target repos: strictly `.work.ui/` (commit includes untracked files/dirs; `scoped` = bookends only; secrets scan; script-enforced scope guard); framework source repo: whole tree |
 | ui-design-foundation | `ui-design-foundation/` | Tokens, patterns, screen map; certifies **screen-spec-ready** |
 | ui-screen-spec | `ui-screen-spec/` | Author/review screen SPECs |

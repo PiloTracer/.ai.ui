@@ -26,7 +26,7 @@ for p in \
   templates/bootstrap.sh templates/cursorrules.ui.template templates/cursorrules.ui.snippet.template \
   templates/DOCS_UI_STACK.md.template scripts/cursorrules-ui.sh \
   scripts/cursorrules-verify.sh scripts/sister-discovery.sh \
-  scripts/ui-deploy-basic.sh scripts/ui-deploy-files.sh scripts/ui-deploy-repo.sh \
+  scripts/ui-deploy-basic.sh scripts/ui-deploy-files.sh \
   scripts/ui-session.sh \
   scripts/token-lint.sh scripts/bootstrap-test.sh \
   scripts/token-schema-verify.sh scripts/ui-eval.sh \
@@ -506,13 +506,6 @@ selftest "ui-deploy-files bare update == --update" 0 "${ROOT}/scripts/ui-deploy-
 selftest "ui-deploy-files --update"                0 "${ROOT}/scripts/ui-deploy-files.sh" --update "${DF_SMOKE}"
 selftest "ui-deploy-files bare status"             0 "${ROOT}/scripts/ui-deploy-files.sh" "${DF_SMOKE}" status
 selftest "ui-deploy-files verify (fat-client)"     0 "${ROOT}/scripts/ui-deploy-files.sh" verify "${DF_SMOKE}"
-
-echo ""
-echo "==> ui-deploy-repo status / verify"
-selftest "ui-deploy-repo bare status"          0 "${ROOT}/scripts/ui-deploy-repo.sh" status
-selftest "ui-deploy-repo --status with target" 0 "${ROOT}/scripts/ui-deploy-repo.sh" --status "${DF_SMOKE}"
-selftest "ui-deploy-repo verify (fat-client)"  0 "${ROOT}/scripts/ui-deploy-repo.sh" verify "${DF_SMOKE}"
-[[ $FAIL -eq 0 ]] && echo "ok: ui-deploy-repo status + verify report source + target"
 
 rm -rf "${DF_SMOKE}"
 

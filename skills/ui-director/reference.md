@@ -26,7 +26,6 @@ All 18 registered skills except `ui-director` itself (15 `ui-*` + 3 `ui-deploy-*
 | `ui-process-router` | `ui-process-router/` | Read-only UI process Q&A | `- <question>`, `help` | Read-only | — |
 | `ui-deploy-files` | `ui-deploy-files/` | Deploy `.ai.ui` files to target project | `copy - <path>`, `update`, `status`, `verify [--fix]` | Yes (target `.ai.ui/`) | Source git repo |
 | `ui-deploy-basic` | `ui-deploy-basic/` | Thin-client bootstrap (cursorrules + .work.ui/ only; skills load from source) | `- <target-path>`, `update`, `status`, `verify [--fix]` | Yes (target `.cursorrules`, `.work.ui/`) | Source `.ai.ui/` path or git remote |
-| `ui-deploy-repo` | `ui-deploy-repo/` | Full git-based deploy (clone/archive) | `clone - <path>`, `archive - <path>`, `status`, `verify [--fix]` | Yes (target repo) | Source git remote (for clone) |
 | `ui-session` | `ui-session/` | Session carrier (target: `.work.ui/`; framework repo: whole tree) | `start`, `status`, `context`, `add`, `commit`, `close`, `push` (any combination), `scoped` | Yes (target: `.work.ui/` only) | Target repo with `.work.ui/`; explicit commit/push intent |
 
 ---

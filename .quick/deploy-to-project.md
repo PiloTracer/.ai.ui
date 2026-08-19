@@ -4,7 +4,7 @@ Two modes: **fat-client** (`ui-deploy-files` — vendored `.ai.ui/` in target) a
 
 **No local `opencode.json`.** Register UI skills via parent Agent OS (`.ai/opencode.json`) when co-installed.
 
-**Flag equivalence:** verbs work with or without `--` (`update` == `--update`, `status` == `--status`, `clone` == `--clone`), in any position relative to the target path.
+**Flag equivalence:** verbs work with or without `--` (`update` == `--update`, `status` == `--status`), in any position relative to the target path.
 
 **Wiring audit:** every deploy ends with a `.cursorrules` audit. Strict form (exit 1 on blocking gap; `--fix` auto-fills sister paths + missing Source-resolution):
 
@@ -42,13 +42,6 @@ In-place from target repo root (creates `.ai.ui/`, `.work.ui/`, `.cursorrules`):
 
 ```bash
 cd /path/to/target && bash /path/to/.ai.ui/scripts/ui-deploy-files.sh .
-```
-
-## Full repo — with .git and .github
-
-```text
-@ui-deploy-repo clone - /absolute/path/to/destination
-@ui-deploy-repo archive - /absolute/path/to/destination
 ```
 
 ## Next steps in target

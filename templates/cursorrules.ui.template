@@ -154,7 +154,7 @@ AI_UI_SOURCE=REPLACE_BASICUI_SOURCE
 | Mode | Bootstrapped via | Where framework assets live | `AI_UI_SOURCE` |
 |------|------------------|----------------------------|----------------|
 | **Fat-client** (vendored) | `@ui-bootstrap init` or `@ui-deploy-files` | this repo's `.ai.ui/` | unset (token left as `REPLACE_BASICUI_SOURCE`) |
-| **Thin-client** (remote) | `@ui-deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/mnt/work/Projects/.ai.ui`) |
+| **Thin-client** (remote) | `@ui-deploy-basic` | the **source** UI Design OS; this repo holds only `.cursorrules` + `.work.ui/` | set to an absolute path (e.g. `/path/to/.ai.ui`) |
 
 **Resolution rule (agents MUST apply before reading any `.ai.ui/...` reference):**
 
@@ -177,7 +177,6 @@ Invoke as `@<skill-id>` + mode. **Do not** reimplement these as unprefixed skill
 | ui-bootstrap | Scaffold `.work.ui/`; install or merge UI rules in `.cursorrules` |
 | ui-deploy-basic | Thin-client bootstrap / `update`: re-sync `AI_UI_SOURCE` pointer + merge local scaffold surface; skills resolve from source at runtime (see § Source resolution) |
 | ui-deploy-files | Fat-client: copy `.ai.ui/` files into target project (no-overwrite, respects `.gitignore`) |
-| ui-deploy-repo | Full git-based deploy of `.ai.ui/` (clone or archive) |
 | ui-design-foundation | Tokens, screen map; certify screen-spec-ready |
 | ui-screen-spec | Screen SPECs under `.work.ui/screens/` |
 | ui-component-build | UI iteration from `NEXT_UI.md` |

@@ -2,8 +2,8 @@
 # cursorrules-verify.sh — Verify that a deployed target repo's .cursorrules is
 # fully wired to the UI Design OS framework and its sister frameworks.
 #
-# Shared backend for all deploy skills (ui-deploy-basic / ui-deploy-files /
-# ui-deploy-repo); also usable standalone:
+# Shared backend for the deploy skills (ui-deploy-basic / ui-deploy-files);
+# also usable standalone:
 #
 #   bash scripts/cursorrules-verify.sh <repo-root>            # strict audit, exit 1 on blocking gap
 #   bash scripts/cursorrules-verify.sh <repo-root> --fix      # audit + fix what is machine-fixable
