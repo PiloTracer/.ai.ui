@@ -98,13 +98,15 @@ Sister frameworks live as siblings on disk. `.ai.ui/` is the self framework (thi
 | `.ai` (Agent OS) | `@ai-director` | REPLACE:AGENT_OS_PATH (default: `../.ai`) | `.ai/skills/README.md` |
 | `.ai.biz` (Business OS) | `@biz-director` | REPLACE:AI_BIZ_PATH (default: `../.ai.biz`) | `.ai.biz/skills/README.md` |
 | `.ai.soc` (Social OS) | `@soc-director` | REPLACE:AI_SOC_PATH (default: `../.ai.soc`) | `.ai.soc/skills/README.md` |
+| `.ai.cto` (CTO Professor OS) | `@cto-director` | REPLACE:AI_CTO_PATH (default: `../.ai.cto`) | `.ai.cto/skills/README.md` |
+| `.ai.flutter` (Flutter Agent OS) | `@flutter-director` | REPLACE:AI_FLUTTER_PATH (default: `../.ai.flutter`) | `.ai.flutter/skills/README.md` |
+| `.ai.mlt` (MLT Agent OS) | `@mlt-director` | REPLACE:AI_MLT_PATH (default: `../.ai.mlt`) | `.ai.mlt/skills/README.md` |
 
 **Path resolution (in order):**
 
 1. Resolve from the replaceable cells above. Empty/unset cells → fall through.
-2. **Fat-client (local `.ai.ui/` exists):** auto-discover from `.ai.ui` parent: `parent="$(cd "$REPO_ROOT/.ai.ui/.." && pwd)"`; check `${parent}/.ai`, `${parent}/.ai.biz`, and `${parent}/.ai.soc`. Use whichever exists; treat missing as "framework not installed".
-3. **Thin-client (`AI_UI_SOURCE` is set):** auto-discover from the **source's parent** — sister frameworks sit alongside the source `.ai.ui` on disk: `parent="$(cd "$AI_UI_SOURCE/.." && pwd)"`; check `${parent}/.ai`, `${parent}/.ai.biz`, and `${parent}/.ai.soc`. Use whichever exists.
-4. **Preflight:** before routing to a director, verify its framework directory exists **and** its `skills/README.md` is readable. If absent, stop routing with a one-line `framework not installed here` message — never silently route into the void.
+2. **Auto-discover:** source dir S = `$REPO_ROOT/.ai.ui` (fat-client), `$AI_UI_SOURCE` (thin-client), or this repo (self-hosted); parent = `S/..`; sister = `<S basename with <fw> inserted before its last .segment>` (e.g. `pilo.ai.ui.logicbison` for a `pilo.ai.logicbison` source; `.ai`-prefixed sources resolve `.ai.<fw>` directly), else legacy `.ai.<fw>` — for the six slots; missing = "not installed".
+3. **Preflight:** before routing to a director, verify its framework directory exists **and** its `skills/README.md` is readable. If absent, route with `[degraded: <framework> not installed]` — never silently route into the void. If your source dir name breaks discovery, fill the path cells manually.
 
 ### Concept pack (UIS)
 

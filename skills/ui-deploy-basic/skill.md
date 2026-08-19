@@ -41,7 +41,7 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 | `@ui-deploy-basic` (from target, post-bootstrap) | in-place | re-runs no-overwrite bootstrap + wiring audit report |
 | `@ui-deploy-basic update` (from target) | in-place | no-overwrite + self-heal `.cursorrules` (re-sync pointer, append Source-resolution if missing) + wiring audit + merge-candidate list |
 | `@ui-deploy-basic verify` | audit | strict `.cursorrules` wiring audit (exit 1 on blocking gap): pointer reachability, Source-resolution section, sister framework paths, `.work.ui/` |
-| `@ui-deploy-basic verify --fix` | audit+fix | as `verify`, plus fills machine-fixable gaps: pins `REPLACE:AGENT_OS_PATH` / `REPLACE:AI_BIZ_PATH` / `REPLACE:AI_SOC_PATH` from on-disk discovery, appends missing Source-resolution section |
+| `@ui-deploy-basic verify --fix` | audit+fix | as `verify`, plus fills machine-fixable gaps: pins `REPLACE:AGENT_OS_PATH` / `REPLACE:AI_<FW>_PATH` for all six sisters (`.ai.biz`, `.ai.soc`, `.ai.cto`, `.ai.flutter`, `.ai.mlt`) from on-disk discovery (family naming `pilo.ai.<fw>.logicbison` then legacy `.ai.<fw>`), repoints stale absolute cells, appends missing Source-resolution section |
 | `@ui-deploy-basic status` | report | read-only (always exit 0): same checks as `verify` in report form |
 
 **Default:** `status` if no verb matches. **Aliases:** `bootstrap-thin`, `thin-ui` → bare `@ui-deploy-basic`.
@@ -130,7 +130,7 @@ Both delegate to `scripts/cursorrules-verify.sh`; `status` is report-only (alway
 | Client mode | thin (`AI_UI_SOURCE` set) / fat (local `.ai.ui/`) / framework-root — each validated |
 | `AI_UI_SOURCE` value + assets | resolves to a dir containing `skills/README.md` |
 | Source-resolution section present | `## Source resolution` heading (`--fix` appends from template) |
-| Sister framework paths | `REPLACE:AGENT_OS_PATH` / `REPLACE:AI_BIZ_PATH` / `REPLACE:AI_SOC_PATH` filled, or sister dir (`.ai`, `.ai.biz`, `.ai.soc`) discoverable next to the framework (`--fix` pins them); configured values must resolve to a dir with `skills/README.md` |
+| Sister framework paths | `REPLACE:AGENT_OS_PATH` (`.ai`, legacy-only) + `REPLACE:AI_<FW>_PATH` for the six slots filled, or sister dir discoverable next to the framework (family naming `pilo.ai.<fw>.logicbison` then legacy `.ai.<fw>` — `--fix` pins them); configured values must resolve to a dir with `skills/README.md` |
 | `.work.ui/` present | `.work.ui/context/` exists (warning only) |
 | Fat-client leak | no local `.ai.ui/skills/` in thin mode (warning) |
 | `REPLACE:` tokens remaining | reported as inventory — operator-filled `REPLACE:UI_*` pins are **not** a failure |

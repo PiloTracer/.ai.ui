@@ -282,7 +282,7 @@ Close per the Operator handoff contract (Form A if nothing is needed; Form B wit
 
 This skill has **no hard prerequisite gate**. It can run at any stage. It improves when the screen SPEC exists (provides context) and brand voice is defined.
 
-When `.ai.biz` is present and you need *external* marketing content (articles, blog posts, case studies), use `@content-writing` instead. This skill is for UI-internal copy only.
+When `.ai.biz` is present and you need *external* marketing content (articles, blog posts, case studies), use `@biz-writing` (`.ai.biz/skills/biz-writing/skill.md`) or `@biz-content` for publishing/distribution instead. This skill is for UI-internal copy only.
 
 ---
 

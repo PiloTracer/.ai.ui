@@ -3,7 +3,8 @@
 #
 # Copies ONLY the minimal scaffold into the target:
 #   - .cursorrules (from templates/cursorrules.ui.template, with AI_UI_SOURCE
-#     token substituted to the absolute path of THIS source .ai.ui, and
+#     token substituted to the absolute path of THIS source .ai.ui, sister
+#     framework cells (Frameworks registry) filled from on-disk discovery, and
 #     source-resolution section appended)
 #   - .work.ui/ skeleton (HANDOFF_UI, NEXT_UI, UNKNOWNS, plans dirs, READMEs)
 #   - DOCS_UI_STACK.md
@@ -68,6 +69,11 @@ else
   AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 fi
 VERIFY="${AI_UI_ROOT}/scripts/cursorrules-verify.sh"
+
+# Shared sister-framework discovery (family naming `pilo.ai.<fw>.logicbison` +
+# legacy `.ai.<fw>` — see scripts/sister-discovery.sh). Used at deploy time to
+# fill the Frameworks-registry cells (Layer 2).
+source "${AI_UI_ROOT}/scripts/sister-discovery.sh"
 
 # Target = repo root of the consumer (the dir that will hold .cursorrules + .work.ui/).
 RAW_TARGET="${RAW_TARGET:-.}"
@@ -142,6 +148,42 @@ subst_cursorules() {
   tmp="$(mktemp)"
   # Substitute AI_UI_SOURCE token
   perl -pe "s/AI_UI_SOURCE=REPLACE_BASICUI_SOURCE/AI_UI_SOURCE=${AI_UI_ROOT_ESC}/" "$TPL_CURS" > "$tmp"
+
+  # Step 2: discover and fill sister framework cells at bootstrap time.
+  # Sister dir names: family naming (source basename with `<fw>` inserted before
+  # its last .segment — e.g. `pilo.ai.ui.logicbison` for a `pilo.ai.logicbison`
+  # source; `.ai`-prefixed sources resolve `.ai.<fw>` directly) then legacy
+  # `.ai.<fw>` (see scripts/sister-discovery.sh). If a sister exists on disk,
+  # write its absolute path into the REPLACE:AI_<FW>_PATH cell. If absent,
+  # leave the token and report what was checked + how to adjust (manual cell
+  # fill; see .cursorrules § Frameworks registry path resolution).
+  # `.ai.ui` is self-hosted (no cell); `.ai` (Agent OS) is legacy-only and is
+  # pinned by `verify --fix` when installed.
+  local SIBLING_PARENT fw
+  SIBLING_PARENT="$(cd "$AI_UI_ROOT/.." && pwd)"
+  for fw in $FRAMEWORK_SLOTS; do
+    [[ "$fw" == "ui" ]] && continue  # self-hosted — no REPLACE:AI_UI_PATH cell
+    local token_upper token fw_dir_abs fw_esc checked
+    token_upper="$(echo "$fw" | tr '[:lower:]' '[:upper:]')"
+    token="REPLACE:AI_${token_upper}_PATH"
+    fw_dir_abs="$(find_sister_dir "$AI_UI_ROOT" "$fw" "$SIBLING_PARENT" || true)"
+    if [[ -n "$fw_dir_abs" ]]; then
+      fw_esc="${fw_dir_abs//\//\\/}"
+      perl -i -pe "s{${token} \\(default:? \\\`[^)]*\\)}{${fw_esc} (discovered at deploy time)}" "$tmp"
+      if grep -q "$token" "$tmp"; then
+        echo "  frameworks: WARN ${token} cell did not match expected template shape — left for runtime auto-discover" >&2
+      else
+        echo "  frameworks: resolved ${token} → ${fw_dir_abs}" >&2
+      fi
+    else
+      checked="$(sister_names "$fw" "$AI_UI_ROOT" | paste -sd' ' -)"
+      echo "  frameworks: ${token} not found (checked ${checked} in $SIBLING_PARENT) —" >&2
+      echo "    if the sister exists under another dir name, fill ${token} manually in" >&2
+      echo "    the target .cursorrules; naming: legacy .ai.<fw> or family <source-name" >&2
+      echo "    with <fw> before its last .segment> (e.g. pilo.ai.ui.logicbison)." >&2
+    fi
+  done
+
   # Append source-resolution section if not already present
   if ! grep -q '## Source resolution' "$tmp" 2>/dev/null; then
     cat >> "$tmp" << 'SRCEOF'

@@ -6,9 +6,11 @@
 
 **Open:** closed
 
-**Updated:** 2026-08-13
+**Updated:** 2026-08-19
 
-**Closed:** 2026-08-13
+**Closed:** 2026-08-19
+
+**2026-08-19 — frameworks registry + six-slot sister discovery (v0.6.1):** `.cursorrules` ships the Layer-1 Frameworks registry (self + 6 sisters); `templates/cursorrules.ui.template` extended to 7 rows with family-aware resolution; `scripts/sister-discovery.sh` vendored (shared lib); `ui-deploy-basic` pins all six sister cells at bootstrap; `cursorrules-verify.sh` checks all six slots + `.ai` via the lib, degraded-warn on uninstalled, `--fix` pins/repoints cells; `ui-copy` stale `@content-writing` → `@biz-writing`/`@biz-content`. **Owner decision:** child frameworks do not resolve the parent orchestrator — `.ai` stays legacy-only `../.ai`; orchestration is top-down via the parent (`x-director` in `pilo.ai.logicbison`). Gates: touch-scope PASS, blast-radius PASS (approved), framework-verify PASS (incl. sister-pinning self-tests), gate-verify PASS.
 
 **UI layer state:** **Framework development.** Skill names standardized: `deploy-basic`/`deploy-files`/`deploy-repo` renamed to `ui-deploy-basic`/`ui-deploy-files`/`ui-deploy-repo` (folders, `name:` frontmatter, `@` handles, shell scripts `scripts/ui-deploy-*.sh`, and every reference in registries/templates/docs/verifiers). New **`ui-session`** skill added (19th) — `.work.ui`-scoped session carrier with machine-enforced scope guard (`scripts/ui-session.sh`): any combination of `commit`/`close`/`push`, `commit` includes untracked files/dirs, never stages outside `.work.ui/`. `framework-verify.sh` extended with ui-session self-test.
 
@@ -93,7 +95,7 @@ Backlog 1 + 3–10 cleared in the follow-up session; only the commit (#2) remain
 | # | Type | Action | Status |
 |---|------|--------|--------|
 | 1 | decision | Keep the second probe target (`ui-component-build probe`) or reduce to foundation-only? | **Resolved — KEEP.** Roadmap completeness (B1 screen→milestone coverage, B2 primitive ordering) is a distinct gate from foundation understanding, and it now anchors the `ui-component-build complete` audit; low cost, reversible. |
-| 2 | commit | Commit the session work (suggested: `feat: probe + intake + verifier hardening + plan-verify/CI for UI Design OS`). | **Pending** — held for explicit owner request (no auto-commit). |
+| 2 | commit | Commit the session work (suggested: `feat: probe + intake + verifier hardening + plan-verify/CI for UI Design OS`). | **Done** — shipped as v0.6.0/v0.6.1 commits on `main`. |
 | 3 | gap | No CI workflow. | **Done** — `.github/workflows/framework-verify.yml` (push/PR/tag). |
 | 4 | gap | Verifiers not wired to a UI boundary. | **Done** — `ui-component-build complete` → `@ui-plan-verify audit`; documented in `COHABITATION.md`. |
 | 5 | gap | Probe coverage not surfaced by an audit skill. | **Done** — new `@ui-plan-verify` (registry 12). |
@@ -115,6 +117,7 @@ Backlog 1 + 3–10 cleared in the follow-up session; only the commit (#2) remain
 
 | Date | Session | Artifacts |
 |------|---------|-----------|
+| 2026-08-19 | frameworks registry + six-slot sister discovery (v0.6.1) | `.cursorrules` registry (Layer 1); `templates/cursorrules.ui.template` 7 rows + family-aware resolution; `scripts/sister-discovery.sh` (vendored); `ui-deploy-basic` six-slot deploy-time fill; `cursorrules-verify.sh` six-slot + degraded-warn + `--fix` pinning; `framework-verify.sh` self-tests; `ui-copy`/`ui-deploy-files` stale refs fixed; `docs/homogenization/ui.md` (incl. by-design: child never resolves parent orchestrator); `framework-verify` PASS |
 | 2026-07-31 | improvement-plan audit corrections | Post-commit audit of Phases 0–8: `APPROACH` desktop-app chain; `ui-design-system` desktop primitives; `DESIGN_TOKENS_STANDARD` §7 desktop binding; `framework-verify` desktop py_compile×3 + `scripts/fixtures/python-desktop/`; `bootstrap-test` brand template; demo reports (`completion-audit`, `vision-verify-demo`, `ui-eval-demo.json`); 18/18 director routing; `framework-verify` PASS |
 | 2026-07-31 | web-research integration + skill debloat + director routing | `resources/web-research-2026.md` (catalog + license/browser/URL policies); wired `ui-design-foundation`, `ui-accessibility-audit`, `ui-visual-verify`, `ui-design-system`, `ui-copy`, `ui-component-build`, `ui-process-router`, `ui-director`; CHANGELOG [Unreleased]; `.work.ui/reports/20260731-web-research-integration-report.md`; verified 17/17 director routing, `framework-verify` PASS |
 | 2026-06-23 | director free-text intake | `skills/ui-director/skill.md` gained explicit Free-text intake contract (capture → load → classify → channel → record); `.cursorrules`, `START_HERE.md`, `PROCESS_ROUTER.md`, `context/README.md` now route free-text requests to `@ui-director` / `@x-director` |

@@ -125,7 +125,7 @@ After I1 (no-overwrite copy) the script prints a **merge candidate list** for di
 
 ## I4 — status / verify (`.cursorrules` wiring audit)
 
-Both delegate to `scripts/cursorrules-verify.sh` (from the source); `status` is report-only (always exit 0), `verify` is strict (exit 1 on blocking gap), `verify --fix` repairs machine-fixable gaps. For a fat-client deploy the key checks are: `.cursorrules` carries UI rules, local `.ai.ui/skills/README.md` is readable, Source-resolution section present, sister framework paths (`REPLACE:AGENT_OS_PATH` / `REPLACE:AI_BIZ_PATH` / `REPLACE:AI_SOC_PATH`) pinned or auto-discoverable, `.work.ui/` present.
+Both delegate to `scripts/cursorrules-verify.sh` (from the source); `status` is report-only (always exit 0), `verify` is strict (exit 1 on blocking gap), `verify --fix` repairs machine-fixable gaps. For a fat-client deploy the key checks are: `.cursorrules` carries UI rules, local `.ai.ui/skills/README.md` is readable, Source-resolution section present, sister framework paths (`REPLACE:AGENT_OS_PATH` + `REPLACE:AI_<FW>_PATH` for the six slots — family naming `pilo.ai.<fw>.logicbison` then legacy `.ai.<fw>`) pinned or auto-discoverable, `.work.ui/` present.
 
 ---
 

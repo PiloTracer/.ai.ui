@@ -57,6 +57,22 @@ Close every task response per `skills/SKILL_DEPENDENCIES.md` § Operator handoff
 
 **Free-text entry point:** If you don't know which `ui-*` skill to run, invoke `@ui-director - <describe what you want>`. For work that spans `.ai` + `.ai.ui` + `.ai.biz`, use `@x-director - <describe what you want>`.
 
+### Frameworks registry (cross-framework discovery)
+
+Sister frameworks are siblings on disk; `.ai.<fw>` (legacy) / `pilo.ai.<fw>.logicbison` (family) naming — see path resolution below. `.ai.ui` is this framework (self-hosted).
+
+| Framework | Director | Path | Bootstrap artifact |
+|-----------|----------|------|--------------------|
+| `.ai.ui` (UI Design OS) | `@ui-director` | *this directory* | `skills/README.md` |
+| `.ai` (Agent OS) | `@ai-director` | `../.ai` | `../.ai/skills/README.md` |
+| `.ai.biz` (Business OS) | `@biz-director` | `../.ai.biz` | `../.ai.biz/skills/README.md` |
+| `.ai.cto` (CTO Professor OS) | `@cto-director` | `../.ai.cto` | `../.ai.cto/skills/README.md` |
+| `.ai.flutter` (Flutter Agent OS) | `@flutter-director` | `../.ai.flutter` | `../.ai.flutter/skills/README.md` |
+| `.ai.mlt` (MLT Agent OS) | `@mlt-director` | `../.ai.mlt` | `../.ai.mlt/skills/README.md` |
+| `.ai.soc` (Social OS) | `@soc-director` | `../.ai.soc` | `../.ai.soc/skills/README.md` |
+
+**Path resolution:** (1) use a filled path cell; empty → fall through. (2) Auto-discover: parent = `S/..` with S = this repo (self-hosted) or `$AI_UI_SOURCE` (thin); sister = `<S basename with <fw> inserted before its last .segment>` (e.g. `pilo.ai.ui.logicbison` for a `pilo.ai.logicbison` source; `.ai`-prefixed sources resolve `.ai.<fw>` directly), else legacy `.ai.<fw>`; missing = "not installed". (3) Before routing, verify the framework dir + its `skills/README.md` exist; if absent, route with `[degraded: <framework> not installed]` — never route into the void. If your source dir name breaks discovery, fill the path cells manually.
+
 **Path convention:** When UI Design OS is the git root, use `skills/`, `standards/` without `.ai.ui/` prefix. In app repos, prefix with `.ai.ui/`.
 
 ---

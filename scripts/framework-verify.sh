@@ -25,7 +25,7 @@ for p in \
   concepts/README.md \
   templates/bootstrap.sh templates/cursorrules.ui.template templates/cursorrules.ui.snippet.template \
   templates/DOCS_UI_STACK.md.template scripts/cursorrules-ui.sh \
-  scripts/cursorrules-verify.sh \
+  scripts/cursorrules-verify.sh scripts/sister-discovery.sh \
   scripts/ui-deploy-basic.sh scripts/ui-deploy-files.sh scripts/ui-deploy-repo.sh \
   scripts/ui-session.sh \
   scripts/token-lint.sh scripts/bootstrap-test.sh \
@@ -527,6 +527,27 @@ if [[ ! -f "${DB_SMOKE}/.cursorrules" ]] || ! grep -q 'AI_UI_SOURCE=' "${DB_SMOK
 else
   echo "ok: ui-deploy-basic creates thin-client .cursorrules + .work.ui/"
 fi
+# Sister cells: installed sisters must be pinned at deploy time; missing
+# sisters must keep their REPLACE token (discovery is source-parent based).
+source "${ROOT}/scripts/sister-discovery.sh"
+for fw in $FRAMEWORK_SLOTS; do
+  [[ "$fw" == "ui" ]] && continue  # self-hosted — no cell
+  FWU="$(echo "$fw" | tr '[:lower:]' '[:upper:]')"
+  token="REPLACE:AI_${FWU}_PATH"
+  if find_sister_dir "${ROOT}" "$fw" "$(dirname "${ROOT}")" >/dev/null 2>&1; then
+    if grep -q "${token}" "${DB_SMOKE}/.cursorrules"; then
+      echo "FAIL: ui-deploy-basic left ${token} unfilled although .ai.${fw} is installed next to source"
+      FAIL=1
+    else
+      echo "ok: ui-deploy-basic pinned ${token} from on-disk discovery"
+    fi
+  elif ! grep -q "${token}" "${DB_SMOKE}/.cursorrules"; then
+    echo "FAIL: ui-deploy-basic filled ${token} although .ai.${fw} is not installed"
+    FAIL=1
+  else
+    echo "note: .ai.${fw} not installed — ${token} left for manual fill / runtime auto-discover"
+  fi
+done
 
 # Flag equivalence (the user's contract: '<path> update' === '<path> --update').
 selftest "ui-deploy-basic bare update == --update" 0 "${ROOT}/scripts/ui-deploy-basic.sh" "${DB_SMOKE}" update
@@ -585,6 +606,31 @@ else
   echo "ok: cursorrules-verify --fix pins sister paths + appends Source-resolution"
 fi
 rm -rf "${FF}"
+# sister-discovery lib + Frameworks registry sanity (Layer 1).
+echo ""
+echo "==> sister-discovery lib + .cursorrules registry"
+SRC_NAMES="$(sister_names ui "${ROOT}")"
+if [[ "${SRC_NAMES}" == ".ai.ui" ]]; then
+  echo "ok: sister_names ui <legacy source> → .ai.ui"
+else
+  echo "FAIL: sister_names ui ${ROOT} = '${SRC_NAMES}' (expected .ai.ui)"; FAIL=1
+fi
+# Family naming must be derived for family-named sources.
+FAM_NAMES="$(sister_names biz "${ROOT}/../pilo.ai.logicbison")"
+if [[ "${FAM_NAMES}" == $'pilo.ai.biz.logicbison\n.ai.biz' ]]; then
+  echo "ok: sister_names biz <family source> → pilo.ai.biz.logicbison then .ai.biz"
+else
+  echo "FAIL: sister_names biz family source = '${FAM_NAMES}'"; FAIL=1
+fi
+# Framework-root .cursorrules must carry all six sister rows + the self row.
+for s in ui biz soc cto flutter mlt; do
+  if grep -qE "^\|.*\`\.ai\.${s}\`" "${ROOT}/.cursorrules"; then
+    echo "ok: .cursorrules registry row .ai.${s}"
+  else
+    echo "FAIL: .cursorrules registry missing .ai.${s} row"; FAIL=1
+  fi
+done
+
 # framework-root self-check: this repo must pass its own verifier.
 selftest "cursorrules-verify passes on framework root" 0 "${ROOT}/scripts/cursorrules-verify.sh" "${ROOT}"
 
