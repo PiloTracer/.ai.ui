@@ -603,10 +603,10 @@ rm -rf "${FF}"
 echo ""
 echo "==> sister-discovery lib + .cursorrules registry"
 SRC_NAMES="$(sister_names ui "${ROOT}")"
-if [[ "${SRC_NAMES}" == ".ai.ui" ]]; then
-  echo "ok: sister_names ui <legacy source> → .ai.ui"
+if [[ "${SRC_NAMES}" == $'pilo.ai.ui.logicbison\n.ai.ui' ]]; then
+  echo "ok: sister_names ui <family source> → pilo.ai.ui.logicbison then .ai.ui"
 else
-  echo "FAIL: sister_names ui ${ROOT} = '${SRC_NAMES}' (expected .ai.ui)"; FAIL=1
+  echo "FAIL: sister_names ui ${ROOT} = '${SRC_NAMES}' (expected pilo.ai.ui.logicbison then .ai.ui)"; FAIL=1
 fi
 # Family naming must be derived for family-named sources.
 FAM_NAMES="$(sister_names biz "${ROOT}/../pilo.ai.logicbison")"
