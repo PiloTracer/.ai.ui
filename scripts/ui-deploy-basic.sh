@@ -3,7 +3,7 @@
 #
 # Copies ONLY the minimal scaffold into the target:
 #   - .cursorrules (from templates/cursorrules.ui.template, with AI_UI_SOURCE
-#     token substituted to the absolute path of THIS source .ai.ui, sister
+#     token substituted to the absolute path of THIS source framework root, sister
 #     framework cells (Frameworks registry) filled from on-disk discovery, and
 #     source-resolution section appended)
 #   - .work.ui/ skeleton (HANDOFF_UI, NEXT_UI, UNKNOWNS, plans dirs, READMEs)
@@ -11,7 +11,7 @@
 #
 # Framework assets (skills/, standards/, concepts/, docs/, scripts/, templates/)
 # are NOT copied — the target's .cursorrules carries an AI_UI_SOURCE pointer so
-# the agent resolves them from the source .ai.ui at runtime (thin-client mode).
+# the agent resolves them from the source framework root at runtime (thin-client mode).
 #
 # Default = NO-OVERWRITE: existing target files are preserved by construction.
 # update: no-overwrite + re-syncs the source pointer + appends the Source-
@@ -30,9 +30,9 @@
 # The agent-syntax separator "-" between verb and path is ignored.
 #
 # Source resolution: AI_UI_ROOT is derived from this script's location, so the
-# script can be invoked from a TARGET using an external source .ai.ui:
-#   bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target-project
-# Override the source with AI_UI_ROOT=/abs/path/.ai.ui if needed.
+# script can be invoked from a TARGET using an external source framework checkout:
+#   bash /path/to/ui-design-os-source/scripts/ui-deploy-basic.sh /path/to/target-project
+# Override the source with AI_UI_ROOT=/abs/path/to/ui-design-os-source if needed.
 #
 # Usage:
 #   bash scripts/ui-deploy-basic.sh <target-path>              # no-overwrite (skip existing)
@@ -40,7 +40,7 @@
 #   bash scripts/ui-deploy-basic.sh <target-path> verify [--fix] # strict .cursorrules audit
 #   bash scripts/ui-deploy-basic.sh <target-path> update       # no-overwrite + self-heal + merge list
 #   bash scripts/ui-deploy-basic.sh <target-path> force        # overwrite local scaffold (legacy)
-#   AI_UI_ROOT=/path/.ai.ui bash scripts/ui-deploy-basic.sh <target-path>
+#   AI_UI_ROOT=/path/to/ui-design-os-source bash scripts/ui-deploy-basic.sh <target-path>
 #
 set -euo pipefail
 
@@ -62,7 +62,7 @@ for a in "$@"; do
 done
 MODE="${MODE:-skip}"
 
-# Source .ai.ui root: explicit override wins, else derive from script location.
+# Source framework root: explicit override wins, else derive from script location.
 if [[ -n "${AI_UI_ROOT:-}" ]]; then
   AI_UI_ROOT="$(cd "$AI_UI_ROOT" && pwd)"
 else
@@ -111,7 +111,7 @@ fi
 # .cursorrules template + .work.ui/ skeleton templates come from source.
 TPL_CURS="${AI_UI_ROOT}/templates/cursorrules.ui.template"
 if [[ ! -f "$TPL_CURS" ]]; then
-  echo "ERROR: source .ai.ui missing templates/cursorrules.ui.template at $AI_UI_ROOT" >&2
+  echo "ERROR: source framework root missing templates/cursorrules.ui.template at $AI_UI_ROOT" >&2
   exit 1
 fi
 

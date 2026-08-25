@@ -17,7 +17,7 @@ description: >-
 
 Thin-client deploy of the `.ai.ui` framework. The target project receives only the scaffold it owns (`.cursorrules`, `.work.ui/`, `DOCS_UI_STACK.md`); everything else (skills, standards, concepts, docs, scripts, templates) stays in the **source** `.ai.ui` and is loaded on demand via the `AI_UI_SOURCE` pointer written into `.cursorrules`.
 
-**Shell:** `bash <source>/.ai.ui/scripts/ui-deploy-basic.sh <target-path> [mode]`
+**Shell:** `bash <source>/scripts/ui-deploy-basic.sh <target-path> [mode]`
 
 **Canonical path:** `.ai.ui/skills/ui-deploy-basic/skill.md` · **Shell:** `.ai.ui/scripts/ui-deploy-basic.sh` · **Verifier:** `.ai.ui/scripts/cursorrules-verify.sh`
 
@@ -37,7 +37,7 @@ Thin-client deploy of the `.ai.ui` framework. The target project receives only t
 
 | User says | Direction | Mode |
 |-----------|-----------|------|
-| `@ui-deploy-basic - /path/to/target` | outbound (invoked from source .ai.ui) | thin bootstrap no-overwrite |
+| `@ui-deploy-basic - /path/to/target` | outbound (invoked from source framework root) | thin bootstrap no-overwrite |
 | `@ui-deploy-basic` (from target, post-bootstrap) | in-place | re-runs no-overwrite bootstrap + wiring audit report |
 | `@ui-deploy-basic update` (from target) | in-place | no-overwrite + self-heal `.cursorrules` (re-sync pointer, append Source-resolution if missing) + wiring audit + merge-candidate list |
 | `@ui-deploy-basic verify` | audit | strict `.cursorrules` wiring audit (exit 1 on blocking gap): pointer reachability, Source-resolution section, sister framework paths, `.work.ui/` |
@@ -174,7 +174,7 @@ test -d "$(grep -oE 'AI_UI_SOURCE=[^ ]*' .cursorrules | head -1 | cut -d= -f2-)"
 
 | When | Ask / do |
 |------|----------|
-| Invoked from target with no source pointer yet (greenfield, no `.cursorrules`) | The skill itself can't be loaded in thin-client mode before bootstrap. Tell the user to run the shell directly: `bash /abs/path/to/source/.ai.ui/scripts/ui-deploy-basic.sh .` — chicken-and-egg escape. |
+| Invoked from target with no source pointer yet (greenfield, no `.cursorrules`) | The skill itself can't be loaded in thin-client mode before bootstrap. Tell the user to run the shell directly: `bash /abs/path/to/ui-design-os-source/scripts/ui-deploy-basic.sh .` — chicken-and-egg escape. |
 | Bootstrap target already has `.ai.ui/skills/` (fat-client) | Warn; ask: convert to thin (delete local `.ai.ui/`)?, keep mixed (skills resolve local-first per fat-client rule — unexpected)?, or abort? Do not silently leave a mixed state. |
 | `update` finds `.cursorrules` with no Source-resolution section | The script appends it automatically (thin-client wiring) — no agent action needed; verify in the post-update audit output. |
 | Source moved since last bootstrap | `update` re-syncs the pointer in-place; report old→new. If source unreachable, report `ui-design-os source unreachable` and stop. |

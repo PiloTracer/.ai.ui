@@ -4,7 +4,7 @@ description: >-
   Deploy .ai.ui (UI Design OS) files into a target project. Two directions:
   (1) in-place bootstrap — invoked from a TARGET project, copies the source
   .ai.ui in without overwriting existing files, then scaffolds .work.ui/ +
-  .cursorrules; (2) outbound copy — invoked from the source .ai.ui repo,
+  .cursorrules; (2) outbound copy — invoked from the source framework repo,
   copies into an explicit <path>. Verbs work with or without "--"
   (update == --update). `update` mode additionally performs a rules-aware
   merge of existing-but-differing files (append new rules, update shared
@@ -21,9 +21,9 @@ description: >-
 
 Two-direction deploy of the `.ai.ui` framework into a target project so the project can use UI Design OS skills. **Default = no-overwrite**: existing target files are preserved by construction.
 
-**Shell:** `bash <source>/.ai.ui/scripts/ui-deploy-files.sh <target-path> [mode]`
-**Scaffold shell:** `REPO_ROOT=<target> AI_UI_ROOT=<source> bash <source>/.ai.ui/templates/bootstrap.sh`
-**Verifier:** `<source>/.ai.ui/scripts/cursorrules-verify.sh`
+**Shell:** `bash <source>/scripts/ui-deploy-files.sh <target-path> [mode]`
+**Scaffold shell:** `REPO_ROOT=<target> AI_UI_ROOT=<source> bash <source>/templates/bootstrap.sh`
+**Verifier:** `<source>/scripts/cursorrules-verify.sh`
 
 **Canonical path:** `.ai.ui/skills/ui-deploy-files/skill.md` · **Shell:** `.ai.ui/scripts/ui-deploy-files.sh`
 
@@ -84,7 +84,7 @@ When invoked from a **target** project (cwd has no `.ai.ui/scripts/ui-deploy-fil
 
 ## I1 — Copy mode (no-overwrite by default)
 
-1. `bash <source>/.ai.ui/scripts/ui-deploy-files.sh "<resolved-target>"` (default) — or `force` / `update`.
+1. `bash <source>/scripts/ui-deploy-files.sh "<resolved-target>"` (default) — or `force` / `update`.
 2. **File set:** `git ls-files --cached --others --exclude-standard` from the source repo root.
 3. **Skill-level omissions:** `.github/`, `.gitignore`, `.gitattributes`, `.cursorrules`, `agent.os.framework.md` (framework source marker — never deployed), `scripts/ui-deploy-files.sh`, `scripts/ui-deploy-basic.sh`.
 4. **No-overwrite default:** `rsync --ignore-existing` skips any file already present in the target. `force` drops that flag (legacy overwrite; still no `--delete`). `update` keeps no-overwrite and emits the **merge candidate list** for § I3.

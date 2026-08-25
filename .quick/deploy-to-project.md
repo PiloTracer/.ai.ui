@@ -9,21 +9,21 @@ Two modes: **fat-client** (`ui-deploy-files` — vendored `.ai.ui/` in target) a
 **Wiring audit:** every deploy ends with a `.cursorrules` audit. Strict form (exit 1 on blocking gap; `--fix` auto-fills sister paths + missing Source-resolution):
 
 ```bash
-bash /path/to/.ai.ui/scripts/cursorrules-verify.sh /path/to/target [--fix]
+bash /path/to/ui-design-os-source/scripts/cursorrules-verify.sh /path/to/target [--fix]
 ```
 
 ## Thin-client — share one source across many repos
 
 ```bash
 # From source:
-bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target
+bash /path/to/ui-design-os-source/scripts/ui-deploy-basic.sh /path/to/target
 
 # From target:
-bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh .
+bash /path/to/ui-design-os-source/scripts/ui-deploy-basic.sh .
 
 # Read-only status / strict verify:
-bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target status
-bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target verify --fix
+bash /path/to/ui-design-os-source/scripts/ui-deploy-basic.sh /path/to/target status
+bash /path/to/ui-design-os-source/scripts/ui-deploy-basic.sh /path/to/target verify --fix
 ```
 
 ```text
@@ -33,15 +33,15 @@ bash /path/to/.ai.ui/scripts/ui-deploy-basic.sh /path/to/target verify --fix
 ## Fat-client — full vendored .ai.ui (works offline)
 
 ```bash
-bash /path/to/.ai.ui/scripts/ui-deploy-files.sh /path/to/target          # no-overwrite (default)
-bash /path/to/.ai.ui/scripts/ui-deploy-files.sh /path/to/target --update # merge candidates
-bash /path/to/.ai.ui/scripts/ui-deploy-files.sh /path/to/target --force  # legacy overwrite
+bash /path/to/ui-design-os-source/scripts/ui-deploy-files.sh /path/to/target          # no-overwrite (default)
+bash /path/to/ui-design-os-source/scripts/ui-deploy-files.sh /path/to/target --update # merge candidates
+bash /path/to/ui-design-os-source/scripts/ui-deploy-files.sh /path/to/target --force  # legacy overwrite
 ```
 
 In-place from target repo root (creates `.ai.ui/`, `.work.ui/`, `.cursorrules`):
 
 ```bash
-cd /path/to/target && bash /path/to/.ai.ui/scripts/ui-deploy-files.sh .
+cd /path/to/target && bash /path/to/ui-design-os-source/scripts/ui-deploy-files.sh .
 ```
 
 ## Next steps in target
@@ -52,4 +52,4 @@ cd /path/to/target && bash /path/to/.ai.ui/scripts/ui-deploy-files.sh .
 @ui-design-foundation greenfield
 ```
 
-Verify toolchain: `bash .ai.ui/scripts/framework-verify.sh` (from source repo).
+Verify toolchain: `bash scripts/framework-verify.sh` (from source repo).

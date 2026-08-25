@@ -25,7 +25,7 @@
 #   bash scripts/ui-deploy-files.sh <target-path> update       # no-overwrite + merge list
 #   bash scripts/ui-deploy-files.sh <target-path> status       # read-only report
 #   bash scripts/ui-deploy-files.sh <target-path> verify [--fix] # strict audit
-#   AI_UI_ROOT=/path/.ai.ui bash scripts/ui-deploy-files.sh <target-path>
+#   AI_UI_ROOT=/path/to/ui-design-os-source bash scripts/ui-deploy-files.sh <target-path>
 #
 set -euo pipefail
 

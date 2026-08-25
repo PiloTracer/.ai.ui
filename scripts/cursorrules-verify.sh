@@ -49,7 +49,7 @@ fi
 ROOT="$(cd "$TARGET" && pwd)"
 RULES="${ROOT}/.cursorrules"
 
-# Source .ai.ui root + shared sister-framework discovery lib (family naming
+# Source framework root + shared sister-framework discovery lib (family naming
 # `pilo.ai.<fw>.logicbison` + legacy `.ai.<fw>` — see scripts/sister-discovery.sh).
 AI_UI_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${AI_UI_ROOT}/scripts/sister-discovery.sh"
