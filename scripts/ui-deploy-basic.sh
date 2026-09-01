@@ -244,9 +244,12 @@ else
   fi
 fi
 
-# update self-heal #1: append the Source-resolution section when the existing
-# .cursorrules lacks it entirely (e.g. fat-client template or Agent OS base).
-if [[ "$MODE" == "update" ]] && [[ -f "$CURS_DEST" ]] && ! grep -q '^## Source resolution' "$CURS_DEST"; then
+# update self-heal #1: append the UI Design OS Source-resolution section when the
+# existing .cursorrules lacks it entirely (e.g. fat-client template, Agent OS
+# base, or another framework's own Source-resolution section — matched on the
+# UI-specific heading so e.g. a Business OS `## Source resolution — ... (Business
+# OS)` section does not suppress the UI append).
+if [[ "$MODE" == "update" ]] && [[ -f "$CURS_DEST" ]] && ! grep -q '^## Source resolution.*(UI Design OS)' "$CURS_DEST"; then
   {
     echo ""
     awk '/^## Source resolution/{f=1} f&&/^---$/{exit} f' "$TPL_CURS" \
